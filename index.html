@@ -1,12 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My GitHub Pages Site</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/2.1.0/gpx.min.js" defer></script>
+    <!-- ... -->
   </head>
   <body>
-    <h1>Welcome to My GitHub Pages Site</h1>
-    <p>This is a simple example of a site hosted on GitHub Pages.</p>
+    <div id="map"></div>
+    <!-- ... -->
+    <script type="module">
+      const map = L.map('map');
+      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="http://www.osm.org">OpenStreetMap</a>'
+      }).addTo(map);
+
+      // URL to your GPX file or the GPX itself as a XML string.
+      const url = 'https://matejlangus.github.io/map/2020-10-25%200757%20Palnock%20Rindernock__20201025_0757.gpx';
+      const options = {
+        async: true,
+        polyline_options: { color: 'red' },
+      };
+
+      const gpx = new L.GPX(url, options).on('loaded', (e) => {
+        map.fitBounds(e.target.getBounds());
+      }).addTo(map);
+     </script>
   </body>
 </html>

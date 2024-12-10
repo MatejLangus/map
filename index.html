@@ -71,24 +71,25 @@
     </section>
 
     <script type="module">
+
+var mapid  = "demo-map";
+
+
+      var map = L.map(mapid);
+      var base = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
+      });
+      base.addTo(map);
+
+      var control = L.control.layers(null, null).addTo(map);
   
 
       function display_gpx(url) {
    
 
         var url = url;
-        var mapid  = "demo-map";
-        if (!url || !mapid) return;
-
-
-        var map = L.map(mapid);
-        var base = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
-        });
-        base.addTo(map);
-
-        var control = L.control.layers(null, null).addTo(map);
+       
 
         new L.GPX(url, {
           async: true,

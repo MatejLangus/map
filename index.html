@@ -71,6 +71,41 @@
     </section>
 
     <script type="module">
+      async function processTextFile(url) {
+  try {
+    // Fetch the text file
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // Read the file content
+    const text = await response.text();
+
+    // Split the content into lines
+    const lines = text.split('\n');
+
+    // Loop through each line
+    lines.forEach((line, index) => {
+      if (line.trim()) { // Skip empty lines
+        console.log(`Row ${index + 1}: ${line}`);
+
+        // Example: Extract file name and path
+        const filePath = line.trim(); // Trim to clean up any whitespace
+        const fileName = filePath.split('/').pop(); // Get the file name
+        console.log(`File Path: ${filePath}`);
+        console.log(`File Name: ${fileName}`);
+      }
+    });
+  } catch (error) {
+    console.error('Error processing text file:', error.message);
+  }
+}
+
+// URL of the text file
+const fileUrl = 'seznam_poti.txt';
+processTextFile(fileUrl);
+
       function display_gpx(elt) {
         if (!elt) return;
 

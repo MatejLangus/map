@@ -48,23 +48,8 @@
     </style>
   </head>
   <body>
-    <section id="demo" class="gpx" data-gpx-source="/poti/2020-10-25 0757 Palnock Rindernock__20201025_0757.gpx" data-map-target="demo-map">
-      <header>
-        <h1><a href="https://github.com/mpetazzoni/leaflet-gpx">Leaflet GPX</a> Viewer Demo</h1>
-        <h3>Loading...</h3>
-        <span class="start"></span>
-
-        <ul class="info">
-          <li>Distance:&nbsp;<span class="distance"></span>&nbsp;mi</li>
-          &mdash; <li>Duration:&nbsp;<span class="duration"></span></li>
-          &mdash; <li>Pace:&nbsp;<span class="pace"></span>/mi</li>
-          &mdash; <li>Avg&nbsp;HR:&nbsp;<span class="avghr"></span>&nbsp;bpm</li>
-          &mdash; <li>Elevation:&nbsp;+<span class="elevation-gain"></span>&nbsp;ft,
-            -<span class="elevation-loss"></span>&nbsp;ft
-            (net:&nbsp;<span class="elevation-net"></span>&nbsp;ft)</li>
-        </ul>
-      </header>
-
+    <section id="demo" class="gpx" data-map-target="demo-map">
+      
       <article>
         <div class="map" id="demo-map"></div>
       </article>
@@ -83,7 +68,7 @@ var mapid  = "demo-map";
     base.addTo(map);
 
     var control = L.control.layers(null, null).addTo(map);
-  
+    const allBounds = L.latLngBounds();
 
       function display_gpx(url) {
    
@@ -95,6 +80,8 @@ var mapid  = "demo-map";
           async: true,
         }).on('loaded', function(e) {
           var gpx = e.target;
+          
+          allBounds.extend(gpx.getBounds())
           map.fitBounds(gpx.getBounds());
           control.addOverlay(gpx, gpx.get_name());
 

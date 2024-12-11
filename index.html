@@ -132,6 +132,7 @@ var mapid  = "demo-map";
 
     // Loop through each line
     lines.forEach((line, index) => {
+      const filePath = line.trim(); // Trim to clean up any whitespace
         const fileName = filePath.split('/').pop(); // Get the file name
 
         display_gpx("/map/poti/" + fileName) 

@@ -102,7 +102,7 @@ var mapid  = "demo-map";
            * Note: the code below relies on the fact that the demo GPX file is
            * an actual GPS track with timing and heartrate information.
            */
-          _t('h3').innerHTML = '<a href="' + url + '">' + gpx.get_name() + '</a>';
+  
           _c('start').textContent = gpx.get_start_time().toDateString() + ', '
             + gpx.get_start_time().toLocaleTimeString();
           _c('distance').textContent = gpx.get_distance_imp().toFixed(2);
@@ -132,16 +132,10 @@ var mapid  = "demo-map";
 
     // Loop through each line
     lines.forEach((line, index) => {
-      if (line.trim()) { // Skip empty lines
-        console.log(`Row ${index + 1}: ${line}`);
-
-        // Example: Extract file name and path
-        const filePath = line.trim(); // Trim to clean up any whitespace
         const fileName = filePath.split('/').pop(); // Get the file name
-        console.log(`File Path: ${filePath}`);
-        console.log(`File Name: ${fileName}`);
+
         display_gpx("/map/poti/" + fileName) 
-      }
+      
     });
   } catch (error) {
     console.error('Error processing text file:', error.message);

@@ -75,14 +75,14 @@
 var mapid  = "demo-map";
 
 
-      var map = L.map(mapid);
-      var base = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
-      });
-      base.addTo(map);
+    var map = L.map(mapid);
+    var base = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
+    });
+    base.addTo(map);
 
-      var control = L.control.layers(null, null).addTo(map);
+    var control = L.control.layers(null, null).addTo(map);
   
 
       function display_gpx(url) {
@@ -95,14 +95,14 @@ var mapid  = "demo-map";
           async: true,
         }).on('loaded', function(e) {
           var gpx = e.target;
-          //map.fitBounds(gpx.getBounds());
+          map.fitBounds(gpx.getBounds());
           control.addOverlay(gpx, gpx.get_name());
 
           /*
            * Note: the code below relies on the fact that the demo GPX file is
            * an actual GPS track with timing and heartrate information.
            
-  
+          _t('h3').innerHTML = '<a href="' + url + '">' + gpx.get_name() + '</a>';
           _c('start').textContent = gpx.get_start_time().toDateString() + ', '
             + gpx.get_start_time().toLocaleTimeString();
           _c('distance').textContent = gpx.get_distance_imp().toFixed(2);
@@ -132,11 +132,13 @@ var mapid  = "demo-map";
 
     // Loop through each line
     lines.forEach((line, index) => {
-      const filePath = line.trim(); // Trim to clean up any whitespace
+      if (line.trim()) { // Skip empty lines
+        const filePath = line.trim(); // Trim to clean up any whitespace
         const fileName = filePath.split('/').pop(); // Get the file name
-
+        console.log(`File Path: ${filePath}`);
+        console.log(`File Name: ${fileName}`);
         display_gpx("/map/poti/" + fileName) 
-      
+      }
     });
   } catch (error) {
     console.error('Error processing text file:', error.message);

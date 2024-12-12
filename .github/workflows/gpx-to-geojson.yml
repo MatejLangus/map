@@ -1,0 +1,32 @@
+name: Convert GPX to GeoJSON
+
+on:
+  push:
+    paths:
+      - '*.gpx'
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Convert GPX to GeoJSON
+        run: node convert-gpx-to-geojson.js
+
+      - name: Commit and Push GeoJSON
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add *.geojson
+          git commit -m "Add converted GeoJSON files"
+          git push

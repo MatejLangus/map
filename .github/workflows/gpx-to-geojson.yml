@@ -2,8 +2,8 @@ name: Convert GPX to GeoJSON
 
 on:
   push:
-    paths:
-      - '*.gpx'
+    branches:
+      - main  #
 
 jobs:
   convert:

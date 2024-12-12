@@ -46,7 +46,7 @@ if (gpxFiles.length === 0) {
 
 
     // Define the output file name
-    const outputFileName = file.replace('.gpx', '.geojson.gz');
+    const outputFileName = file.replace('.gpx', '.geojson');
     const outputFilePath = path.join(outputFolder, outputFileName);
 
     // Write the GeoJSON file

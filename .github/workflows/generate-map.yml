@@ -1,7 +1,9 @@
 name: Generate Leaflet Map
 
 on:
-  workflow_dispatch:  # This allows it to be triggered by another workflow
+  push:
+    branches:
+      - main  # Adjust to your branch if not `main`
 
 jobs:
   generate-map:

@@ -31,8 +31,9 @@ jobs:
           git commit -m "Add converted GeoJSON files"
           git push
 
-      - name: Trigger Workflow 2 (Generate Leaflet Map)
-        uses: peter-evans/workflow-dispatch@v1
-        with:
-          workflow: 'generate-map.yml'  # Name of the second workflow file
-          ref: refs/heads/main
+      - name: Trigger Workflow 2 (Generate Leaflet Map) via GitHub API
+        run: |
+          curl -X POST \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d '{"ref":"refs/heads/main"}' \
+          "https://api.github.com/repos/${{ github.repository }}/actions/workflows/generate-leaflet-map.yml/dispatches"

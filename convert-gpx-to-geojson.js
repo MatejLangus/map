@@ -21,7 +21,7 @@ if (gpxFiles.length === 0) {
     const gpxData = fs.readFileSync(inputFilePath, "utf8");
 
     // Convert GPX to GeoJSON
-    const geojson = gpx2geojson.toGeoJSON(gpxData);
+    const geojson = gpx2geojson(gpxData);  // Correct method call
 
     // Define the output file name
     const outputFileName = file.replace(".gpx", ".geojson");
@@ -34,4 +34,3 @@ if (gpxFiles.length === 0) {
 
   console.log("Conversion complete. Check the 'output-geojson' folder for results.");
 }
-

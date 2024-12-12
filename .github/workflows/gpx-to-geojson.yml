@@ -19,6 +19,7 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
+             npm install xmldom  # Ensure xmldom is installed
 
       - name: Convert GPX to GeoJSON
         run: node convert-gpx-to-geojson.js

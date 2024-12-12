@@ -3,6 +3,10 @@ const path = require('path');
 const gpx2geojson = require('gpx2geojson');
 const { DOMParser } = require('xmldom');  // Import DOMParser from xmldom
 
+const turf = require('@turf/turf');  // Import turf
+const geojsonPrecision = require('geojson-precision');
+const zlib = require('zlib');
+
 // Define the folder paths
 const inputFolder = path.join(__dirname, 'gpx-files');  // Folder containing GPX files
 const outputFolder = path.join(__dirname, 'geojson-files');  // Folder to store GeoJSON files

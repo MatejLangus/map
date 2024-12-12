@@ -27,6 +27,7 @@ jobs:
              npm install @turf/turf
              npm install geojson-precision
              npm install zlib
+             npm install fs
 
       - name: Convert GPX to GeoJSON
         run: node convert-gpx-to-geojson.js
@@ -38,10 +39,18 @@ jobs:
           git add *.geojson
           git commit -m "Add converted GeoJSON files"
           git push
+        
 
-      - name: Trigger Workflow 2 (Generate Leaflet Map) via GitHub API
+      - name: Generate index.html
         run: |
-          curl -X POST \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -d '{"ref":"refs/heads/main"}' \
-          "https://api.github.com/repos/${{ github.repository }}/actions/workflows/generate-leaflet-map.yml/dispatches"
+          node generate-map.js
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Auto-generate Leaflet map with tracks"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

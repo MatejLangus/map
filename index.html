@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPX Map</title>
+    <title>GeoJSON Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/gpx.min.js"></script>
     <style>
         #map { height: 100vh; margin: 0; }
     </style>
@@ -20,15 +19,19 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        const gpxFiles = ["./gpx-files/2020-10-25 0757 Palnock Rindernock__20201025_0757.gpx","./gpx-files/2024-11-02 065722 Roda di Vaèl__20241102_0657.gpx","./gpx-files/2024-12-07 060540 Virnikov Grintovec__20241207_0605.gpx","./gpx-files/2024-12-10 133338 Bistriška planina__20241210_1333.gpx"];
+        const geojsonFiles = ["./geojson-files/2020-10-25 0757 Palnock Rindernock__20201025_0757.geojson","./geojson-files/2023-04-25 Sardinija small 205101__20230425_2051.geojson","./geojson-files/2024-11-02 065722 Roda di Vaèl__20241102_0657.geojson","./geojson-files/2024-12-07 060540 Virnikov Grintovec__20241207_0605.geojson","./geojson-files/2024-12-10 133338 Bistriška planina__20241210_1333.geojson"];
 
         const allBounds = L.latLngBounds();
 
-        gpxFiles.forEach(file => {
-            new L.GPX(file, { async: true }).on('loaded', function(e) {
-                allBounds.extend(e.target.getBounds());
-                map.fitBounds(allBounds);
-            }).addTo(map);
+        geojsonFiles.forEach(file => {
+            fetch(file)
+                .then(response => response.json())
+                .then(data => {
+                    const layer = L.geoJSON(data).addTo(map);
+                    allBounds.extend(layer.getBounds());
+                    map.fitBounds(allBounds);
+                })
+                .catch(error => console.error('Error loading GeoJSON file:', file, error));
         });
     </script>
 </body>

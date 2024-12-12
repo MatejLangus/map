@@ -23,16 +23,20 @@
 
         const allBounds = L.latLngBounds();
 
-        geojsonFiles.forEach(file => {
-            fetch(file)
-                .then(response => response.json())
-                .then(data => {
-                    const layer = L.geoJSON(data).addTo(map);
-                    allBounds.extend(layer.getBounds());
-                    map.fitBounds(allBounds);
-                })
-                .catch(error => console.error('Error loading GeoJSON file:', file, error));
-        });
+        // Loop through each feature in the GeoJSON
+        geojsonData.features.forEach(feature => {
+        if (feature.geometry.type === 'LineString') {
+            const coordinates = feature.geometry.coordinates;
+            const latLngs = coordinates.map(coord => [coord[1], coord[0]]);  // Convert [lon, lat] to [lat, lon]
+
+            leaflet.polyline(latLngs, {
+            color: 'blue',
+            weight: 3,
+            opacity: 1,
+            smoothFactor: 1
+            }).addTo(map);
+  }
+});
     </script>
 </body>
 </html>

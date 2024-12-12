@@ -33,14 +33,7 @@ if (gpxFiles.length === 0) {
     // Convert GPX to GeoJSON using gpx2geojson
     const geojson = gpx2geojson.gpx(doc);  // Pass the DOM object to gpx2geojson
 
-    //const simplified = turf.simplify(geojson, { tolerance: 0.01, highQuality: false });
-
-    // Reduce the precision of coordinates
-    const precisionGeoJSON = geojsonPrecision(geojson, 5);  // Rounding to 5 decimal places
-  
-    // Minify the GeoJSON
-    const minifiedGeoJSON = JSON.stringify(precisionGeoJSON);
-  
+    
 
   
 
@@ -50,7 +43,7 @@ if (gpxFiles.length === 0) {
     const outputFilePath = path.join(outputFolder, outputFileName);
 
     // Write the GeoJSON file
-    fs.writeFileSync(outputFilePath, JSON.stringify(minifiedGeoJSON, null, 2));
+    fs.writeFileSync(outputFilePath, JSON.stringify(geojson, null, 2));
     console.log(`Converted ${file} to ${outputFileName}`);
   });
 

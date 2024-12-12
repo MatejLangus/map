@@ -30,7 +30,7 @@ const leafletHTML = `
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        const geojsonFiles = ${JSON.stringify(geojsonFiles.map(file => `./output-geojson/${file}`))};
+        const geojsonFiles = ${JSON.stringify(geojsonFiles.map(file => `./geojson-files/${file}`))};
 
         const allBounds = L.latLngBounds();
 

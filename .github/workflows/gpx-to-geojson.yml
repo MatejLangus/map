@@ -25,6 +25,8 @@ jobs:
         run: npm install
              npm install xmldom
              npm install @turf/turf
+             npm install geojson-precision
+             npm install zlib
 
       - name: Convert GPX to GeoJSON
         run: node convert-gpx-to-geojson.js

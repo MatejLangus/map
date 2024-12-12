@@ -37,6 +37,7 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add *.geojson
+          git add *.geojson.gz
           git commit -m "Add converted GeoJSON files"
           git push
         

@@ -1,9 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
-// Find all GPX files in the 'gpx-files' directory
-const gpxDir = './gpx-files';
-const gpxFiles = fs.readdirSync(gpxDir).filter(file => file.endsWith('.gpx'));
+// Directories
+const geojsonDir = './output-geojson';
+const htmlFile = './index.html';
+
+// Find all GeoJSON files in the 'output-geojson' directory
+const geojsonFiles = fs.readdirSync(geojsonDir).filter(file => file.endsWith('.geojson'));
 
 // Generate HTML content dynamically
 const leafletHTML = `
@@ -12,10 +15,9 @@ const leafletHTML = `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPX Map</title>
+    <title>GeoJSON Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/gpx.min.js"></script>
     <style>
         #map { height: 100vh; margin: 0; }
     </style>
@@ -28,15 +30,19 @@ const leafletHTML = `
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        const gpxFiles = ${JSON.stringify(gpxFiles.map(file => `./gpx-files/${file}`))};
+        const geojsonFiles = ${JSON.stringify(geojsonFiles.map(file => `./output-geojson/${file}`))};
 
         const allBounds = L.latLngBounds();
 
-        gpxFiles.forEach(file => {
-            new L.GPX(file, { async: true }).on('loaded', function(e) {
-                allBounds.extend(e.target.getBounds());
-                map.fitBounds(allBounds);
-            }).addTo(map);
+        geojsonFiles.forEach(file => {
+            fetch(file)
+                .then(response => response.json())
+                .then(data => {
+                    const layer = L.geoJSON(data).addTo(map);
+                    allBounds.extend(layer.getBounds());
+                    map.fitBounds(allBounds);
+                })
+                .catch(error => console.error('Error loading GeoJSON file:', file, error));
         });
     </script>
 </body>
@@ -44,5 +50,5 @@ const leafletHTML = `
 `;
 
 // Write the HTML content to index.html
-fs.writeFileSync('./index.html', leafletHTML, 'utf8');
-console.log('Generated index.html with GPX tracks.');
+fs.writeFileSync(htmlFile, leafletHTML, 'utf8');
+console.log(`Generated ${htmlFile} with GeoJSON tracks.`);

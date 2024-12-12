@@ -5,7 +5,7 @@ const path = require('path');
 const geojsonDir = './geojson-files';
 const htmlFile = './index.html';
 
-// Find all GeoJSON files in the 'output-geojson' directory
+// Find all GeoJSON files in the 'geojson-files' directory
 const geojsonFiles = fs.readdirSync(geojsonDir).filter(file => file.endsWith('.geojson'));
 
 // Generate HTML content dynamically
@@ -30,24 +30,39 @@ const leafletHTML = `
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
+        // Loop through each GeoJSON file and add the features to the map
         const geojsonFiles = ${JSON.stringify(geojsonFiles.map(file => `./geojson-files/${file}`))};
 
-        const allBounds = L.latLngBounds();
+        geojsonFiles.forEach(file => {
+            fetch(file)
+                .then(response => response.json())
+                .then(geojsonData => {
+                    const allBounds = L.latLngBounds();
 
-        // Loop through each feature in the GeoJSON
-        geojsonData.features.forEach(feature => {
-        if (feature.geometry.type === 'LineString') {
-            const coordinates = feature.geometry.coordinates;
-            const latLngs = coordinates.map(coord => [coord[1], coord[0]]);  // Convert [lon, lat] to [lat, lon]
+                    geojsonData.features.forEach(feature => {
+                        if (feature.geometry.type === 'LineString') {
+                            const coordinates = feature.geometry.coordinates;
+                            const latLngs = coordinates.map(coord => [coord[1], coord[0]]); // Convert [lon, lat] to [lat, lon]
 
-            leaflet.polyline(latLngs, {
-            color: 'blue',
-            weight: 3,
-            opacity: 1,
-            smoothFactor: 1
-            }).addTo(map);
-  }
-});
+                            L.polyline(latLngs, {
+                                color: 'blue',
+                                weight: 3,
+                                opacity: 1,
+                                smoothFactor: 1
+                            }).addTo(map);
+                            
+                            // Extend the bounds of the map based on the feature's coordinates
+                            allBounds.extend(latLngs);
+                        }
+                    });
+
+                    // Adjust the map's bounds to fit all features
+                    map.fitBounds(allBounds);
+                })
+                .catch(error => {
+                    console.error('Error loading GeoJSON file:', file, error);
+                });
+        });
     </script>
 </body>
 </html>

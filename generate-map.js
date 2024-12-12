@@ -35,3 +35,14 @@ const leafletHTML = `
         gpxFiles.forEach(file => {
             new L.GPX(file, { async: true }).on('loaded', function(e) {
                 allBounds.extend(e.target.getBounds());
+                map.fitBounds(allBounds);
+            }).addTo(map);
+        });
+    </script>
+</body>
+</html>
+`;
+
+// Write the HTML content to index.html
+fs.writeFileSync('./index.html', leafletHTML, 'utf8');
+console.log('Generated index.html with GPX tracks.');

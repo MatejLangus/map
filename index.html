@@ -1,140 +1,57 @@
-<!doctype html>
 
-<!--
-  Copyright (C) 2011-2012 Pavel Shramov
-  Copyright (C) 2013 Maxime Petazzoni <maxime.petazzoni@bulix.org>
-  All Rights Reserved.
-
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
-
-  - Redistributions of source code must retain the above copyright notice,
-    this list of conditions and the following disclaimer.
-
-  - Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-  POSSIBILITY OF SUCH DAMAGE.
--->
-
-<html>
-  <head>
-    <title>leaflet-gpx demo</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/2.1.0/gpx.js" defer></script>
-    <style type="text/css">
-       body { width: 75%; margin: 0 auto; font-family: 'Hiragino Sans', sans-serif; }
-      .gpx { width: 1000px; margin: 1em auto; }
-      .gpx header { padding: 0.5em; }
-      h1 a { text-decoration: none; color: black; border-bottom: 1px #444 dotted; }
-      .gpx h3 { margin: 0; padding: 0; font-weight: bold; }
-      .gpx .map { border: 1px #888 solid; width: 1000px; height: 800px; margin: 0; }
-      .gpx footer { padding: 0.5em; }
-      .gpx ul.info { list-style: none; margin: 1em 0 0 0; padding: 0; font-size: smaller; }
-      .gpx ul.info li { color: #666; display: inline; }
-      .gpx ul.info li span { color: black; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoJSON Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map { height: 100vh; margin: 0; }
     </style>
-  </head>
-  <body>
-    <section id="demo" class="gpx" data-map-target="demo-map">
-      
-      <article>
-        <div class="map" id="demo-map"></div>
-      </article>
-    </section>
-
-    <script type="module">
-
-var mapid  = "demo-map";
-
-
-    var map = L.map(mapid);
-    var base = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
-    });
-    base.addTo(map);
-
-    var control = L.control.layers(null, null).addTo(map);
-    const allBounds = L.latLngBounds();
-
-      function display_gpx(url) {
-   
-
-        var url = url;
-       
-
-        new L.GPX(url, {
-          async: true,
-        }).on('loaded', function(e) {
-          var gpx = e.target;
-          
-          allBounds.extend(gpx.getBounds())
-          map.fitBounds(gpx.getBounds());
-          control.addOverlay(gpx, gpx.get_name());
-
-          /*
-           * Note: the code below relies on the fact that the demo GPX file is
-           * an actual GPS track with timing and heartrate information.
-           
-          _t('h3').innerHTML = '<a href="' + url + '">' + gpx.get_name() + '</a>';
-          _c('start').textContent = gpx.get_start_time().toDateString() + ', '
-            + gpx.get_start_time().toLocaleTimeString();
-          _c('distance').textContent = gpx.get_distance_imp().toFixed(2);
-          _c('duration').textContent = gpx.get_duration_string(gpx.get_moving_time());
-          _c('pace').textContent     = gpx.get_duration_string(gpx.get_moving_pace_imp(), true);
-          _c('avghr').textContent    = gpx.get_average_hr();
-          _c('elevation-gain').textContent = gpx.to_ft(gpx.get_elevation_gain()).toFixed(0);
-          _c('elevation-loss').textContent = gpx.to_ft(gpx.get_elevation_loss()).toFixed(0);
-          _c('elevation-net').textContent  = gpx.to_ft(gpx.get_elevation_gain()
-            - gpx.get_elevation_loss()).toFixed(0);*/
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        const map = L.map('map').setView([0, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
         }).addTo(map);
-      }
 
-      async function processTextFile(url) {
-  try {
-    // Fetch the text file
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+        // Loop through each GeoJSON file and add the features to the map
+        const geojsonFiles = ["./geojson-files/2020-10-25 0757 Palnock Rindernock__20201025_0757.geojson","./geojson-files/2023-04-25 Sardinija small 205101__20230425_2051.geojson","./geojson-files/2024-11-02 065722 Roda di Vaèl__20241102_0657.geojson","./geojson-files/2024-12-07 060540 Virnikov Grintovec__20241207_0605.geojson","./geojson-files/2024-12-10 133338 Bistriška planina__20241210_1333.geojson"];
 
-    // Read the file content
-    const text = await response.text();
+        geojsonFiles.forEach(file => {
+            fetch(file)
+                .then(response => response.json())
+                .then(geojsonData => {
+                    const allBounds = L.latLngBounds();
 
-    // Split the content into lines
-    const lines = text.split('\n');
+                    geojsonData.features.forEach(feature => {
+                        if (feature.geometry.type === 'LineString') {
+                            const coordinates = feature.geometry.coordinates;
+                            const latLngs = coordinates.map(coord => [coord[1], coord[0]]); // Convert [lon, lat] to [lat, lon]
 
-    // Loop through each line
-    lines.forEach((line, index) => {
-      if (line.trim()) { // Skip empty lines
-        const filePath = line.trim(); // Trim to clean up any whitespace
-        const fileName = filePath.split('/').pop(); // Get the file name
-        console.log(`File Path: ${filePath}`);
-        console.log(`File Name: ${fileName}`);
-        display_gpx("/map/poti/" + fileName) 
-      }
-    });
-  } catch (error) {
-    console.error('Error processing text file:', error.message);
-  }
-}
+                            L.polyline(latLngs, {
+                                color: 'blue',
+                                weight: 3,
+                                opacity: 1,
+                                smoothFactor: 1
+                            }).addTo(map);
+                            
+                            // Extend the bounds of the map based on the feature's coordinates
+                            allBounds.extend(latLngs);
+                        }
+                    });
 
-// URL of the text file
-const fileUrl = '/map/seznam_poti.txt';
-processTextFile(fileUrl);
+                    // Adjust the map's bounds to fit all features
+                    map.fitBounds(allBounds);
+                })
+                .catch(error => {
+                    console.error('Error loading GeoJSON file:', file, error);
+                });
+        });
     </script>
-  </body>
+</body>
 </html>

@@ -11,63 +11,16 @@
     <style>
         #map { height: 100vh; margin: 0; }
     </style>
-  </head>
-  <body>
-    <section id="demo" class="gpx" data-map-target="demo-map">
-      
-      <article>
-        <div class="map" id="demo-map"></div>
-      </article>
-    </section>
-
-    <script type="module">
-
-var mapid  = "demo-map";
-
-
-    var map = L.map(mapid);
-    var base = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
-    });
-    base.addTo(map);
-
-    var control = L.control.layers(null, null).addTo(map);
-    const allBounds = L.latLngBounds();
-
-      function display_gpx(url) {
-   
-
-        var url = url;
-       
-
-        new L.GPX(url, {
-          async: true,
-        }).on('loaded', function(e) {
-          var gpx = e.target;
-          
-          allBounds.extend(gpx.getBounds())
-          map.fitBounds(gpx.getBounds());
-          control.addOverlay(gpx, gpx.get_name());
-
-          /*
-           * Note: the code below relies on the fact that the demo GPX file is
-           * an actual GPS track with timing and heartrate information.
-           
-          _t('h3').innerHTML = '<a href="' + url + '">' + gpx.get_name() + '</a>';
-          _c('start').textContent = gpx.get_start_time().toDateString() + ', '
-            + gpx.get_start_time().toLocaleTimeString();
-          _c('distance').textContent = gpx.get_distance_imp().toFixed(2);
-          _c('duration').textContent = gpx.get_duration_string(gpx.get_moving_time());
-          _c('pace').textContent     = gpx.get_duration_string(gpx.get_moving_pace_imp(), true);
-          _c('avghr').textContent    = gpx.get_average_hr();
-          _c('elevation-gain').textContent = gpx.to_ft(gpx.get_elevation_gain()).toFixed(0);
-          _c('elevation-loss').textContent = gpx.to_ft(gpx.get_elevation_loss()).toFixed(0);
-          _c('elevation-net').textContent  = gpx.to_ft(gpx.get_elevation_gain()
-            - gpx.get_elevation_loss()).toFixed(0);*/
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        const map = L.map('map').setView([0, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        const gpxFiles = ["./gpx-files/2020-10-25 0757 Palnock Rindernock__20201025_0757.gpx","./gpx-files/2024-11-02 065722 Roda di Vaèl__20241102_0657.gpx","./gpx-files/2024-12-07 060540 Virnikov Grintovec__20241207_0605.gpx","./gpx-files/2024-12-10 133338 Bistriška planina__20241210_1333.gpx"];
+        const gpxFiles = ["./gpx-files/2020-10-25 0757 Palnock Rindernock__20201025_0757.gpx","./gpx-files/2023-04-25 Sardinija small 205101__20230425_2051.gpx","./gpx-files/2024-11-02 065722 Roda di Vaèl__20241102_0657.gpx","./gpx-files/2024-12-07 060540 Virnikov Grintovec__20241207_0605.gpx","./gpx-files/2024-12-10 133338 Bistriška planina__20241210_1333.gpx"];
 
         const allBounds = L.latLngBounds();
 
@@ -78,5 +31,5 @@ var mapid  = "demo-map";
             }).addTo(map);
         });
     </script>
-  </body>
+</body>
 </html>

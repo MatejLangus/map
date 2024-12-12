@@ -26,7 +26,6 @@ jobs:
              npm install xmldom
              npm install @turf/turf
              npm install geojson-precision
-             npm install zlib
              npm install fs
 
       - name: Convert GPX to GeoJSON
@@ -37,7 +36,6 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add *.geojson
-          git add *.geojson.gz
           git commit -m "Add converted GeoJSON files"
           git push
         

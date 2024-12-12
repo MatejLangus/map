@@ -5,7 +5,7 @@ const { DOMParser } = require('xmldom');  // Import DOMParser from xmldom
 
 const turf = require('@turf/turf');  // Import turf
 const geojsonPrecision = require('geojson-precision');
-const zlib = require('zlib');
+
 
 // Define the folder paths
 const inputFolder = path.join(__dirname, 'gpx-files');  // Folder containing GPX files

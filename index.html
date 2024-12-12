@@ -19,24 +19,39 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
+        // Loop through each GeoJSON file and add the features to the map
         const geojsonFiles = ["./geojson-files/2020-10-25 0757 Palnock Rindernock__20201025_0757.geojson","./geojson-files/2023-04-25 Sardinija small 205101__20230425_2051.geojson","./geojson-files/2024-11-02 065722 Roda di Vaèl__20241102_0657.geojson","./geojson-files/2024-12-07 060540 Virnikov Grintovec__20241207_0605.geojson","./geojson-files/2024-12-10 133338 Bistriška planina__20241210_1333.geojson"];
 
-        const allBounds = L.latLngBounds();
+        geojsonFiles.forEach(file => {
+            fetch(file)
+                .then(response => response.json())
+                .then(geojsonData => {
+                    const allBounds = L.latLngBounds();
 
-        // Loop through each feature in the GeoJSON
-        geojsonData.features.forEach(feature => {
-        if (feature.geometry.type === 'LineString') {
-            const coordinates = feature.geometry.coordinates;
-            const latLngs = coordinates.map(coord => [coord[1], coord[0]]);  // Convert [lon, lat] to [lat, lon]
+                    geojsonData.features.forEach(feature => {
+                        if (feature.geometry.type === 'LineString') {
+                            const coordinates = feature.geometry.coordinates;
+                            const latLngs = coordinates.map(coord => [coord[1], coord[0]]); // Convert [lon, lat] to [lat, lon]
 
-            leaflet.polyline(latLngs, {
-            color: 'blue',
-            weight: 3,
-            opacity: 1,
-            smoothFactor: 1
-            }).addTo(map);
-  }
-});
+                            L.polyline(latLngs, {
+                                color: 'blue',
+                                weight: 3,
+                                opacity: 1,
+                                smoothFactor: 1
+                            }).addTo(map);
+                            
+                            // Extend the bounds of the map based on the feature's coordinates
+                            allBounds.extend(latLngs);
+                        }
+                    });
+
+                    // Adjust the map's bounds to fit all features
+                    map.fitBounds(allBounds);
+                })
+                .catch(error => {
+                    console.error('Error loading GeoJSON file:', file, error);
+                });
+        });
     </script>
 </body>
 </html>

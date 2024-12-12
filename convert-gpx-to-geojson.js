@@ -41,14 +41,8 @@ if (gpxFiles.length === 0) {
     // Minify the GeoJSON
     const minifiedGeoJSON = JSON.stringify(precisionGeoJSON);
   
-    // Compress the GeoJSON using gzip
-    const compressedGeoJSON = zlib.gzipSync(minifiedGeoJSON);
-  
 
   
-  
-
-
 
 
     // Define the output file name
@@ -56,7 +50,7 @@ if (gpxFiles.length === 0) {
     const outputFilePath = path.join(outputFolder, outputFileName);
 
     // Write the GeoJSON file
-    fs.writeFileSync(outputFilePath, JSON.stringify(compressedGeoJSON, null, 2));
+    fs.writeFileSync(outputFilePath, JSON.stringify(minifiedGeoJSON, null, 2));
     console.log(`Converted ${file} to ${outputFileName}`);
   });
 

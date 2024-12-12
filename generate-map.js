@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Directories
-const geojsonDir = './output-geojson';
+const geojsonDir = './geojson-files';
 const htmlFile = './index.html';
 
 // Find all GeoJSON files in the 'output-geojson' directory

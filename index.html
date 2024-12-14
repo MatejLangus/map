@@ -25,7 +25,11 @@
         const allBounds = L.latLngBounds();
 
         gpxFiles.forEach(file => {
-            new L.GPX(file, { async: true }).on('loaded', function(e) {
+            new L.GPX(file, { async: true,
+            markers: {
+    	startIcon: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.1/pin-icon-start.png',
+    	endIcon: false,
+  		}}).on('loaded', function(e) {
                 allBounds.extend(e.target.getBounds());
                 map.fitBounds(allBounds);
             }).addTo(map);

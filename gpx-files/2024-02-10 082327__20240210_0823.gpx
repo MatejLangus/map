@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="OruxMaps v.10.5.0 GP" version="1.1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:om="http://www.oruxmaps.com/oruxmapsextensions/1/0" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<!-- owner: ba6e6e5031d655 -->
+<metadata>
+<name><![CDATA[2024-02-10 08:23:27]]></name>
+<link href="https://www.oruxmaps.com">
+<text>OruxMaps GP</text>
+</link>
+<time>2024-02-10T07:23:27.264Z</time><bounds maxlat="46.3567133" maxlon="14.2907333" minlat="46.3567017" minlon="14.2907100"/>
+</metadata>
+<wpt lat="46.3567017" lon="14.2907333">
+<ele>550.80</ele>
+<time>2024-02-10T07:23:27.357Z</time>
+<name><![CDATA[]]></name>
+<sym>Waypoint</sym>
+<type>Starting Point</type>
+<extensions>
+<om:oruxmapsextensions>
+<om:ext type="ICON" subtype="0">38</om:ext>
+</om:oruxmapsextensions>
+</extensions>
+</wpt>
+<wpt lat="46.3567133" lon="14.2907100">
+<ele>547.54</ele>
+<time>2024-02-10T07:23:35.902Z</time>
+<name><![CDATA[]]></name>
+<desc><![CDATA[<p><br /><h3>Name: Segment: 1</h3><br />Type: Hiking<br/>Start time: 08:23 10 Feb 2024<br/>Finish time: 08:23 10 Feb 2024<br/>Distance: 0,0km (00:00)<br/>Moving time: 00:00<br/>Average speed: 0,00 km/h<br/>Avg. Speed Mov: 0,00 km/h<br/>Max. speed: 0,00 km/h<br/>Elevation gain: 0 m<br/>Elevation loss: 0 m<br/>Ascent time: 00:00<br/>Descent time: 00:00<br/></p>]]></desc>
+<sym>Waypoint</sym>
+<type>Finishing Point</type>
+<extensions>
+<om:oruxmapsextensions>
+<om:ext type="ICON" subtype="0">15</om:ext>
+</om:oruxmapsextensions>
+</extensions>
+</wpt>
+<trk>
+<name><![CDATA[2024-02-10 08:23:27]]></name>
+<desc><![CDATA[<p>Type: Hiking<br/>Start time: 08:23 10 Feb 2024<br/>Finish time: 08:23 10 Feb 2024<br/>Distance: 0,0 km (00:00)<br/>Moving time: 00:00<br/>Min. HRM: 76<br/>Max. HRM: 77<br/>Avg. HRM: 76<br/>Calories: 0<br/></p><hr align="center" width="480" style="height: 2px; width: 517px"/>]]></desc>
+<type>Hiking</type>
+<extensions>
+<om:oruxmapsextensions>
+<om:ext type="TYPE" subtype="0">5</om:ext>
+<om:ext type="DIFFICULTY">0</om:ext>
+</om:oruxmapsextensions>
+</extensions>
+<trkseg>
+<trkpt lat="46.3567017" lon="14.2907333">
+<ele>550.80</ele>
+<time>2024-02-10T07:23:27.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>77</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+<trkpt lat="46.3567133" lon="14.2907100">
+<ele>547.54</ele>
+<time>2024-02-10T07:23:30.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>76</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+</trkseg>
+</trk>
+</gpx>

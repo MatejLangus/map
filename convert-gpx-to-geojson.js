@@ -5,7 +5,7 @@ const { DOMParser } = require('xmldom');  // Import DOMParser from xmldom
 
 const turf = require('@turf/turf');  // Import turf
 const geojsonPrecision = require('geojson-precision');
-
+const zlib = require('zlib');
 
 // Define the folder paths
 const inputFolder = path.join(__dirname, 'gpx-files');  // Folder containing GPX files
@@ -33,17 +33,30 @@ if (gpxFiles.length === 0) {
     // Convert GPX to GeoJSON using gpx2geojson
     const geojson = gpx2geojson.gpx(doc);  // Pass the DOM object to gpx2geojson
 
-    
+    //const simplified = turf.simplify(geojson, { tolerance: 0.01, highQuality: false });
 
+    // Reduce the precision of coordinates
+    const precisionGeoJSON = geojsonPrecision(geojson, 5);  // Rounding to 5 decimal places
+  
+    // Minify the GeoJSON
+    const minifiedGeoJSON = JSON.stringify(precisionGeoJSON);
+  
+    // Compress the GeoJSON using gzip
+    const compressedGeoJSON = zlib.gzipSync(minifiedGeoJSON);
+  
+
+  
   
 
 
+
+
     // Define the output file name
-    const outputFileName = file.replace('.gpx', '.geojson');
+    const outputFileName = file.replace('.gpx', '.geojson.gz');
     const outputFilePath = path.join(outputFolder, outputFileName);
 
     // Write the GeoJSON file
-    fs.writeFileSync(outputFilePath, JSON.stringify(geojson, null, 2));
+    fs.writeFileSync(outputFilePath, JSON.stringify(compressedGeoJSON, null, 2));
     console.log(`Converted ${file} to ${outputFileName}`);
   });
 

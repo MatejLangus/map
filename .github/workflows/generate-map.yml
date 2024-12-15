@@ -24,6 +24,13 @@ jobs:
     - name: Install dependencies
       run: |
         npm install fs
+        npm install xmldom
+        npm install @turf/turf
+        npm install geojson-precision
+        npm install fs
+
+    - name: Convert GPX to GeoJSON
+      run: node convert-gpx-to-geojson.js
 
     - name: Generate index.html
       run: |

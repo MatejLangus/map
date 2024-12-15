@@ -6,6 +6,10 @@
     "start": "node convert-gpx-to-geojson.js"
   },
   "dependencies": {
-    "gpx2geojson": "^1.0.1"
+    "@turf/turf": "^7.1.0",
+    "fs": "^0.0.1-security",
+    "geojson-precision": "^1.0.0",
+    "gpx2geojson": "^1.0.1",
+    "xmldom": "^0.6.0"
   }
 }

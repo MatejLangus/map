@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPX Map</title>
+    <title>Matej lezel je taM</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/gpx.min.js"></script>
@@ -15,9 +15,8 @@
 <body>
     <div id="map"></div>
     <script>
-        const map = L.map('map').setView([0, 0], 2);
+        const map = L.map('map').setView([46, 14.5], 8);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
         const gpxFiles = ["./gpx-files/2020-10-25 0757 Palnock Rindernock__20201025_0757.gpx","./gpx-files/2023-04-25 Sardinija small 205101__20230425_2051.gpx","./gpx-files/2024-11-02 065722 Roda di Vaèl__20241102_0657.gpx","./gpx-files/2024-12-07 060540 Virnikov Grintovec__20241207_0605.gpx","./gpx-files/2024-12-10 133338 Bistriška planina__20241210_1333.gpx","./gpx-files/2024-12-15 062544 Jof di Miezegnot__20241215_0625.gpx"];
@@ -26,14 +25,12 @@
 
         gpxFiles.forEach(file => {
             new L.GPX(file, { async: true,
-            markers: {
-    	startIcon: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.1/pin-icon-start.png',
-    	endIcon: false,
-  		}}).on('loaded', function(e) {
-                allBounds.extend(e.target.getBounds());
-                map.fitBounds(allBounds);
+      }).on('loaded', function(e) {
+        allBounds.extend(e.target.getBounds());   
             }).addTo(map);
         });
+        
+        map.fitBounds(allBounds);
     </script>
 </body>
 </html>

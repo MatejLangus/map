@@ -38,8 +38,19 @@ const leafletHTML = `
                 .then(response => response.json())
                 .then(geojsonData => {
                     const allBounds = L.latLngBounds();
+                    geojsonData = JSON.parse(geojsonData)
 
-                    L.geoJSON(JSON.parse(geojsonData)).addTo(map);
+                    geojsonData.features.forEach(feature => {
+                        if (feature.geometry.type === 'LineString') {
+                            const coordinates = feature.geometry.coordinates;
+                            const latLngs = coordinates.map(coord => [coord[1], coord[0]]); // Convert [lon, lat] to [lat, lon]
+
+                            L.polyline(latLngs, {
+                                color: 'blue',
+                                weight: 3,
+                                opacity: 1,
+                                smoothFactor: 1
+                            }).addTo(map);
                             
                             // Extend the bounds of the map based on the feature's coordinates
                             allBounds.extend(latLngs);

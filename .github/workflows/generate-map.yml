@@ -29,8 +29,8 @@ jobs:
         npm install geojson-precision
         npm install fs
 
-    - name: Convert GPX to GeoJSON
-      run: node convert-gpx-to-geojson.js
+   # - name: Convert GPX to GeoJSON
+   #s   run: node convert-gpx-to-geojson.js
 
     - name: Generate index.html
       run: |

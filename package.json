@@ -1,5 +1,11 @@
 {
+  "name": "gpx-to-geojson",
+  "version": "1.0.0",
+  "main": "convert-gpx-to-geojson.js",
+  "scripts": {
+    "start": "node convert-gpx-to-geojson.js"
+  },
   "dependencies": {
-    "fs": "^0.0.1-security"
+    "gpx2geojson": "^1.0.1"
   }
 }

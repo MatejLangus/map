@@ -12,7 +12,7 @@ const leafletHTML = `
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPX Map</title>
+    <title>Matej lezel je taM</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.0/gpx.min.js"></script>
@@ -23,9 +23,8 @@ const leafletHTML = `
 <body>
     <div id="map"></div>
     <script>
-        const map = L.map('map').setView([0, 0], 2);
+        const map = L.map('map').setView([46, 14.5], 8);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
         const gpxFiles = ${JSON.stringify(gpxFiles.map(file => `./gpx-files/${file}`))};
@@ -34,14 +33,12 @@ const leafletHTML = `
 
         gpxFiles.forEach(file => {
             new L.GPX(file, { async: true,
-            markers: {
-    	startIcon: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.1/pin-icon-start.png',
-    	endIcon: false,
-  		}}).on('loaded', function(e) {
-                allBounds.extend(e.target.getBounds());
-                map.fitBounds(allBounds);
+      }).on('loaded', function(e) {
+        allBounds.extend(e.target.getBounds());   
             }).addTo(map);
         });
+        
+        map.fitBounds(allBounds);
     </script>
 </body>
 </html>

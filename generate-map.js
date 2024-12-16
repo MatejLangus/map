@@ -51,12 +51,24 @@ const leafletHTML = `
                         }
                     });
                     if (allCoordinates.length > 1) {
-                        L.polyline(allCoordinates, {
+                        const polyline = L.polyline(allCoordinates, {
                             color: 'blue',
                             weight: 3,
                             opacity: 1,
                             smoothFactor: 1
                         }).addTo(map);
+
+                        polyline.on('click', function (e) {
+                            // Change the polyline color on click
+                            polyline.setStyle({ color: 'red' });
+                
+                            // Display data from GeoJSON properties
+                            const popupContent = Object.entries(feature.properties || {})
+                                .map(([key, value]) => "<strong>${key}:</strong> ${value}")
+                                .join('<br>');
+                
+                            polyline.bindPopup(popupContent).openPopup();
+                        });
                     }
 
                     // Adjust the map's bounds to fit all features

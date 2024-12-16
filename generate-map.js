@@ -41,7 +41,7 @@ const leafletHTML = `
                     geojsonData = JSON.parse(geojsonData)
 
                     geojsonData.features.forEach(feature => {
-                        //if (feature.geometry.type === 'LineString') {
+                        if (feature.geometry.type === 'Point') {
                             const coordinates = feature.geometry.coordinates;
                             const latLngs = coordinates.map(coord => [coord[1], coord[0]]); // Convert [lon, lat] to [lat, lon]
 
@@ -54,7 +54,7 @@ const leafletHTML = `
                             
                             // Extend the bounds of the map based on the feature's coordinates
                             allBounds.extend(latLngs);
-                        //}
+                        }
                     });
 
                     // Adjust the map's bounds to fit all features

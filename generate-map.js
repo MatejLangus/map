@@ -51,7 +51,9 @@ const leafletHTML = `
                         }
                     });
                     if (allCoordinates.length > 1) {
-                        const polyline = L.polyline(allCoordinates, {
+
+                        const firstSegment = allCoordinates.slice(0, allCoordinates.length - 1); // All points except last
+                        const polyline = L.polyline(firstSegment, {
                             color: 'blue',
                             weight: 3,
                             opacity: 1,
@@ -66,6 +68,7 @@ const leafletHTML = `
                 
                             // Display data from GeoJSON properties
                             const popupContent = Object.entries(geojsonData.features[0].properties || {})
+                            .filter(([key, value]) => key !== 'coordTimes')
                             .map(([key, value]) => '<strong>' + key + ':</strong> ' + value)
                                 .join('<br>');
                 

@@ -30,21 +30,26 @@
                     geojsonData = JSON.parse(geojsonData)
 
                     geojsonData.features.forEach(feature => {
-                        if (feature.geometry.type === 'Point') {
-                            const coordinates = feature.geometry.coordinates;
-                            const latLngs = coordinates.map(coord => [coord[1], coord[0]]); // Convert [lon, lat] to [lat, lon]
+                        const geometry = feature.geometry;
 
-                            L.polyline(latLngs, {
-                                color: 'blue',
-                                weight: 3,
-                                opacity: 1,
-                                smoothFactor: 1
-                            }).addTo(map);
-                            
-                            // Extend the bounds of the map based on the feature's coordinates
-                            allBounds.extend(latLngs);
+                        if (geometry.type === 'LineString') {
+                        // Extract coordinates from LineString
+                        const coordinates = geometry.coordinates.map(coord => [coord[1], coord[0]]); // Convert [lon, lat] to [lat, lon]
+                        allCoordinates.push(...coordinates); // Add LineString coordinates to the array
+                        } else if (geometry.type === 'Point') {
+                        // Extract coordinates from Point
+                        const [lon, lat] = geometry.coordinates; // Extract [lon, lat]
+                        allCoordinates.push([lat, lon]); // Add Point coordinates to the array
                         }
                     });
+                    if (allCoordinates.length > 1) {
+                        L.polyline(allCoordinates, {
+                            color: 'blue',
+                            weight: 3,
+                            opacity: 1,
+                            smoothFactor: 1
+                        }).addTo(map);
+                    }
 
                     // Adjust the map's bounds to fit all features
                     map.fitBounds(allBounds);

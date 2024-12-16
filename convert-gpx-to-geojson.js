@@ -40,7 +40,7 @@ if (gpxFiles.length === 0) {
         delete feature.properties.coordTimes;
     });
 
-    const simplified = turf.simplify(geojson, { tolerance: 0.01, highQuality: false });
+    const simplified = turf.simplify(geojson, { tolerance: 0.01, highQuality: true });
 
     // Reduce the precision of coordinates
     const precisionGeoJSON = geojsonPrecision(simplified , 5);  // Rounding to 5 decimal places

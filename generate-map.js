@@ -39,6 +39,7 @@ const leafletHTML = `
                 .then(geojsonData => {
                     const allBounds = L.latLngBounds();
                     geojsonData = JSON.parse(geojsonData)
+                    const allCoordinates = [];
 
                     geojsonData.features.forEach(feature => {
                         const geometry = feature.geometry;

@@ -58,14 +58,14 @@ const leafletHTML = `
                             smoothFactor: 1
                         }).addTo(map);
 
-                        polyline.feature = feature;
+                        
 
                         polyline.on('click', function (e) {
                             // Change the polyline color on click
                             polyline.setStyle({ color: 'red' });
                 
                             // Display data from GeoJSON properties
-                            const popupContent = Object.entries(feature.properties || {})
+                            const popupContent = Object.entries(geojsonData.features[0].properties || {})
                             .map(([key, value]) => '<strong>' + key + ':</strong> ' + value)
                                 .join('<br>');
                 

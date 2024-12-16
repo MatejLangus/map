@@ -22,7 +22,7 @@ jobs:
         node-version: 18
 
     - name: Delete all .geojson files
-      run: rm -f folder_name/*.geojson   
+      run: rm -f geojson-files/*.geojson   
 
     - name: Install dependencies
       run: |

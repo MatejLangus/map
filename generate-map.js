@@ -64,7 +64,10 @@ const leafletHTML = `
 
                         polyline.on('click', function (e) {
                             // Change the polyline color on click
-                            polyline.setStyle({ color: 'red' });
+                            const currentColor = polyline.options.color;
+                            const newColor = currentColor === 'blue' ? 'red' : 'blue';
+                            polyline.setStyle({ color: newColor });
+                            polyline.bringToFront();
                 
                             // Display data from GeoJSON properties
                             const popupContent = Object.entries(geojsonData.features[0].properties || {})

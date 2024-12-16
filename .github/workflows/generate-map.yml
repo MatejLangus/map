@@ -21,6 +21,9 @@ jobs:
       with:
         node-version: 18
 
+    - name: Delete all .geojson files
+      run: rm -f folder_name/*.geojson   
+
     - name: Install dependencies
       run: |
         npm install fs

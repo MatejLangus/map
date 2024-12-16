@@ -64,7 +64,7 @@ const leafletHTML = `
                 
                             // Display data from GeoJSON properties
                             const popupContent = Object.entries(feature.properties || {})
-                                .map(([key, value]) => "<strong>${key}:</strong> ${value}")
+                            .map(([key, value]) => '<strong>' + key + ':</strong> ' + value)
                                 .join('<br>');
                 
                             polyline.bindPopup(popupContent).openPopup();

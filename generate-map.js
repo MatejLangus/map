@@ -68,7 +68,8 @@ const leafletHTML = `
                 
                             // Display data from GeoJSON properties
                             const popupContent = Object.entries(geojsonData.features[0].properties || {})
-                            .filter(([key, value]) => key !== 'coordTimes')
+                            //.filter(([key, value]) => key !== 'coordTimes')
+                            //.filter(([key, value]) => key !== 'heartRates')
                             .map(([key, value]) => '<strong>' + key + ':</strong> ' + value)
                                 .join('<br>');
                 

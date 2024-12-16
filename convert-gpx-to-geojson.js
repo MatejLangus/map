@@ -33,6 +33,13 @@ if (gpxFiles.length === 0) {
     // Convert GPX to GeoJSON using gpx2geojson
     const geojson = gpx2geojson.gpx(doc);  // Pass the DOM object to gpx2geojson
 
+    // Filter out the unwanted properties (heartRates and coordTimes)
+    geojson.features.forEach(feature => {
+        // Remove heartRates and coordTimes properties if they exist
+        delete feature.properties.heartRates;
+        delete feature.properties.coordTimes;
+    });
+
     const simplified = turf.simplify(geojson, { tolerance: 0.01, highQuality: false });
 
     // Reduce the precision of coordinates

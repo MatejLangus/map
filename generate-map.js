@@ -25,7 +25,7 @@ const leafletHTML = `
 <body>
     <div id="map"></div>
     <script>
-        const map = L.map('map').setView([0, 0], 2);
+        const map = L.map('map').setView([46, 14.5], 6);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
@@ -70,6 +70,8 @@ const leafletHTML = `
                             const popupContent = Object.entries(geojsonData.features[0].properties || {})
                             //.filter(([key, value]) => key !== 'coordTimes')
                             //.filter(([key, value]) => key !== 'heartRates')
+                            .filter(([key, value]) => key !== 'ele')
+                            .filter(([key, value]) => key !== 'type')
                             .map(([key, value]) => '<strong>' + key + ':</strong> ' + value)
                                 .join('<br>');
                 

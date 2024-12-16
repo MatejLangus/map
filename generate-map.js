@@ -58,6 +58,8 @@ const leafletHTML = `
                             smoothFactor: 1
                         }).addTo(map);
 
+                        polyline.feature = feature;
+
                         polyline.on('click', function (e) {
                             // Change the polyline color on click
                             polyline.setStyle({ color: 'red' });

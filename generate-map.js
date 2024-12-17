@@ -52,7 +52,7 @@ const leafletHTML = `
                     });
                     if (allCoordinates.length > 1) {
 
-                        const firstSegment = allCoordinates.slice(0, allCoordinates.length - 1); // All points except last
+                        const firstSegment = allCoordinates.slice(2, allCoordinates.length); // All points except last
                         const polyline = L.polyline(firstSegment, {
                             color: 'blue',
                             weight: 3,

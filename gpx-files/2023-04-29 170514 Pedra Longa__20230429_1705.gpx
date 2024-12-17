@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="OruxMaps v.10.5.0 GP" version="1.1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:om="http://www.oruxmaps.com/oruxmapsextensions/1/0" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<!-- owner: ba6e6e5031d655 -->
+<metadata>
+<name><![CDATA[2023-04-29 17:05:14 Pedra Longa]]></name>
+<link href="https://www.oruxmaps.com">
+<text>OruxMaps GP</text>
+</link>
+<time>2023-04-29T15:05:14.892Z</time><bounds maxlat="40.0280268" maxlon="9.7071874" minlat="40.0269169" minlon="9.7055383"/>
+</metadata>
+<wpt lat="40.0270628" lon="9.7055832">
+<ele>23.73</ele>
+<time>2023-04-29T15:05:15.803Z</time>
+<name><![CDATA[]]></name>
+<sym>Waypoint</sym>
+<type>Starting Point</type>
+<extensions>
+<om:oruxmapsextensions>
+<om:ext type="ICON" subtype="0">38</om:ext>
+</om:oruxmapsextensions>
+</extensions>
+</wpt>
+<wpt lat="40.0269169" lon="9.7055383">
+<ele>43.84</ele>
+<time>2023-04-29T16:45:32.190Z</time>
+<name><![CDATA[]]></name>
+<desc><![CDATA[<p><br /><h3>Name: Segment: 1</h3><br />Type: Undefined<br/>Start time: 17:05 29 Apr 2023<br/>Finish time: 18:45 29 Apr 2023<br/>Distance: 0.4km (01:40)<br/>Moving time: 01:05<br/>Average speed: 0.22 km/h<br/>Avg. Speed Mov.: 0.34 km/h<br/>Max. speed: 2.56 km/h<br/>Minimum altitude: 37 m<br/>Maximum altitude: 91 m<br/>Elevation gain: 32 m<br/>Elevation loss: 0 m<br/>Ascent time: 00:05<br/>Descent time: 00:00<br/></p>]]></desc>
+<sym>Waypoint</sym>
+<type>Finishing Point</type>
+<extensions>
+<om:oruxmapsextensions>
+<om:ext type="ICON" subtype="0">15</om:ext>
+</om:oruxmapsextensions>
+</extensions>
+</wpt>
+<trk>
+<name><![CDATA[2023-04-29 17:05:14 Pedra Longa]]></name>
+<desc><![CDATA[<p>Type: Undefined<br/>Start time: 17:05 29 Apr 2023<br/>Finish time: 18:45 29 Apr 2023<br/>Distance: 0,4 km (01:40)<br/>Moving time: 01:05<br/>Average speed: 0,22 km/h<br/>Avg. Speed Mov: 0,34 km/h<br/>Max. speed: 2,56 km/h<br/>Minimum altitude: 37 m<br/>Maximum altitude: 91 m<br/>Ascent speed: 325,6 m/h<br/>Elevation gain: 32 m<br/>Ascent time: 00:05<br/>Min. HRM: 79<br/>Max. HRM: 127<br/>Avg. HRM: 103<br/>Calories: 462<br/></p><hr align="center" width="480" style="height: 2px; width: 517px"/>]]></desc>
+<type>Undefined</type>
+<extensions>
+<om:oruxmapsextensions>
+<om:ext type="TYPE" subtype="0">0</om:ext>
+<om:ext type="DIFFICULTY">0</om:ext>
+</om:oruxmapsextensions>
+</extensions>
+<trkseg>
+<trkpt lat="40.0270628" lon="9.7055832">
+<ele>23.73</ele>
+<time>2023-04-29T15:05:15.998Z</time>
+</trkpt>
+<trkpt lat="40.0272080" lon="9.7057244">
+<ele>26.84</ele>
+<time>2023-04-29T15:05:57.000Z</time>
+</trkpt>
+<trkpt lat="40.0273511" lon="9.7058736">
+<ele>28.75</ele>
+<time>2023-04-29T15:06:13.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>127</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+<trkpt lat="40.0274318" lon="9.7060879">
+<ele>40.75</ele>
+<time>2023-04-29T15:07:55.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>126</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+<trkpt lat="40.0276117" lon="9.7061108">
+<ele>33.87</ele>
+<time>2023-04-29T15:09:28.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>95</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+<trkpt lat="40.0277936" lon="9.7061476">
+<ele>30.23</ele>
+<time>2023-04-29T15:10:32.000Z</time>
+</trkpt>
+<trkpt lat="40.0278192" lon="9.7063842">
+<ele>17.54</ele>
+<time>2023-04-29T15:11:27.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>79</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+<trkpt lat="40.0276613" lon="9.7065128">
+<ele>31.82</ele>
+<time>2023-04-29T15:13:09.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>111</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+<trkpt lat="40.0275608" lon="9.7067226">
+<ele>49.84</ele>
+<time>2023-04-29T15:14:29.000Z</time>
+</trkpt>
+<trkpt lat="40.0275110" lon="9.7069645">
+<ele>76.75</ele>
+<time>2023-04-29T15:20:02.000Z</time>
+</trkpt>
+<trkpt lat="40.0276932" lon="9.7069697">
+<ele>79.14</ele>
+<time>2023-04-29T15:21:49.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>103</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+<trkpt lat="40.0278437" lon="9.7071083">
+<ele>64.15</ele>
+<time>2023-04-29T15:22:47.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>116</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+<trkpt lat="40.0280268" lon="9.7071359">
+<ele>72.93</ele>
+<time>2023-04-29T15:25:12.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>86</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+<trkpt lat="40.0278470" lon="9.7071457">
+<ele>82.52</ele>
+<time>2023-04-29T15:32:08.000Z</time>
+</trkpt>
+<trkpt lat="40.0276690" lon="9.7071060">
+<ele>85.53</ele>
+<time>2023-04-29T15:33:51.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>86</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+<trkpt lat="40.0274997" lon="9.7071872">
+<ele>111.75</ele>
+<time>2023-04-29T15:36:00.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>99</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+<trkpt lat="40.0273277" lon="9.7071131">
+<ele>120.87</ele>
+<time>2023-04-29T15:38:23.000Z</time>
+</trkpt>
+<trkpt lat="40.0274993" lon="9.7071874">
+<ele>109.44</ele>
+<time>2023-04-29T15:43:16.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>88</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+<trkpt lat="40.0275678" lon="9.7069608">
+<ele>94.84</ele>
+<time>2023-04-29T16:06:13.000Z</time>
+<extensions>
+<gpxtpx:TrackPointExtension>
+<gpxtpx:hr>127</gpxtpx:hr>
+</gpxtpx:TrackPointExtension>
+</extensions>
+</trkpt>
+<trkpt lat="40.0269169" lon="9.7055383">
+<ele>43.84</ele>
+<time>2023-04-29T16:45:19.000Z</time>
+</trkpt>
+</trkseg>
+</trk>
+</gpx>

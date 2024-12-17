@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="OruxMaps v.10.5.0 GP" version="1.1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:om="http://www.oruxmaps.com/oruxmapsextensions/1/0" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<!-- owner: ba6e6e5031d655 -->
+<metadata>
+<name><![CDATA[2022-08-14 20:54:39 sprehod po vodo in spanje]]></name>
+<link href="https://www.oruxmaps.com">
+<text>OruxMaps GP</text>
+</link>
+<time>2022-08-14T18:54:39.654Z</time><bounds maxlat="47.6189255" maxlon="13.0683337" minlat="47.6183441" minlon="13.0676204"/>
+</metadata>
+<wpt lat="47.6184436" lon="13.0680967">
+<ele>1213.17</ele>
+<time>2022-08-14T18:54:40.615Z</time>
+<name><![CDATA[]]></name>
+<sym>Waypoint</sym>
+<type>Starting Point</type>
+<extensions>
+<om:oruxmapsextensions>
+<om:ext type="ICON" subtype="0">38</om:ext>
+</om:oruxmapsextensions>
+</extensions>
+</wpt>
+<wpt lat="47.6183441" lon="13.0676289">
+<ele>1211.57</ele>
+<time>2022-08-14T19:07:13.263Z</time>
+<name><![CDATA[]]></name>
+<desc><![CDATA[<p><br /><h3>Name: Segment: 1</h3><br />Start time: 20:54 14 Aug 2022<br/>Finish time: 21:02 14 Aug 2022<br/>Distance: 0.2km (00:08)<br/>Moving time: 00:06<br/>Average speed: 1.52 km/h<br/>Avg. Speed Mov.: 2.02 km/h<br/>Max. speed: 6.42 km/h<br/>Minimum altitude: 1210 m<br/>Maximum altitude: 1210 m<br/>Elevation gain: 0 m<br/>Elevation loss: 2 m<br/>Ascent time: 00:00<br/>Descent time: 00:00<br/></p>]]></desc>
+<sym>Waypoint</sym>
+<type>Finishing Point</type>
+<extensions>
+<om:oruxmapsextensions>
+<om:ext type="ICON" subtype="0">15</om:ext>
+</om:oruxmapsextensions>
+</extensions>
+</wpt>
+<trk>
+<name><![CDATA[2022-08-14 20:54:39 sprehod po vodo in spanje]]></name>
+<desc><![CDATA[<p>Type: Undefined<br/>Start time: 20:54 14 Aug 2022<br/>Finish time: 21:02 14 Aug 2022<br/>Distance: 0,2 km (00:08)<br/>Moving time: 00:06<br/>Average speed: 1,52 km/h<br/>Avg. Speed Mov: 2,02 km/h<br/>Max. speed: 6,42 km/h<br/>Minimum altitude: 1210 m<br/>Maximum altitude: 1210 m<br/>Descent speed: 209,2 m/h<br/>Elevation loss: 2 m<br/>Descent time: 00:00<br/></p><hr align="center" width="480" style="height: 2px; width: 517px"/>]]></desc>
+<type>Undefined</type>
+<extensions>
+<om:oruxmapsextensions>
+<om:ext type="TYPE" subtype="0">0</om:ext>
+<om:ext type="DIFFICULTY">0</om:ext>
+</om:oruxmapsextensions>
+</extensions>
+<trkseg>
+<trkpt lat="47.6184436" lon="13.0680967">
+<ele>1213.17</ele>
+<time>2022-08-14T18:54:41.000Z</time>
+</trkpt>
+<trkpt lat="47.6185462" lon="13.0678646">
+<ele>1211.24</ele>
+<time>2022-08-14T18:54:55.000Z</time>
+</trkpt>
+<trkpt lat="47.6186481" lon="13.0676204">
+<ele>1209.13</ele>
+<time>2022-08-14T18:55:07.000Z</time>
+</trkpt>
+<trkpt lat="47.6187850" lon="13.0678123">
+<ele>1209.09</ele>
+<time>2022-08-14T18:55:18.000Z</time>
+</trkpt>
+<trkpt lat="47.6188690" lon="13.0680690">
+<ele>1210.06</ele>
+<time>2022-08-14T18:55:30.000Z</time>
+</trkpt>
+<trkpt lat="47.6189255" lon="13.0683337">
+<ele>1211.42</ele>
+<time>2022-08-14T18:55:44.000Z</time>
+</trkpt>
+<trkpt lat="47.6188730" lon="13.0680684">
+<ele>1210.12</ele>
+<time>2022-08-14T19:01:47.000Z</time>
+</trkpt>
+<trkpt lat="47.6187823" lon="13.0678284">
+<ele>1209.26</ele>
+<time>2022-08-14T19:02:01.000Z</time>
+</trkpt>
+<trkpt lat="47.6186316" lon="13.0676682">
+<ele>1209.38</ele>
+<time>2022-08-14T19:02:15.000Z</time>
+</trkpt>
+<trkpt lat="47.6184772" lon="13.0678170">
+<ele>1211.42</ele>
+<time>2022-08-14T19:02:29.000Z</time>
+</trkpt>
+<trkpt lat="47.6183441" lon="13.0676289">
+<ele>1211.57</ele>
+<time>2022-08-14T19:02:54.000Z</time>
+</trkpt>
+</trkseg>
+</trk>
+</gpx>

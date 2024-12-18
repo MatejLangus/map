@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="OruxMaps v.6.0.10" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<metadata>
+<name><![CDATA[2020-04-13 14:14 bistrska-prevala]]></name>
+<desc><![CDATA[]]></desc>
+<link href="http://www.oruxmaps.com">
+<text>OruxMaps</text>
+</link>
+<time>2020-04-13T12:14:17Z</time><bounds maxlat="46.3863693" maxlon="14.2589546" minlat="46.3862505" minlon="14.2588032"/>
+</metadata>
+<wpt lat="46.3860322" lon="14.2515850">
+<ele>1322.76</ele>
+<time>2020-04-13T12:37:21Z</time>
+<name><![CDATA[pot 1.]]></name>
+<desc><![CDATA[]]></desc>
+<sym>Waypoint</sym>
+<type>Waypoint</type>
+<extensions>
+<om:oruxmapsextensions xmlns:om="http://www.oruxmaps.com/oruxmapsextensions/1/0">
+<om:ext type="ICON" subtype="0">1</om:ext>
+</om:oruxmapsextensions>
+</extensions>
+</wpt>
+<trk>
+<name><![CDATA[2020-04-13 14:14 bistrska-prevala]]></name>
+<desc><![CDATA[<h1>OruxMaps</h1><br /><hr align="center" width="480" style="height: 2px; width: 517px"/><h2>Name: 2020-04-13 14:14 bistrska-prevala</h2><br /><p>Start time: 08/28/2000 14:14</p><p>Finish time: 08/28/2000 14:14</p><p>Distance: 0km (00:00)</p><p>Moving time: 00:00</p><p>Average speed: 3.1km/h</p><p>Avg. Speed Mov.: 7.2km/h</p><p>Max. Speed: 0km/h</p><p>Minimum altitude: 1248m</p><p>Maximum altitude: 1253m</p><p>Elevation gain: 0m</p><p>Elevation loss: 0m</p><p>Ascent time: 00:00</p><p>Descent time: 00:00</p><hr align="center" width="480" style="height: 2px; width: 517px"/>]]></desc>
+<type>Walking</type>
+<extensions>
+<om:oruxmapsextensions xmlns:om="http://www.oruxmaps.com/oruxmapsextensions/1/0">
+<om:ext type="TYPE" subtype="0">13</om:ext>
+</om:oruxmapsextensions>
+</extensions>
+<trkseg>
+<trkpt lat="46.3863693" lon="14.2589546">
+<ele>1248.88</ele>
+<time>2000-08-28T12:14:36Z</time>
+</trkpt>
+<trkpt lat="46.3863330" lon="14.2589153">
+<ele>1250.32</ele>
+<time>2000-08-28T12:14:50Z</time>
+</trkpt>
+<trkpt lat="46.3862859" lon="14.2588748">
+<ele>1252.16</ele>
+<time>2000-08-28T12:14:52Z</time>
+</trkpt>
+<trkpt lat="46.3862505" lon="14.2588032">
+<ele>1253.97</ele>
+<time>2000-08-28T12:14:57Z</time>
+</trkpt>
+</trkseg>
+</trk>
+</gpx>

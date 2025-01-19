@@ -6,7 +6,7 @@
     "start": "node convert-gpx-to-geojson.js"
   },
   "dependencies": {
-    "@turf/turf": "^7.1.0",
+    "@turf/turf": "^7.2.0",
     "fs": "^0.0.1-security",
     "geojson-precision": "^1.0.0",
     "gpx2geojson": "^1.0.1",

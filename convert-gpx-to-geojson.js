@@ -35,9 +35,22 @@ if (gpxFiles.length === 0) {
 
     // Filter out the unwanted properties (heartRates and coordTimes)
     geojson.features.forEach(feature => {
+         // Keep only coordinates and a short description
+        feature.geometry = feature.geometry || {};
+        feature.geometry.coordinates = feature.geometry.coordinates || [];
+        
+        // Shorten description to just the part before any <hr> tag (if exists)
+        if (feature.properties && feature.properties.desc) {
+          feature.properties.desc = feature.properties.desc.split('<hr')[0];  // Keep only short description
+        }
+
+
         // Remove heartRates and coordTimes properties if they exist
         delete feature.properties.heartRates;
         delete feature.properties.coordTimes;
+        delete feature.properties.time;  // If you don't need timestamp
+
+
     });
 
     const simplified = turf.simplify(geojson, { tolerance: 0.01, highQuality: true });

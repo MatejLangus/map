@@ -36,21 +36,21 @@ if (gpxFiles.length === 0) {
     // Create arrays to hold all coordinates, descriptions, and elevations
     const coordinates = [];
     const descriptions = [];
-    const elevations = [];
 
     const sanitizeCoordinates = (coordinates) => {
       return coordinates.filter(coord => typeof coord === 'number' && !isNaN(coord));
     };
 
     geojson.features.forEach(feature => {
-      if (feature.geometry && feature.geometry.coordinates) {
+      if (feature.geometry.type === 'Point') {
+        // Extract coordinates from Point
         const validCoordinates = sanitizeCoordinates(feature.geometry.coordinates.slice(0, 2));  // Just keep latitude and longitude
         if (validCoordinates.length === 2) {
           coordinates.push(validCoordinates);
           elevations.push(feature.properties.ele);
   
           // Add descriptions (if available, or use a placeholder)
-          const description = feature.properties.name || `Point at elevation ${feature.properties.ele}`;
+          const description = feature.properties.name ;
           descriptions.push(description);
         }
       }
@@ -64,7 +64,7 @@ if (gpxFiles.length === 0) {
           type: 'Feature',
           properties: {
             descriptions: descriptions,  // Store all descriptions
-            elevations: elevations       // Store all elevations
+
           },
           geometry: {
             type: 'LineString',

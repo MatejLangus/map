@@ -68,10 +68,10 @@ if (gpxFiles.length === 0) {
     };
 
 
-    const simplified = turf.simplify(reducedGeoJSON, { tolerance: 0.01, highQuality: true });
+    //const simplified = turf.simplify(reducedGeoJSON, { tolerance: 0.01, highQuality: true });
 
     // Reduce the precision of coordinates
-    const precisionGeoJSON = geojsonPrecision(simplified , 5);  // Rounding to 5 decimal places
+    const precisionGeoJSON = geojsonPrecision(reducedGeoJSON , 5);  // Rounding to 5 decimal places
   
     // Minify the GeoJSON
     const minifiedGeoJSON = JSON.stringify(precisionGeoJSON);

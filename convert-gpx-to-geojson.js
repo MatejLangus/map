@@ -38,6 +38,10 @@ if (gpxFiles.length === 0) {
     const descriptions = [];
     const elevations = [];
 
+    const sanitizeCoordinates = (coordinates) => {
+      return coordinates.filter(coord => typeof coord === 'number' && !isNaN(coord));
+    };
+
     geojson.features.forEach(feature => {
       if (feature.geometry && feature.geometry.coordinates) {
         const validCoordinates = sanitizeCoordinates(feature.geometry.coordinates.slice(0, 2));  // Just keep latitude and longitude

@@ -50,7 +50,7 @@ if (gpxFiles.length === 0) {
   
           // Add descriptions (if available, or use a placeholder)
           if (feature.properties && feature.properties.desc) {
-            feature.properties.desc = feature.properties.desc.split('<hr')[0];  // Keep only short description
+            //feature.properties.desc = feature.properties.desc.split('<hr')[0];  // Keep only short description
             const description = feature.properties.desc ;
             descriptions.push(description);
           }
@@ -65,7 +65,7 @@ if (gpxFiles.length === 0) {
         {
           type: 'Feature',
           properties: {
-            descriptions: descriptions,  // Store all descriptions
+            descriptions: descriptions[0],  // Store all descriptions
 
           },
           geometry: {

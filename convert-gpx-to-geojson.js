@@ -47,7 +47,6 @@ if (gpxFiles.length === 0) {
         const validCoordinates = sanitizeCoordinates(feature.geometry.coordinates.slice(0, 2));  // Just keep latitude and longitude
         if (validCoordinates.length === 2) {
           coordinates.push(validCoordinates);
-          elevations.push(feature.properties.ele);
   
           // Add descriptions (if available, or use a placeholder)
           const description = feature.properties.name ;

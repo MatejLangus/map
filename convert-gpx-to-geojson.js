@@ -40,12 +40,15 @@ if (gpxFiles.length === 0) {
 
     geojson.features.forEach(feature => {
       if (feature.geometry && feature.geometry.coordinates) {
-        coordinates.push(feature.geometry.coordinates.slice(0, 2));  // Just keep latitude and longitude
-        elevations.push(feature.properties.ele);
-
-        // Add descriptions (if available, or use a placeholder)
-        const description = feature.properties.name || `Point at elevation ${feature.properties.ele}`;
-        descriptions.push(description);
+        const validCoordinates = sanitizeCoordinates(feature.geometry.coordinates.slice(0, 2));  // Just keep latitude and longitude
+        if (validCoordinates.length === 2) {
+          coordinates.push(validCoordinates);
+          elevations.push(feature.properties.ele);
+  
+          // Add descriptions (if available, or use a placeholder)
+          const description = feature.properties.name || `Point at elevation ${feature.properties.ele}`;
+          descriptions.push(description);
+        }
       }
     });
 
@@ -68,10 +71,10 @@ if (gpxFiles.length === 0) {
     };
 
 
-    //const simplified = turf.simplify(reducedGeoJSON, { tolerance: 0.01, highQuality: true });
+    const simplified = turf.simplify(reducedGeoJSON, { tolerance: 0.01, highQuality: true });
 
     // Reduce the precision of coordinates
-    const precisionGeoJSON = geojsonPrecision(reducedGeoJSON , 5);  // Rounding to 5 decimal places
+    const precisionGeoJSON = geojsonPrecision(simplified , 5);  // Rounding to 5 decimal places
   
     // Minify the GeoJSON
     const minifiedGeoJSON = JSON.stringify(precisionGeoJSON);

@@ -33,27 +33,42 @@ if (gpxFiles.length === 0) {
     // Convert GPX to GeoJSON using gpx2geojson
     const geojson = gpx2geojson.gpx(doc);  // Pass the DOM object to gpx2geojson
 
-    // Filter out the unwanted properties (heartRates and coordTimes)
+    // Create arrays to hold all coordinates, descriptions, and elevations
+    const coordinates = [];
+    const descriptions = [];
+    const elevations = [];
+
     geojson.features.forEach(feature => {
-         // Keep only coordinates and a short description
-        feature.geometry = feature.geometry || {};
-        feature.geometry.coordinates = feature.geometry.coordinates || [];
-        
-        // Shorten description to just the part before any <hr> tag (if exists)
-        if (feature.properties && feature.properties.desc) {
-          feature.properties.desc = feature.properties.desc.split('<hr')[0];  // Keep only short description
-        }
+      if (feature.geometry && feature.geometry.coordinates) {
+        coordinates.push(feature.geometry.coordinates.slice(0, 2));  // Just keep latitude and longitude
+        elevations.push(feature.properties.ele);
 
-
-        // Remove heartRates and coordTimes properties if they exist
-        delete feature.properties.heartRates;
-        delete feature.properties.coordTimes;
-        delete feature.properties.time;  // If you don't need timestamp
-
-
+        // Add descriptions (if available, or use a placeholder)
+        const description = feature.properties.name || `Point at elevation ${feature.properties.ele}`;
+        descriptions.push(description);
+      }
     });
 
-    const simplified = turf.simplify(geojson, { tolerance: 0.01, highQuality: true });
+    // Create a new simplified GeoJSON feature with the combined coordinates and descriptions
+    const reducedGeoJSON = {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          properties: {
+            descriptions: descriptions,  // Store all descriptions
+            elevations: elevations       // Store all elevations
+          },
+          geometry: {
+            type: 'LineString',
+            coordinates: coordinates      // Store coordinates as a single line
+          }
+        }
+      ]
+    };
+
+
+    const simplified = turf.simplify(reducedGeoJSON, { tolerance: 0.01, highQuality: true });
 
     // Reduce the precision of coordinates
     const precisionGeoJSON = geojsonPrecision(simplified , 5);  // Rounding to 5 decimal places

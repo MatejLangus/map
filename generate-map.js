@@ -44,10 +44,12 @@ const leafletHTML = `
                     geojsonData.features.forEach(feature => {
                         const geometry = feature.geometry;
 
-                        if (geometry.type === 'Point') {
-                        // Extract coordinates from Point
-                        const [lon, lat] = geometry.coordinates; // Extract [lon, lat]
-                        allCoordinates.push([lat, lon]); // Add Point coordinates to the array
+                        if (geometry.type === 'LineString') {
+                            // Extract all coordinates from LineString
+                            geometry.coordinates.forEach(coord => {
+                                const [lon, lat] = coord;  // Assuming the coordinates are in [lon, lat]
+                                allCoordinates.push([lat, lon]);  // Add coordinates to the array in [lat, lon] format
+                            });
                         }
                     });
                     if (allCoordinates.length > 1) {

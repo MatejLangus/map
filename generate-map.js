@@ -48,10 +48,10 @@ const leafletHTML = `
 
                     geojsonData.features.forEach(feature => {
                         const geometry = feature.geometry;
-
+                        
                         if (geometry.type === 'LineString') {
                             geometry.coordinates.forEach(coord => {
-                                const [lon, lat] = coord;
+                                const [lon, lat] = coord; // lon, lat
                                 allCoordinates.push([lat, lon]);
                             });
                         }
@@ -66,6 +66,9 @@ const leafletHTML = `
                             smoothFactor: 1
                         }).addTo(map);
 
+                        // ✅ Corrected: proper file name in popup title
+                        const fileName = '${path.basename(file)}';
+
                         polyline.on('click', function (e) {
                             // Toggle color on click
                             const currentColor = polyline.options.color;
@@ -73,9 +76,9 @@ const leafletHTML = `
                             polyline.setStyle({ color: newColor });
                             polyline.bringToFront();
 
-                            // Popup content: file name + properties
+                            // Display GeoJSON properties
                             const popupContent = \`
-                                <h3>\${'${path.basename('${' + 'file' + '}')}'}<\/h3>
+                                <h3 style="margin:0; font-size:1.1em;">\${fileName}</h3>
                                 <hr>
                                 \${Object.entries(geojsonData.features[0].properties || {})
                                     .filter(([key]) => key !== 'ele')

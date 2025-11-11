@@ -20,6 +20,11 @@ const leafletHTML = `
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         #map { height: 100vh; margin: 0; }
+        .leaflet-popup-content h3 {
+            margin: 0;
+            font-size: 1.1em;
+            color: #2a4d9f;
+        }
     </style>
 </head>
 <body>
@@ -30,31 +35,28 @@ const leafletHTML = `
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // Loop through each GeoJSON file and add the features to the map
+        // List of GeoJSON files
         const geojsonFiles = ${JSON.stringify(geojsonFiles.map(file => `./geojson-files/${file}`))};
 
         geojsonFiles.forEach(file => {
             fetch(file)
                 .then(response => response.json())
                 .then(geojsonData => {
-                    const allBounds = L.latLngBounds();
-                    geojsonData = JSON.parse(geojsonData)
                     const allCoordinates = [];
 
                     geojsonData.features.forEach(feature => {
                         const geometry = feature.geometry;
 
                         if (geometry.type === 'LineString') {
-                            // Extract all coordinates from LineString
                             geometry.coordinates.forEach(coord => {
-                                const [lon, lat] = coord;  // Assuming the coordinates are in [lon, lat]
-                                allCoordinates.push([lat, lon]);  // Add coordinates to the array in [lat, lon] format
+                                const [lon, lat] = coord;
+                                allCoordinates.push([lat, lon]);
                             });
                         }
                     });
-                    if (allCoordinates.length > 1) {
 
-                        const firstSegment = allCoordinates.slice(2, allCoordinates.length); // All points except last
+                    if (allCoordinates.length > 1) {
+                        const firstSegment = allCoordinates.slice(2, allCoordinates.length);
                         const polyline = L.polyline(firstSegment, {
                             color: 'blue',
                             weight: 3,
@@ -62,30 +64,27 @@ const leafletHTML = `
                             smoothFactor: 1
                         }).addTo(map);
 
-                        
-
                         polyline.on('click', function (e) {
-                            // Change the polyline color on click
+                            // Toggle color on click
                             const currentColor = polyline.options.color;
                             const newColor = currentColor === 'blue' ? 'red' : 'blue';
                             polyline.setStyle({ color: newColor });
                             polyline.bringToFront();
-                
-                            // Display data from GeoJSON properties
-                            const popupContent = "
-                            <h3 style="margin:0; font-size:1.1em;">${fileName}</h3>
-                            <hr>
-                            ${Object.entries(geojsonData.features[0].properties || {})
-                                .filter(([key, value]) => key !== 'ele')
-                                .filter(([key, value]) => key !== 'type')
-                                .map(([key, value]) => '<strong>' + key + ':</strong> ' + value)
-                                .join('<br>')}
-                        ";
+
+                            // Popup content: file name + properties
+                            const popupContent = \`
+                                <h3>\${'${path.basename('${' + 'file' + '}')}'}<\/h3>
+                                <hr>
+                                \${Object.entries(geojsonData.features[0].properties || {})
+                                    .filter(([key]) => key !== 'ele')
+                                    .filter(([key]) => key !== 'type')
+                                    .map(([key, value]) => '<strong>' + key + ':</strong> ' + value)
+                                    .join('<br>')}
+                            \`;
+
+                            polyline.bindPopup(popupContent).openPopup();
                         });
                     }
-
-                    // Adjust the map's bounds to fit all features
-                   // map.fitBounds(allBounds);
                 })
                 .catch(error => {
                     console.error('Error loading GeoJSON file:', file, error);
@@ -98,4 +97,4 @@ const leafletHTML = `
 
 // Write the HTML content to index.html
 fs.writeFileSync(htmlFile, leafletHTML, 'utf8');
-console.log(`Generated ${htmlFile} with GeoJSON tracks.`);
+console.log(`✅ Generated ${htmlFile} with GeoJSON tracks and popup filenames.`);

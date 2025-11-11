@@ -47,12 +47,10 @@ const leafletHTML = `
             fetch(entry.url)
                 .then(response => response.json())
                 .then(geojsonData => {
+                    const allBounds = L.latLngBounds();
+                    geojsonData = JSON.parse(geojsonData)
                     const allCoordinates = [];
 
-                    if (!geojsonData || !geojsonData.features) {
-                        console.warn('Invalid GeoJSON file:', entry.url);
-                        return;
-                    }
 
                     geojsonData.features.forEach(feature => {
                         const geometry = feature.geometry;

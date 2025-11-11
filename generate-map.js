@@ -42,6 +42,8 @@ const leafletHTML = `
             fetch(file)
                 .then(response => response.json())
                 .then(geojsonData => {
+                    const allBounds = L.latLngBounds();
+                    geojsonData = JSON.parse(geojsonData)
                     const allCoordinates = [];
 
                     geojsonData.features.forEach(feature => {

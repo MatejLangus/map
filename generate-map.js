@@ -5,10 +5,16 @@ const path = require('path');
 const geojsonDir = './geojson-files';
 const htmlFile = './index.html';
 
-// Find all GeoJSON files in the 'geojson-files' directory
+// Find all GeoJSON files
 const geojsonFiles = fs.readdirSync(geojsonDir).filter(file => file.endsWith('.geojson'));
 
-// Generate HTML content dynamically
+// Prepare entries with URL and filename
+const geojsonFileEntries = geojsonFiles.map(file => ({
+    url: `./geojson-files/${file}`,
+    name: file
+}));
+
+// Generate HTML content
 const leafletHTML = `
 <!DOCTYPE html>
 <html lang="en">
@@ -35,56 +41,56 @@ const leafletHTML = `
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // List of GeoJSON files
-        const geojsonFiles = ${JSON.stringify(geojsonFiles.map(file => `./geojson-files/${file}`))};
+        const geojsonFiles = ${JSON.stringify(geojsonFileEntries)};
 
-        geojsonFiles.forEach(file => {
-            fetch(file)
+        geojsonFiles.forEach(entry => {
+            fetch(entry.url)
                 .then(response => response.json())
                 .then(geojsonData => {
-                    const allBounds = L.latLngBounds();
-                    geojsonData = JSON.parse(geojsonData)
                     const allCoordinates = [];
+
+                    if (!geojsonData || !geojsonData.features) {
+                        console.warn('Invalid GeoJSON file:', entry.url);
+                        return;
+                    }
 
                     geojsonData.features.forEach(feature => {
                         const geometry = feature.geometry;
-                        
+                        if (!geometry) return;
+
                         if (geometry.type === 'LineString') {
                             geometry.coordinates.forEach(coord => {
-                                const [lon, lat] = coord; // lon, lat
+                                const [lon, lat] = coord;
                                 allCoordinates.push([lat, lon]);
                             });
                         }
                     });
 
                     if (allCoordinates.length > 1) {
-                        const firstSegment = allCoordinates.slice(2, allCoordinates.length);
-                        const polyline = L.polyline(firstSegment, {
+                        const polyline = L.polyline(allCoordinates, {
                             color: 'blue',
                             weight: 3,
                             opacity: 1,
                             smoothFactor: 1
                         }).addTo(map);
 
-                        // ✅ Corrected: proper file name in popup title
-                        const fileName = '${path.basename(file)}';
-
-                        polyline.on('click', function (e) {
-                            // Toggle color on click
+                        polyline.on('click', function () {
+                            // Toggle color
                             const currentColor = polyline.options.color;
-                            const newColor = currentColor === 'blue' ? 'red' : 'blue';
-                            polyline.setStyle({ color: newColor });
+                            polyline.setStyle({ color: currentColor === 'blue' ? 'red' : 'blue' });
                             polyline.bringToFront();
 
-                            // Display GeoJSON properties
+                            // Popup content
+                            const props = geojsonData.features[0].properties || {};
+                            const propsHtml = Object.entries(props)
+                                .filter(([key]) => key !== 'ele' && key !== 'type')
+                                .map(([key, value]) => '<strong>' + key + ':</strong> ' + value)
+                                .join('<br>');
+
                             const popupContent = \`
-                                <h3 style="margin:0; font-size:1.1em;">\${fileName}</h3>
+                                <h3 style="margin:0; font-size:1.1em;">\${entry.name}</h3>
                                 <hr>
-                                \${Object.entries(geojsonData.features[0].properties || {})
-                                    .filter(([key]) => key !== 'ele')
-                                    .filter(([key]) => key !== 'type')
-                                    .map(([key, value]) => '<strong>' + key + ':</strong> ' + value)
-                                    .join('<br>')}
+                                \${propsHtml}
                             \`;
 
                             polyline.bindPopup(popupContent).openPopup();
@@ -92,7 +98,7 @@ const leafletHTML = `
                     }
                 })
                 .catch(error => {
-                    console.error('Error loading GeoJSON file:', file, error);
+                    console.error('Error loading GeoJSON file:', entry.url, error);
                 });
         });
     </script>
@@ -100,6 +106,6 @@ const leafletHTML = `
 </html>
 `;
 
-// Write the HTML content to index.html
+// Write the HTML file
 fs.writeFileSync(htmlFile, leafletHTML, 'utf8');
 console.log(`✅ Generated ${htmlFile} with GeoJSON tracks and popup filenames.`);

@@ -72,15 +72,15 @@ const leafletHTML = `
                             polyline.bringToFront();
                 
                             // Display data from GeoJSON properties
-                            const popupContent = Object.entries(geojsonData.features[0].properties || {})
-                            //.filter(([key, value]) => key !== 'coordTimes')
-                            //.filter(([key, value]) => key !== 'heartRates')
-                            .filter(([key, value]) => key !== 'ele')
-                            .filter(([key, value]) => key !== 'type')
-                            .map(([key, value]) => '<strong>' + key + ':</strong> ' + value)
-                                .join('<br>');
-                
-                            polyline.bindPopup(popupContent).openPopup();
+                            const popupContent = "
+                            <h3 style="margin:0; font-size:1.1em;">${fileName}</h3>
+                            <hr>
+                            ${Object.entries(geojsonData.features[0].properties || {})
+                                .filter(([key, value]) => key !== 'ele')
+                                .filter(([key, value]) => key !== 'type')
+                                .map(([key, value]) => '<strong>' + key + ':</strong> ' + value)
+                                .join('<br>')}
+                        ";
                         });
                     }
 

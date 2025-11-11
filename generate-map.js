@@ -65,7 +65,8 @@ const leafletHTML = `
                     });
 
                     if (allCoordinates.length > 1) {
-                        const polyline = L.polyline(allCoordinates, {
+                        const firstSegment = allCoordinates.slice(2, allCoordinates.length);
+                        const polyline = L.polyline(firstSegment, {
                             color: 'blue',
                             weight: 3,
                             opacity: 1,

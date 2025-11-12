@@ -8,11 +8,15 @@ const htmlFile = './index.html';
 // Find all GeoJSON files
 const geojsonFiles = fs.readdirSync(geojsonDir).filter(file => file.endsWith('.geojson'));
 
-// Prepare entries with URL and filename
-const geojsonFileEntries = geojsonFiles.map(file => ({
-    url: `./geojson-files/${file}`,
-    name: file
-}));
+// Prepare entries with URL and cleaned filename (remove "__..." and ".geojson")
+const geojsonFileEntries = geojsonFiles.map(file => {
+    const baseName = path.basename(file, '.geojson'); // remove .geojson
+    const cleanName = baseName.split('__')[0].trim(); // remove part after "__"
+    return {
+        url: `./geojson-files/${file}`,
+        name: cleanName
+    };
+});
 
 // Generate HTML content
 const leafletHTML = `
@@ -44,14 +48,14 @@ const leafletHTML = `
         const geojsonFiles = ${JSON.stringify(geojsonFileEntries)};
 
         geojsonFiles.forEach(entry => {
-            fetch(entry.url)
+            fetch(encodeURI(entry.url))
                 .then(response => response.json())
                 .then(geojsonData => {
                     const allBounds = L.latLngBounds();
                     geojsonData = JSON.parse(geojsonData)
                     const allCoordinates = [];
 
-
+                    
                     geojsonData.features.forEach(feature => {
                         const geometry = feature.geometry;
                         if (!geometry) return;
@@ -107,4 +111,4 @@ const leafletHTML = `
 
 // Write the HTML file
 fs.writeFileSync(htmlFile, leafletHTML, 'utf8');
-console.log(`✅ Generated ${htmlFile} with GeoJSON tracks and popup filenames.`);
+console.log(`✅ Generated ${htmlFile} with cleaned GeoJSON filenames (without "__...").`);

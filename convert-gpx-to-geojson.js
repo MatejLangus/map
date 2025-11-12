@@ -30,6 +30,13 @@ if (gpxFiles.length === 0) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(gpxData, 'application/xml');
 
+    // ✅ Extract <desc> content from <trk> if available
+    const descNodes = doc.getElementsByTagName('desc');
+    let trackDescription = '';
+    if (descNodes && descNodes.length > 0 && descNodes[0].textContent) {
+      trackDescription = descNodes[0].textContent.trim();
+    }
+
     // Convert GPX to GeoJSON using gpx2geojson
     const geojson = gpx2geojson.gpx(doc);  // Pass the DOM object to gpx2geojson
 
@@ -53,6 +60,8 @@ if (gpxFiles.length === 0) {
             //feature.properties.desc = feature.properties.desc.split('<hr')[0];  // Keep only short description
             const description = feature.properties.desc ;
             descriptions.push(description);
+          } else if (trackDescription) {
+            descriptions.push(trackDescription); // ✅ fallback to <trk><desc>
           }
         }
       }
@@ -84,7 +93,7 @@ if (gpxFiles.length === 0) {
   
     // Minify the GeoJSON
     const minifiedGeoJSON = JSON.stringify(precisionGeoJSON);
-  
+
    
   
 
@@ -93,7 +102,7 @@ if (gpxFiles.length === 0) {
 
 
 
-
+  
     // Define the output file name
     const outputFileName = file.replace('.gpx', '.geojson');
     const outputFilePath = path.join(outputFolder, outputFileName);

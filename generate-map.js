@@ -47,6 +47,18 @@ const leafletHTML = `
 
         const geojsonFiles = ${JSON.stringify(geojsonFileEntries)};
 
+        function showDetails(button) {
+            const detailsDiv = button.nextElementSibling;
+            if (detailsDiv.style.display === 'none') {
+                detailsDiv.style.display = 'block';
+                button.textContent = 'Hide details';
+            } else {
+                detailsDiv.style.display = 'none';
+                button.textContent = 'See details';
+            }
+        }
+        
+
         geojsonFiles.forEach(entry => {
             fetch(encodeURI(entry.url))
                 .then(response => response.json())
@@ -91,9 +103,9 @@ const leafletHTML = `
                                 .join('<br>');
 
                             const popupContent = \`
-                                <h3 style="margin:0; font-size:1.1em;">\${entry.name}</h3>
-                                <hr>
-                                \${propsHtml}
+                            <h3 style="margin:0; font-size:1.1em;">${entry.name}</h3>
+                            <button onclick="showDetails(this)" style="margin-top:5px; padding:4px 8px;">See details</button>
+                            <div class="details" style="display:none; margin-top:8px;">${propsHtml}</div>s
                             \`;
 
                             polyline.bindPopup(popupContent).openPopup();

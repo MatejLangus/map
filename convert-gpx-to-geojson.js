@@ -31,9 +31,10 @@ if (gpxFiles.length === 0) {
     const doc = parser.parseFromString(gpxData, 'application/xml');
 
     // ✅ Extract <desc> content from <trk> if available
-    const descNodes = doc.getElementsByTagName('desc');
     let trackDescription = '';
-    if (descNodes && descNodes.length > 0 && descNodes[0].textContent) {
+    let descNodes = doc.getElementsByTagName('trk')[0]?.getElementsByTagName('desc');
+
+    if (descNodes && descNodes.length > 0 && descNodes[0].textContent.trim() !== '') {
       trackDescription = descNodes[0].textContent.trim();
     }
 

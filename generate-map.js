@@ -103,9 +103,9 @@ const leafletHTML = `
                                 .join('<br>');
 
                             const popupContent = \`
-                            <h3 style="margin:0; font-size:1.1em;">${entry.name}</h3>
+                            <h3 style="margin:0; font-size:1.1em;">\${entry.name}</h3>
                             <button onclick="showDetails(this)" style="margin-top:5px; padding:4px 8px;">See details</button>
-                            <div class="details" style="display:none; margin-top:8px;">${propsHtml}</div>s
+                            <div class="details" style="display:none; margin-top:8px;">\${propsHtml}</div>
                             \`;
 
                             polyline.bindPopup(popupContent).openPopup();

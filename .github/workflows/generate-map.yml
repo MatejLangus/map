@@ -32,7 +32,7 @@ jobs:
         npm install geojson-precision
         npm install fs
 
-        name: Convert GPX to GeoJSON merged
+    -   name: Convert GPX to GeoJSON merged
         run: node gpx_to_geojson_merged.js
 
  #   - name: Convert GPX to GeoJSON

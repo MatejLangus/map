@@ -8,6 +8,39 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
+            #map { height: 100vh; margin: 0; }
+
+/* Loading overlay */
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.85);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+}
+
+.spinner {
+    border: 6px solid #ddd;
+    border-top: 6px solid #2a4d9f;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 0.8s linear infinite;
+    margin-right: 12px;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
         #map { height: 100vh; margin: 0; }
         .leaflet-popup-content h3 {
             margin: 0;
@@ -17,12 +50,67 @@
     </style>
 </head>
 <body>
+    <div id="loading">
+        <div class="spinner"></div> Loading tracks...
+    </div>
     <div id="map"></div>
     <script>
+
+document.getElementById("loading").style.display = "flex"; // show
+
+fetch('merged.geojson')
+    .then(response => response.json())
+    .then(geojsonData => {
+
+        // --- your existing drawing code here ---
+
+        // Fit bounds after drawing
+        const bounds = L.geoJSON(geojsonData).getBounds();
+        if (bounds.isValid()) map.fitBounds(bounds);
+
+        // Hide loading screen when finished
+        document.getElementById("loading").style.display = "none";
+    })
+    .catch(err => {
+        console.error('Error loading merged.geojson:', err);
+        document.getElementById("loading").innerHTML =
+            "<div style='color:red;'>Failed to load data.</div>";
+    });
+
+
+
         const map = L.map('map').setView([46, 14.5], 6);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+        // Multiple base map layers
+        const baseLayers = {
+            "OSM Standard": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }),
+
+            "OSM Topo": L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenTopoMap contributors'
+            }),
+
+            "CyclOSM": L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', {
+            attribution: '© CyclOSM, OpenStreetMap contributors'
+             }),
+
+        };
+
+        const overlays = {
+            "Hiking Trails": L.tileLayer('https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png', {
+                attribution: '© Waymarked Trails, OpenStreetMap contributors'
+            })
+        };
+
+
+
+        // Default map layer
+        baseLayers["OSM Standard"].addTo(map);
+
+        // Layer chooser UI
+        //L.control.layers(baseLayers).addTo(map);
+
+        L.control.layers(baseLayers, overlays, { collapsed: true }).addTo(map);
 
         const geojsonFiles = [{"url":"merged.geojson","name":"test all"}]
        

@@ -86,19 +86,10 @@
 <!-- Compact Filter panel -->
 <div id="filters" style="top:auto; bottom:10px; left:50%; transform: translateX(-50%); display: none;">
     <!-- Close button inside panel -->
-    <button id="closeFilter" style="
-        position: absolute;
-        top: 4px;
-        right: 4px;
-        border: none;
-        background: transparent;
-        font-size: 16px;
-        cursor: pointer;
-    ">✖</button>
-
     <label>Start Date: <input type="date" id="startDate"></label>
     <label>End Date: <input type="date" id="endDate"></label>
     <button onclick="filterTracks()">Filter</button>
+    <button id="closeFilter">✖</button>
 </div>
 
 
@@ -190,6 +181,9 @@ function drawTracks(features) {
 
         // Popup
         polyline.on('click', function() {
+            const currentColor = polyline.options.color;
+            polyline.setStyle({ color: currentColor === 'blue' ? 'red' : 'blue' });
+            polyline.bringToFront();
             const props = feature.properties || {};
             const propsHtml = Object.entries(props)
                 .filter(([key]) => key !== 'ele' && key !== 'type' && key !== 'sourceFile')

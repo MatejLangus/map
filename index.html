@@ -3,9 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GeoJSON Map</title>
+<title>Matej lezel je taM</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
+/>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet.polylinemeasure/Leaflet.PolylineMeasure.css" />
+<script src="https://unpkg.com/leaflet.polylinemeasure/Leaflet.PolylineMeasure.js"></script>
+
+
 <style>
     #map { height: 100vh; margin: 0; }
 
@@ -105,6 +115,8 @@ closeBtn.addEventListener('click', () => {
 
 const map = L.map('map').setView([46, 14.5], 6);
 
+
+
 const baseLayers = {
     "OSM Standard": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }),
     "OSM Topo": L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { attribution: '© OpenTopoMap contributors' }),
@@ -117,6 +129,29 @@ const overlays = {
 
 baseLayers["OSM Standard"].addTo(map);
 L.control.layers(baseLayers, overlays, { collapsed: true }).addTo(map);
+
+L.Control.geocoder({
+    defaultMarkGeocode: false,
+    collapsed: true,                  // search bar always visible
+    placeholder: "Search location…"    // text inside input
+})
+.on('markgeocode', function(e) {
+    const bbox = e.geocode.bbox;
+    const bounds = L.latLngBounds(
+        [bbox.getSouthEast().lat, bbox.getSouthEast().lng],
+        [bbox.getNorthWest().lat, bbox.getNorthWest().lng]
+    );
+    map.fitBounds(bounds);
+})
+.addTo(map);
+
+L.control.polylineMeasure({
+    position: 'topleft',
+    unit: 'metres',
+    measureControlTitleOn: 'Start measuring distance',
+    measureControlTitleOff: 'Stop measuring distance',
+}).addTo(map);
+
 
 let geojsonData;
 let trackLayers = [];

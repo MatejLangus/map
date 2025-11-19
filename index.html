@@ -1,75 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoJSON Map</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <style>
-        #map { height: 100vh; margin: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoJSON Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+    #map { height: 100vh; margin: 0; }
 
-        /* Loading overlay */
-        #loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.85);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            font-weight: bold;
-            color: #333;
-        }
+    #loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.85);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+    }
 
-        .spinner {
-            border: 6px solid #ddd;
-            border-top: 6px solid #2a4d9f;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 0.8s linear infinite;
-            margin-right: 12px;
-        }
+    .spinner {
+        border: 6px solid #ddd;
+        border-top: 6px solid #2a4d9f;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 0.8s linear infinite;
+        margin-right: 12px;
+    }
 
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
 
-        .leaflet-popup-content h3 {
-            margin: 0;
-            font-size: 1.1em;
-            color: #2a4d9f;
-        }
+    .leaflet-popup-content h3 {
+        margin: 0;
+        font-size: 1.1em;
+        color: #2a4d9f;
+    }
 
-        #filters {
-            position: absolute;
-            top: 10px;
-            left: 50px;
-            z-index: 10000;
-            background: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            box-shadow: 0 0 8px rgba(0,0,0,0.3);
-        }
+    #filters {
+        position: absolute;
+        top: 10px;
+        left: 50px;
+        z-index: 10000;
+        background: white;
+        padding: 6px 12px;
+        border-radius: 6px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    }
 
-        #filters input {
+    #filters input {
             margin: 2px 4px;
         }
-    </style>
+</style>
 </head>
 <body>
 <div id="loading">
     <div class="spinner"></div> Loading tracks...
 </div>
 
-
-<!-- Toggle button -->
 <button id="toggleFilter" style="
     position: absolute;
     bottom: 10px;
@@ -83,53 +80,37 @@
     cursor: pointer;
 ">Show Filter</button>
 
-<!-- Compact Filter panel -->
 <div id="filters" style="top:auto; bottom:10px; left:50%; transform: translateX(-50%); display: none;">
-    <!-- Close button inside panel -->
     <label>Start Date: <input type="date" id="startDate"></label>
     <label>End Date: <input type="date" id="endDate"></label>
     <button onclick="filterTracks()">Filter</button>
     <button id="closeFilter">✖</button>
 </div>
 
-
 <div id="map"></div>
 
 <script>
 const toggleBtn = document.getElementById('toggleFilter');
-    const filtersDiv = document.getElementById('filters');
-    const closeBtn = document.getElementById('closeFilter');
+const filtersDiv = document.getElementById('filters');
+const closeBtn = document.getElementById('closeFilter');
 
-    // Show filter panel and hide toggle button
-    toggleBtn.addEventListener('click', () => {
-        filtersDiv.style.display = 'flex';
-        toggleBtn.style.display = 'none';
-    });
-
-    // Close filter panel and show toggle button
-    closeBtn.addEventListener('click', () => {
-        filtersDiv.style.display = 'none';
-        toggleBtn.style.display = 'block';
-    });
-
-    function filterTracks() {
-        // Your filter logic goes here
-        const startDate = document.getElementById('startDate').value;
-        const endDate = document.getElementById('endDate').value;
-        console.log("Filtering from", startDate, "to", endDate);
-        // Example: iterate over tracks and hide/show based on date range
-    }
+toggleBtn.addEventListener('click', () => {
+    filtersDiv.style.display = 'flex';
+    toggleBtn.style.display = 'none';
+});
+closeBtn.addEventListener('click', () => {
+    filtersDiv.style.display = 'none';
+    toggleBtn.style.display = 'block';
+});
 
 const map = L.map('map').setView([46, 14.5], 6);
 
-// Base layers
 const baseLayers = {
     "OSM Standard": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }),
     "OSM Topo": L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { attribution: '© OpenTopoMap contributors' }),
     "CyclOSM": L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', { attribution: '© CyclOSM, OpenStreetMap contributors' })
 };
 
-// Overlays
 const overlays = {
     "Hiking Trails": L.tileLayer('https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png', { attribution: '© Waymarked Trails, OpenStreetMap contributors' })
 };
@@ -137,14 +118,11 @@ const overlays = {
 baseLayers["OSM Standard"].addTo(map);
 L.control.layers(baseLayers, overlays, { collapsed: true }).addTo(map);
 
-// Globals
 let geojsonData;
 let trackLayers = [];
 
-// Show loading spinner
 document.getElementById("loading").style.display = "flex";
 
-// Fetch merged GeoJSON
 fetch('merged.geojson')
 .then(res => res.json())
 .then(data => {
@@ -157,16 +135,13 @@ fetch('merged.geojson')
     document.getElementById("loading").innerHTML = "<div style='color:red;'>Failed to load data.</div>";
 });
 
-// Helper: extract date from track name
 function getTrackDate(name) {
     const dateMatch = name.match(/^(\d{4}-\d{2}-\d{2})/);
     if (dateMatch) return new Date(dateMatch[1]);
     return null;
 }
 
-// Draw tracks on map
 function drawTracks(features) {
-    // Remove previous layers
     trackLayers.forEach(l => map.removeLayer(l));
     trackLayers = [];
 
@@ -177,62 +152,87 @@ function drawTracks(features) {
         const coords = geometry.coordinates.map(c => [c[1], c[0]]);
         if (coords.length <= 1) return;
 
-        const polyline = L.polyline(coords.slice(2), { color: 'blue', weight: 3, opacity: 1 }).addTo(map);
+        const props = feature.properties || {};
+        let reliveUrl = props.reliveUrl || null;
+        if (!reliveUrl && props.descriptions) {
+            const match = props.descriptions.match(/<a href="(https:\/\/www\.relive\.com\/view\/[^"]+)"/);
+            if (match) reliveUrl = match[1];
+        }
 
-        // Popup
-        polyline.on('click', function() {
-            const currentColor = polyline.options.color;
-            polyline.setStyle({ color: currentColor === 'blue' ? 'red' : 'blue' });
-            polyline.bringToFront();
-            const props = feature.properties || {};
-            const propsHtml = Object.entries(props)
-                .filter(([key]) => key !== 'ele' && key !== 'type' && key !== 'sourceFile')
-                .map(([key,value]) => {
-                    if (key.toLowerCase() === 'descriptions') {
-                        let html = value.replace(/\\"/g,'"').replace(/\\n/g,'')
-                            .replace(/<h1[^>]*>.*?<\/h1>/gi,'')
-                            .replace(/<h2[^>]*>.*?<\/h2>/gi,'')
-                            .replace(/<hr[^>]*>/gi,'')
-                            .replace(/^(?:\s*<br\s*\/?>){1,2}/i,'')
-                            .replace(/<p>/gi,'<p style="margin:2px 0;">')
-                            .replace(/<p>\s*<\/p>/gi,'');
-                        return html.trim();
+        let propsHtml = Object.entries(props)
+            .filter(([key]) => key !== 'ele' && key !== 'type' && key !== 'sourceFile')
+            .map(([key,value]) => {
+                if (key.toLowerCase() === 'descriptions') {
+                    let html = value.replace(/\\"/g,'"').replace(/\\n/g,'')
+                        .replace(/<h1[^>]*>.*?<\/h1>/gi,'')
+                        .replace(/<h2[^>]*>.*?<\/h2>/gi,'')
+                        .replace(/<h3[^>]*>.*?<\/h3>/gi,'')
+                        .replace(/<hr[^>]*>/gi,'')
+                        .replace(/<p>\s*(<br\s*\/?>)+/gi,'<p>')
+                        .replace(/^(?:\s*<br\s*\/?>)+/gi,'')
+                        .replace(/<p>\s*<\/p>/gi,'')
+                        .replace(/<p>/gi,'<p style="margin:2px 0;">');
+                    return html.trim();
+                }
+                return '<strong>' + key + ':</strong> ' + value;
+            }).join('<br>');
+
+        const rawName = props.sourceFile || props.name || 'Unnamed Track';
+        const name = rawName.split('__')[0].trim();
+
+        // Color: tracks with video toggle between green/red, others blue
+        const hasVideo = !!reliveUrl;
+        const initialColor = hasVideo ? 'blue' : 'green';
+        const polyline = L.polyline(coords.slice(2), { color: initialColor, weight: 3, opacity: 1 }).addTo(map);
+
+        const popupContent = `
+            <h3 style="margin:0; font-size:1.1em;">${name}</h3>
+            <div style="margin-top:6px; display:flex; gap:8px; align-items:center;">
+                <button class="show-details-btn" style="padding:4px 8px; white-space:nowrap;">See details</button>${reliveUrl ? `<a href="${reliveUrl}" target="_blank" style="padding:4px 8px; background:#2a4d9f; color:white; text-decoration:none; border-radius:4px; white-space:nowrap;">Relive Video</a>` : ""}
+            </div>
+            <div class="details" style="display:none; margin-top:8px;">
+                ${propsHtml}
+            </div>
+        `;
+
+        polyline.bindPopup(popupContent);
+
+        polyline.on('popupopen', function(e) {
+            const popupEl = e.popup.getElement();
+            const detailsBtn = popupEl.querySelector('.show-details-btn');
+            const detailsDiv = popupEl.querySelector('.details');
+
+            if (detailsBtn && detailsDiv) {
+                detailsBtn.addEventListener('click', () => {
+                    if (detailsDiv.style.display === 'none') {
+                        detailsDiv.style.display = 'block';
+                        detailsBtn.textContent = 'Hide details';
+                    } else {
+                        detailsDiv.style.display = 'none';
+                        detailsBtn.textContent = 'See details';
                     }
-                    return '<strong>' + key + ':</strong> ' + value;
-                }).join('<br>');
+                });
+            }
+        });
 
-            const rawName = props.sourceFile || feature.properties.name || 'Unnamed Track';
-            const name = rawName.split('__')[0].trim();
-
-            const popupContent = `
-                <h3 style="margin:0; font-size:1.1em;">${name}</h3>
-                <button onclick="showDetails(this)" style="margin-top:5px; padding:4px 8px;">See details</button>
-                <div class="details" style="display:none; margin-top:8px;">${propsHtml}</div>
-            `;
-            polyline.bindPopup(popupContent).openPopup();
+        polyline.on('click', function() {
+            if (hasVideo) {
+                const currentColor = polyline.options.color;
+                polyline.setStyle({ color: currentColor === 'blue' ? 'red' : 'blue' });
+            } else {
+                const currentColor = polyline.options.color;
+                polyline.setStyle({ color: currentColor === 'green' ? 'red' : 'green' });
+            }
+            polyline.bringToFront();
         });
 
         trackLayers.push(polyline);
     });
 
-    // Fit bounds
     const bounds = L.featureGroup(trackLayers).getBounds();
     if (bounds.isValid()) map.fitBounds(bounds);
 }
 
-// Toggle details in popup
-function showDetails(button) {
-    const detailsDiv = button.nextElementSibling;
-    if (detailsDiv.style.display === 'none') {
-        detailsDiv.style.display = 'block';
-        button.textContent = 'Hide details';
-    } else {
-        detailsDiv.style.display = 'none';
-        button.textContent = 'See details';
-    }
-}
-
-// Filter by date range
 function filterTracks() {
     if (!geojsonData) return;
 

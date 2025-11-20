@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.polylinemeasure/Leaflet.PolylineMeasure.css" />
 <script src="https://unpkg.com/leaflet.polylinemeasure/Leaflet.PolylineMeasure.js"></script>
 
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
+<script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
 
 <style>
     #map { height: 100vh; margin: 0; }
@@ -68,8 +70,15 @@
     }
 
     #filters input {
-            margin: 2px 4px;
-        }
+        margin: 2px 4px;
+    }
+
+    /* arrow markers */
+    .arrow-icon {
+        font-size: 18px;
+        color: black;
+        transform-origin: center center;
+    }
 </style>
 </head>
 <body>
@@ -114,6 +123,7 @@ closeBtn.addEventListener('click', () => {
 });
 
 const map = L.map('map').setView([46, 14.5], 6);
+let allArrows = [];
 
 
 
@@ -152,6 +162,7 @@ L.control.polylineMeasure({
     measureControlTitleOff: 'Stop measuring distance',
 }).addTo(map);
 
+map.addControl(new L.Control.Fullscreen());
 
 let geojsonData;
 let trackLayers = [];
@@ -177,7 +188,11 @@ function getTrackDate(name) {
 }
 
 function drawTracks(features) {
-    trackLayers.forEach(l => map.removeLayer(l));
+    // Remove old tracks & arrows
+    trackLayers.forEach(l => {
+        if (l.arrows) l.arrows.forEach(a => map.removeLayer(a));
+        map.removeLayer(l);
+    });
     trackLayers = [];
 
     features.forEach(feature => {
@@ -215,7 +230,7 @@ function drawTracks(features) {
         const rawName = props.sourceFile || props.name || 'Unnamed Track';
         const name = rawName.split('__')[0].trim();
 
-        // Color: tracks with video toggle between green/red, others blue
+// Color: tracks with video toggle between green/red, others blue
         const hasVideo = !!reliveUrl;
         const initialColor = hasVideo ? 'blue' : 'green';
         const polyline = L.polyline(coords.slice(2), { color: initialColor, weight: 3, opacity: 1 }).addTo(map);
@@ -250,16 +265,41 @@ function drawTracks(features) {
             }
         });
 
-        polyline.on('click', function() {
-            if (hasVideo) {
-                const currentColor = polyline.options.color;
-                polyline.setStyle({ color: currentColor === 'blue' ? 'red' : 'blue' });
-            } else {
-                const currentColor = polyline.options.color;
-                polyline.setStyle({ color: currentColor === 'green' ? 'red' : 'green' });
-            }
-            polyline.bringToFront();
-        });
+// Inside drawTracks, after polyline is created:
+polyline.on('click', function() {
+    // Toggle color
+    const currentColor = polyline.options.color;
+    if (hasVideo) {
+        polyline.setStyle({ color: currentColor === 'blue' ? 'red' : 'blue' });
+    } else {
+        polyline.setStyle({ color: currentColor === 'green' ? 'red' : 'green' });
+    }
+    polyline.bringToFront();
+
+    // Remove all previous arrows
+    allArrows.forEach(a => map.removeLayer(a));
+    allArrows = [];
+
+    // Add arrows along this track (~8 arrows)
+    const step = 20
+    for (let i = 0; i < coords.length - 1; i += step) {
+        const curr = coords[i];
+        const next = coords[i + 1];
+        const angle = Math.atan2(next[0]-curr[0], next[1]-curr[1]) * 180 / Math.PI;
+
+        const arrow = L.marker(curr, {
+            icon: L.divIcon({
+                className: 'arrow-icon',
+                html: `<div style="transform: rotate(${angle}deg); font-size:18px;">➤</div>`,
+                iconSize: [18,18],
+                iconAnchor: [9,9]
+            })
+        }).addTo(map);
+
+        allArrows.push(arrow);
+    }
+});
+
 
         trackLayers.push(polyline);
     });

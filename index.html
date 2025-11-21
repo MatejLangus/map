@@ -124,6 +124,7 @@ closeBtn.addEventListener('click', () => {
 
 const map = L.map('map').setView([46, 14.5], 6);
 let allArrows = [];
+let allMarkers = []; // for start/finish flags
 
 
 
@@ -279,26 +280,60 @@ polyline.on('click', function() {
     // Remove all previous arrows
     allArrows.forEach(a => map.removeLayer(a));
     allArrows = [];
+    allMarkers.forEach(m => map.removeLayer(m));
+    allMarkers = [];
 
     // Add arrows along this track (~8 arrows)
-    const step = 20
+    const step = 50
     for (let i = 0; i < coords.length - 1; i += step) {
         const curr = coords[i];
         const next = coords[i + 1];
-        const angle = Math.atan2(next[0]-curr[0], next[1]-curr[1]) * 180 / Math.PI;
+
+        // Correct arrow angle
+        const angle = Math.atan2(
+            curr[0] - next[0],     // dy = inverted lat change
+            next[1] - curr[1]    // dx = lon change
+        ) * 180 / Math.PI;
 
         const arrow = L.marker(curr, {
             icon: L.divIcon({
                 className: 'arrow-icon',
                 html: `<div style="transform: rotate(${angle}deg); font-size:18px;">➤</div>`,
-                iconSize: [18,18],
-                iconAnchor: [9,9]
+                iconSize: [24,24],
+                iconAnchor: [12,12]
             })
         }).addTo(map);
 
         allArrows.push(arrow);
     }
+
+   
+    // Start flag
+    const startMarker = L.marker(coords[0], {
+        icon: L.divIcon({
+            className: 'start-icon',
+            html: `<div style="font-size:40px; line-height:40px;">🚩</div>`,
+            iconSize: [40,40],
+            iconAnchor: [20,20]
+        })
+    }).addTo(map);
+    allMarkers.push(startMarker);
+
+    // Finish flag
+    const endMarker = L.marker(coords[coords.length - 1], {
+        icon: L.divIcon({
+            className: 'finish-icon',
+            html: `<div style="font-size:40px; line-height:40px;">🏁</div>`,
+            iconSize: [40,40],
+            iconAnchor: [20,20]
+        })
+    }).addTo(map);
+    allMarkers.push(endMarker);
+
+
 });
+
+
 
 
         trackLayers.push(polyline);

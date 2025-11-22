@@ -75,8 +75,8 @@
 
     /* arrow markers */
     .arrow-icon {
-        font-size: 18px;
-        color: black;
+        font-size: 10px;
+        color: red;
         transform-origin: center center;
     }
 </style>
@@ -123,8 +123,8 @@ closeBtn.addEventListener('click', () => {
 });
 
 const map = L.map('map').setView([46, 14.5], 6);
-let allArrows = [];
 let allMarkers = []; // for start/finish flags
+let activePolyline = null;
 
 
 
@@ -268,53 +268,31 @@ function drawTracks(features) {
 
 // Inside drawTracks, after polyline is created:
 polyline.on('click', function() {
-    // Toggle color
-    const currentColor = polyline.options.color;
-    if (hasVideo) {
-        polyline.setStyle({ color: currentColor === 'blue' ? 'red' : 'blue' });
-    } else {
-        polyline.setStyle({ color: currentColor === 'green' ? 'red' : 'green' });
+    if (activePolyline && activePolyline !== polyline) {
+        activePolyline.setStyle({
+            color: activePolyline.activeOriginalColor,
+        });
+        activePolyline.bringToFront();  // keep visible, just not top
     }
+
+    // --- 2. Highlight clicked polyline ---
+    polyline.activeOriginalColor = polyline.options.color;
+    polyline.setStyle({ color: 'red' });
     polyline.bringToFront();
 
-    // Remove all previous arrows
-    allArrows.forEach(a => map.removeLayer(a));
-    allArrows = [];
+    // Store as active
+    activePolyline = polyline;
     allMarkers.forEach(m => map.removeLayer(m));
     allMarkers = [];
 
-    // Add arrows along this track (~8 arrows)
-    const step = 50
-    for (let i = 0; i < coords.length - 1; i += step) {
-        const curr = coords[i];
-        const next = coords[i + 1];
-
-        // Correct arrow angle
-        const angle = Math.atan2(
-            curr[0] - next[0],     // dy = inverted lat change
-            next[1] - curr[1]    // dx = lon change
-        ) * 180 / Math.PI;
-
-        const arrow = L.marker(curr, {
-            icon: L.divIcon({
-                className: 'arrow-icon',
-                html: `<div style="transform: rotate(${angle}deg); font-size:18px;">➤</div>`,
-                iconSize: [24,24],
-                iconAnchor: [12,12]
-            })
-        }).addTo(map);
-
-        allArrows.push(arrow);
-    }
-
-   
+ 
     // Start flag
     const startMarker = L.marker(coords[0], {
         icon: L.divIcon({
             className: 'start-icon',
             html: `<div style="font-size:40px; line-height:40px;">🚩</div>`,
             iconSize: [40,40],
-            iconAnchor: [20,20]
+            iconAnchor: [5,40]
         })
     }).addTo(map);
     allMarkers.push(startMarker);
@@ -325,7 +303,7 @@ polyline.on('click', function() {
             className: 'finish-icon',
             html: `<div style="font-size:40px; line-height:40px;">🏁</div>`,
             iconSize: [40,40],
-            iconAnchor: [20,20]
+            iconAnchor: [5,40]
         })
     }).addTo(map);
     allMarkers.push(endMarker);

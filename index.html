@@ -6,10 +6,7 @@
 <title>Matej lezel je taM</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
-/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet.polylinemeasure/Leaflet.PolylineMeasure.css" />
@@ -18,7 +15,6 @@
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
 <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
 
-<!-- Leaflet Elevation -->
 <link rel="stylesheet" href="https://unpkg.com/@raruto/leaflet-elevation/dist/leaflet-elevation.min.css" />
 <script src="https://unpkg.com/@raruto/leaflet-elevation/dist/leaflet-elevation.min.js"></script>
 
@@ -36,7 +32,7 @@
     position: fixed;
     bottom: 10px;
     left: 0%;
-    
+
     width: 400px;
     height: 300px;
     z-index: 12000;
@@ -57,6 +53,10 @@
         height: 40vh;
         bottom: 0;
         border-radius: 0;
+    }
+    #filters {
+        flex-direction: column;   /* stack vertically if needed */
+        gap: 6px;
     }
 }
 #elevation-panel.hidden { opacity:0; pointer-events:none; }
@@ -119,13 +119,14 @@ closeBtn.addEventListener('click', () => {
 const map = L.map('map').setView([46,14.5],6);
 let allMarkers = [];
 let activePolyline = null;
-
-
+let trackLayers = [];
 
 const baseLayers = {
     "OSM Standard": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }),
     "OSM Topo": L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { attribution: '© OpenTopoMap contributors' }),
-    "CyclOSM": L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', { attribution: '© CyclOSM, OpenStreetMap contributors' })
+    "CyclOSM": L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', { attribution: '© CyclOSM, OpenStreetMap contributors' }),
+    "Satellite (Esri)": L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{ attribution: "Tiles © Esri" }
+    )
 };
 
 const overlays = {
@@ -159,25 +160,56 @@ L.control.polylineMeasure({
 
 map.addControl(new L.Control.Fullscreen());
 
-let geojsonData=null;
-let trackLayers=[];
+map.on("click", async function(e) {
+    const res = await fetch(
+        `https://api.open-elevation.com/api/v1/lookup?locations=${e.latlng.lat},${e.latlng.lng}`
+    );
+    const json = await res.json();
+    const alt = json.results[0].elevation;
+
+    L.popup()
+        .setLatLng(e.latlng)
+        .setContent("Elevation: " + alt + " m")
+        .openOn(map);
+});
+
+
+
+// Move filter/elevation panels into Leaflet controls container
+const controlContainer = document.querySelector('.leaflet-control-container');
+controlContainer.appendChild(document.getElementById('toggleFilter'));
+controlContainer.appendChild(document.getElementById('filters'));
+controlContainer.appendChild(document.getElementById('elevation-panel'));
 
 // Elevation
-const elevationControl=L.control.elevation({detachedView:true,elevationDiv:'#elevation-div',theme:'steelblue-theme',collapsed:false}).addTo(map);
-const elevationPanel=document.getElementById('elevation-panel');
-document.getElementById('closeElevationBtn').addEventListener('click',()=>{
+const elevationControl = L.control.elevation({detachedView:true,elevationDiv:'#elevation-div',theme:'steelblue-theme',collapsed:false}).addTo(map);
+const elevationPanel = document.getElementById('elevation-panel');
+
+
+// Show/Hide helpers
+function showElevation(gpxPath){
+    // Hide tracks
+    trackLayers.forEach(l => map.removeLayer(l));
+    elevationPanel.classList.remove('hidden');
+    try { elevationControl.load(gpxPath, { wpt: false }); } catch(err){ console.error('Elevation load error', err); }
+}
+function hideElevation(){
     elevationPanel.classList.add('hidden');
     elevationControl.clear();
-});
+    trackLayers.forEach(l => l.addTo(map));
+}
+
+document.getElementById('closeElevationBtn').addEventListener('click', hideElevation);
 
 // Make panel draggable
 let isDragging=false, dragOffset={x:0,y:0};
 const header=document.getElementById('elevation-header');
-header.addEventListener('mousedown',e=>{ isDragging=true; dragOffset.x=e.clientX-elevationPanel.offsetLeft; dragOffset.y=e.clientY-elevationPanel.offsetTop; elevationPanel.style.cursor='grabbing'; });
-document.addEventListener('mousemove',e=>{ if(isDragging){ elevationPanel.style.left=(e.clientX-dragOffset.x)+'px'; elevationPanel.style.top=(e.clientY-dragOffset.y)+'px'; }});
-document.addEventListener('mouseup',()=>{ isDragging=false; elevationPanel.style.cursor='grab'; });
+header.addEventListener('mousedown', e => { isDragging=true; dragOffset.x=e.clientX-elevationPanel.offsetLeft; dragOffset.y=e.clientY-elevationPanel.offsetTop; elevationPanel.style.cursor='grabbing'; });
+document.addEventListener('mousemove', e => { if(isDragging){ elevationPanel.style.left=(e.clientX-dragOffset.x)+'px'; elevationPanel.style.top=(e.clientY-dragOffset.y)+'px'; }});
+document.addEventListener('mouseup', () => { isDragging=false; elevationPanel.style.cursor='grab'; });
 
 document.getElementById("loading").style.display="flex";
+let geojsonData = null;
 fetch('merged.geojson')
 .then(res => res.json())
 .then(data => {
@@ -234,10 +266,10 @@ function drawTracks(features){
                 }
                 return '<strong>' + key + ':</strong> ' + value;
             }).join('<br>');
-
+        
         const rawName = props.sourceFile || props.name || 'Unnamed Track';
         const name = rawName.split('__')[0].trim();
-        
+
 // Color: tracks with video toggle between green/red, others blue
         const hasVideo = !!reliveUrl;
         const initialColor = hasVideo ? 'blue' : 'green';
@@ -246,7 +278,9 @@ function drawTracks(features){
         const popupContent = `
             <h3 style="margin:0; font-size:1.1em;">${name}</h3>
             <div style="margin-top:6px; display:flex; gap:8px; align-items:center;">
-                <button class="show-details-btn" style="padding:4px 8px; white-space:nowrap;">See details</button>${reliveUrl ? `<a href="${reliveUrl}" target="_blank" style="padding:4px 8px; background:#2a4d9f; color:white; text-decoration:none; border-radius:4px; white-space:nowrap;">Relive Video</a>` : ""}
+                <button class="show-details-btn" style="padding:4px 8px; white-space:nowrap;">See details</button>
+                <br><button class="open-elevation-btn" style="padding:4px 8px;  background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">Graph</button>
+                ${reliveUrl ? `<a href="${reliveUrl}" target="_blank" style="padding:4px 8px; background:#2a4d9f; color:white; text-decoration:none; border-radius:4px; white-space:nowrap;">Relive</a>` : ""}
             </div>
             <div class="details" style="display:none; margin-top:8px;">
                 ${propsHtml}
@@ -260,21 +294,24 @@ function drawTracks(features){
             const detailsBtn=popupEl.querySelector('.show-details-btn');
             const detailsDiv=popupEl.querySelector('.details');
             if(detailsBtn && detailsDiv){
-                detailsBtn.onclick=async function(){
+                detailsBtn.onclick = function(){
+                    const gpxPath = 'gpx-files/' + rawName + (rawName.toLowerCase().endsWith('.gpx')?'':'.gpx');
                     if(detailsDiv.style.display==='none'){
                         detailsDiv.style.display='block';
                         detailsBtn.textContent='Hide details';
-                        elevationPanel.classList.remove('hidden');
-                        elevationControl.clear();
-                        const gpxPath='gpx-files/'+rawName+(rawName.toLowerCase().endsWith('.gpx')?'':'.gpx');
-                        try{ elevationControl.load(gpxPath,{ wpt: false }); } catch(err){ console.error('Elevation load error',err); }
-
-                    }else{
+                        //showElevation(gpxPath);
+                    } else {
                         detailsDiv.style.display='none';
                         detailsBtn.textContent='See details';
-                        elevationPanel.classList.add('hidden');
-                        elevationControl.clear();
+                        //hideElevation();
                     }
+                };
+            }
+            const elevationBtn = popupEl.querySelector('.open-elevation-btn');
+            if(elevationBtn){
+                elevationBtn.onclick = function(){
+                    const gpxPath = 'gpx-files/' + rawName + (rawName.toLowerCase().endsWith('.gpx') ? '' : '.gpx');
+                    showElevation(gpxPath);
                 };
             }
         });
@@ -282,14 +319,14 @@ function drawTracks(features){
         polyline.on('click',()=>{
             if(activePolyline && activePolyline!==polyline) activePolyline.setStyle({ color: activePolyline.options.color==='red'?initialColor:activePolyline.options.color });
             polyline.setStyle({ color:'red', weight:4, opacity:1 });
-            polyline.bringToFront();
+polyline.bringToFront();
 
             // Store as active
-    activePolyline = polyline;
-                        allMarkers.forEach(m => map.removeLayer(m));
-    allMarkers = [];
+            activePolyline = polyline;
+            allMarkers.forEach(m => map.removeLayer(m));
+            allMarkers = [];
 
- 
+            
     // Start flag
     const startMarker = L.marker(coords[0], {
         icon: L.divIcon({
@@ -302,7 +339,7 @@ function drawTracks(features){
     allMarkers.push(startMarker);
 
     // Finish flag
-    const endMarker = L.marker(coords[coords.length - 1], {
+            const endMarker = L.marker(coords[coords.length - 1], {
         icon: L.divIcon({
             className: 'finish-icon',
             html: `<div style="font-size:40px; line-height:40px;">🏁</div>`,
@@ -310,10 +347,10 @@ function drawTracks(features){
             iconAnchor: [5,40]
         })
     }).addTo(map);
-    allMarkers.push(endMarker);
+            allMarkers.push(endMarker);
 
 
-            });
+        });
 
 
 

@@ -54,10 +54,7 @@
         bottom: 0;
         border-radius: 0;
     }
-    #filters {
-        flex-direction: column;   /* stack vertically if needed */
-        gap: 6px;
-    }
+   
 }
 #elevation-panel.hidden { opacity:0; pointer-events:none; }
 #elevation-header { display:flex; justify-content:flex-end; background:#2a4d9f; color:white; padding:4px; cursor:grab; }
@@ -178,8 +175,8 @@ map.on("click", async function(e) {
 // Move filter/elevation panels into Leaflet controls container
 const controlContainer = document.querySelector('.leaflet-control-container');
 controlContainer.appendChild(document.getElementById('toggleFilter'));
-controlContainer.appendChild(document.getElementById('filters'));
 controlContainer.appendChild(document.getElementById('elevation-panel'));
+controlContainer.appendChild(document.getElementById('filters'));
 
 // Elevation
 const elevationControl = L.control.elevation({detachedView:true,elevationDiv:'#elevation-div',theme:'steelblue-theme',collapsed:false}).addTo(map);

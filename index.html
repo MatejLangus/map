@@ -58,7 +58,12 @@
         flex-direction: column;
     }
 }
-#elevation-panel.hidden { opacity:0; pointer-events:none; }
+#elevation-panel.hidden {
+    opacity: 0;
+    pointer-events: none; /* ensures nothing is clickable */
+    transform: translateY(100vh);  /* move it off-screen instead of zero-size */
+    transition: transform 0.2s, opacity 0.2s;
+}
 #elevation-header { display:flex; justify-content:flex-end; background:#2a4d9f; color:white; padding:4px; cursor:grab; }
 #elevation-header button { background:red; color:white; border:none; border-radius:4px; cursor:pointer; padding:2px 6px; font-weight:bold; }
 .elevation-waypoint-icon,
@@ -92,11 +97,10 @@
 </div>
 
 
-<div id="filters" style="top:auto; bottom:10px; left:50%; transform: translateX(-50%); display: none;">
+<div id="filters" style="top:auto; bottom:60px; left:50%; transform: translateX(-50%); display: none;">
     <label>Start Date: <input type="date" id="startDate"></label>
     <label>End Date: <input type="date" id="endDate"></label>
     <button onclick="filterTracks()">Filter</button>
-    <button id="closeFilter">✖</button>
 </div>
 
 <button id="filterBtn" title="Filter tracks"></button>
@@ -111,7 +115,7 @@
 <script>
 const toggleBtn = document.getElementById('toggleFilter');
 const filtersDiv = document.getElementById('filters');
-const closeBtn = document.getElementById('closeFilter');
+
 
 
 const map = L.map('map').setView([46,14.5],6);
@@ -182,7 +186,8 @@ L.control.polylineMeasure({
 
 map.addControl(new L.Control.Fullscreen());
 
-map.on("click", async function(e) {
+
+map.on("dblclick", async function(e) {
     const res = await fetch(
         `https://api.open-elevation.com/api/v1/lookup?locations=${e.latlng.lat},${e.latlng.lng}`
     );
@@ -206,10 +211,6 @@ controlContainer.appendChild(document.getElementById('filters'));
 // Elevation
 const elevationControl = L.control.elevation({detachedView:true,elevationDiv:'#elevation-div',theme:'steelblue-theme',collapsed:false}).addTo(map);
 const elevationPanel = document.getElementById('elevation-panel');
-elevationControl.on("data:loaded", () => {
-    const rect = document.querySelector("#elevation-div svg rect.overlay");
-    if (rect) rect.remove();   // Deletes the overlay completely
-});
 
 
 // Show/Hide helpers

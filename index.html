@@ -54,7 +54,9 @@
         bottom: 0;
         border-radius: 0;
     }
-   
+    #filters {
+        flex-direction: column;
+    }
 }
 #elevation-panel.hidden { opacity:0; pointer-events:none; }
 #elevation-header { display:flex; justify-content:flex-end; background:#2a4d9f; color:white; padding:4px; cursor:grab; }
@@ -64,6 +66,24 @@
     display: none !important;
 }
 #elevation-div { flex:1; }
+
+.leaflet-control.filter-control {
+    margin-top:4px;
+}
+
+#filterBtn {
+    width: 30px;             /* same size as geocoder button */
+    height: 30px;
+    
+}
+
+/* SVG icon */
+#filterBtn {
+    background-image:url('data:image/svg+xml;utf8,<svg fill="black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 4h18l-7 8v6l-4 2v-8z"/></svg>');
+}
+
+
+
 </style>
 </head>
 <body>
@@ -71,18 +91,6 @@
     <div class="spinner"></div> Loading tracks...
 </div>
 
-<button id="toggleFilter" style="
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10001;
-    padding: 4px 10px;
-    border-radius: 4px;
-    background: white;
-    border: 1px solid #ccc;
-    cursor: pointer;
-">Show Filter</button>
 
 <div id="filters" style="top:auto; bottom:10px; left:50%; transform: translateX(-50%); display: none;">
     <label>Start Date: <input type="date" id="startDate"></label>
@@ -91,6 +99,7 @@
     <button id="closeFilter">✖</button>
 </div>
 
+<button id="filterBtn" title="Filter tracks"></button>
 <div id="map"></div>
 
 <!-- Draggable Elevation panel -->
@@ -104,14 +113,6 @@ const toggleBtn = document.getElementById('toggleFilter');
 const filtersDiv = document.getElementById('filters');
 const closeBtn = document.getElementById('closeFilter');
 
-toggleBtn.addEventListener('click', () => {
-    filtersDiv.style.display = 'flex';
-    toggleBtn.style.display = 'none';
-});
-closeBtn.addEventListener('click', () => {
-    filtersDiv.style.display = 'none';
-    toggleBtn.style.display = 'block';
-});
 
 const map = L.map('map').setView([46,14.5],6);
 let allMarkers = [];
@@ -148,6 +149,30 @@ L.Control.geocoder({
 })
 .addTo(map);
 
+map.whenReady(() => {
+    const geoCtrl = document.querySelector(".leaflet-control-geocoder");
+    if (!geoCtrl) return;
+
+    const filterBtn = document.getElementById("filterBtn"); // <- get the <a> element
+    if (!filterBtn) return;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "leaflet-control filter-control";
+
+    wrapper.appendChild(filterBtn);  // append the actual node
+    geoCtrl.parentNode.insertBefore(wrapper, geoCtrl.nextSibling);
+
+    // Click event
+    filterBtn.onclick = () => {
+        const filtersDiv = document.getElementById("filters");
+        filtersDiv.style.display = filtersDiv.style.display === "none" ? "flex" : "none";
+    };
+});
+
+
+
+
+
 L.control.polylineMeasure({
     position: 'topleft',
     unit: 'metres',
@@ -174,13 +199,17 @@ map.on("click", async function(e) {
 
 // Move filter/elevation panels into Leaflet controls container
 const controlContainer = document.querySelector('.leaflet-control-container');
-controlContainer.appendChild(document.getElementById('toggleFilter'));
+//controlContainer.appendChild(document.getElementById('filterBtn'));
 controlContainer.appendChild(document.getElementById('elevation-panel'));
 controlContainer.appendChild(document.getElementById('filters'));
 
 // Elevation
 const elevationControl = L.control.elevation({detachedView:true,elevationDiv:'#elevation-div',theme:'steelblue-theme',collapsed:false}).addTo(map);
 const elevationPanel = document.getElementById('elevation-panel');
+elevationControl.on("data:loaded", () => {
+    const rect = document.querySelector("#elevation-div svg rect.overlay");
+    if (rect) rect.remove();   // Deletes the overlay completely
+});
 
 
 // Show/Hide helpers

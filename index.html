@@ -97,7 +97,7 @@
 </div>
 
 
-<div id="filters" style="top:auto; bottom:60px; left:50%; transform: translateX(-50%); display: none;">
+<div id="filters" style="top:auto; left:50%; transform: translateX(-50%); display: none;">
     <label>Start Date: <input type="date" id="startDate"></label>
     <label>End Date: <input type="date" id="endDate"></label>
     <button onclick="filterTracks()">Filter</button>
@@ -303,18 +303,18 @@ function drawTracks(features){
         const polyline = L.polyline(coords.slice(2), { color: initialColor, weight: 3, opacity: 1 }).addTo(map);
 
         const popupContent = `
-            <h3 style="margin:0; font-size:1.1em;">${name}</h3>
-            <div style="margin-top:6px; display:flex; gap:8px; align-items:center;">
-                <button class="show-details-btn" style="padding:4px 8px; white-space:nowrap;">See details</button>
-                <br><button class="open-elevation-btn" style="padding:4px 8px;  background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">Graph</button>
-                ${reliveUrl ? `<a href="${reliveUrl}" target="_blank" style="padding:4px 8px; background:#2a4d9f; color:white; text-decoration:none; border-radius:4px; white-space:nowrap;">Relive</a>` : ""}
-            </div>
-            <div class="details" style="display:none; margin-top:8px;">
-                ${propsHtml}
-            </div>
-        `;
+    <h3 style="margin:0; font-size:1.1em;">${name}</h3>
+    <div style="margin-top:6px; display:flex; gap:8px; align-items:center;">
+        <button class="show-details-btn" style="padding:4px 8px; white-space:nowrap;">See details</button>
+        <button class="open-elevation-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">Graph</button>
+        ${reliveUrl ? `<button class="open-relive-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">Relive</button>` : ""}
+    </div>
+    <div class="details" style="display:none; margin-top:8px;">
+        ${propsHtml}
+    </div>
+`;
 
-        polyline.bindPopup(popupContent);
+        polyline.bindPopup(popupContent);      
 
         polyline.on('popupopen',e=>{
             const popupEl=e.popup.getElement();
@@ -341,6 +341,64 @@ function drawTracks(features){
                     showElevation(gpxPath);
                 };
             }
+            
+            const reliveBtn = popupEl.querySelector('.open-relive-btn');
+const reliveId = reliveUrl.split('/view/')[1];
+
+if (reliveBtn) {
+    reliveBtn.addEventListener('click', () => {
+
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+            position:fixed;
+            inset:0;
+            z-index:999999;
+            pointer-events:none;
+        `;
+        document.body.appendChild(overlay);
+
+        
+
+        const wrapper = document.createElement('div');
+        wrapper.style.cssText = `
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+            width:90vw;
+            max-width:1200px;
+            padding-bottom:45%; /* your ratio */
+            height:0;
+            pointer-events:auto;
+        `;
+
+        wrapper.innerHTML = `
+            <iframe class="embedly-embed" frameborder="0" scrolling="no" allowfullscreen
+                src="https://cdn.embedly.com/widgets/media.html?src=https://www.relive.com/view/${reliveId}/widget?r=embed-site&url=https://www.relive.com/view/${reliveId}?r=embed-site&image=https://www.relive.com/view/${reliveId}/png?x-ref=embed-site&key=f1631a41cb254ca5b035dc5747a5bd75&type=text/html&schema=relive"
+                style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;">
+            </iframe>
+        `;
+
+        const close = document.createElement('div');
+        close.textContent = "✕";
+        close.style.cssText = `
+            position:fixed;
+            top:15px;
+            right:20px;
+            font-size:28px;
+            cursor:pointer;
+            color:white;
+            z-index:1000000;
+        `;
+        close.onclick = () => overlay.remove();
+        wrapper.appendChild(close);
+
+        overlay.appendChild(wrapper);
+
+
+    });
+}
+
         });
 
         polyline.on('click',()=>{

@@ -87,7 +87,10 @@
     background-image:url('data:image/svg+xml;utf8,<svg fill="black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 4h18l-7 8v6l-4 2v-8z"/></svg>');
 }
 
-
+body {
+      margin: 0;   /* removes all default margins */
+      padding: 0;  /* optional: removes default padding */
+    }
 
 </style>
 </head>
@@ -307,7 +310,8 @@ function drawTracks(features){
     <div style="margin-top:6px; display:flex; gap:8px; align-items:center;">
         <button class="show-details-btn" style="padding:4px 8px; white-space:nowrap;">See details</button>
         <button class="open-elevation-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">Graph</button>
-        ${reliveUrl ? `<button class="open-relive-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">Relive</button>` : ""}
+        ${reliveUrl ? `<button class="open-relive-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">Relive</button>
+        <button onclick="window.open('${reliveUrl}/explore', '_blank')" class="open-3D-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">3D</button>` : ""}
     </div>
     <div class="details" style="display:none; margin-top:8px;">
         ${propsHtml}
@@ -342,36 +346,39 @@ function drawTracks(features){
                 };
             }
             
-            const reliveBtn = popupEl.querySelector('.open-relive-btn');
+const reliveBtn = popupEl.querySelector('.open-relive-btn');
 const reliveId = reliveUrl.split('/view/')[1];
 
 if (reliveBtn) {
     reliveBtn.addEventListener('click', () => {
 
+        const mapDiv = document.getElementById('map');
+
+        // Transparent overlay container
         const overlay = document.createElement('div');
         overlay.style.cssText = `
             position:fixed;
             inset:0;
             z-index:999999;
-            pointer-events:none;
+            pointer-events:none; /* only parent is transparent */
         `;
-        document.body.appendChild(overlay);
+        mapDiv.appendChild(overlay);
 
-        
-
+        // Wrapper (interactive region)
         const wrapper = document.createElement('div');
         wrapper.style.cssText = `
             position:absolute;
-            top:50%;
-            left:50%;
-            transform: translate(-50%, -50%);
+            top:5%;
+            left:5%;
             width:90vw;
             max-width:1200px;
-            padding-bottom:45%; /* your ratio */
-            height:0;
-            pointer-events:auto;
+            padding-bottom:52%;
+            pointer-events:auto;     /* IMPORTANT: allows clicks */
+            z-index:1000000;
         `;
+        overlay.appendChild(wrapper);
 
+        // Relive iframe
         wrapper.innerHTML = `
             <iframe class="embedly-embed" frameborder="0" scrolling="no" allowfullscreen
                 src="https://cdn.embedly.com/widgets/media.html?src=https://www.relive.com/view/${reliveId}/widget?r=embed-site&url=https://www.relive.com/view/${reliveId}?r=embed-site&image=https://www.relive.com/view/${reliveId}/png?x-ref=embed-site&key=f1631a41cb254ca5b035dc5747a5bd75&type=text/html&schema=relive"
@@ -379,25 +386,26 @@ if (reliveBtn) {
             </iframe>
         `;
 
+        // Close button – must be INSIDE wrapper and pointer-events:auto
         const close = document.createElement('div');
-        close.textContent = "✕";
+        close.textContent = "☒";
         close.style.cssText = `
-            position:fixed;
-            top:15px;
-            right:20px;
-            font-size:28px;
+            position:absolute;
+            top:-2vw;          /* appears above wrapper */
+            right:0;
+            font-size:2vw;
             cursor:pointer;
-            color:white;
-            z-index:1000000;
+            color:black;
+            pointer-events:auto;   /* ← REQUIRED */
+            z-index:1000001;       /* above iframe */
         `;
+
         close.onclick = () => overlay.remove();
+
         wrapper.appendChild(close);
+        });
 
-        overlay.appendChild(wrapper);
-
-
-    });
-}
+        }
 
         });
 

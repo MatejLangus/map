@@ -3,43 +3,38 @@ const path = require('path');
 const gpx2geojson = require('gpx2geojson');
 const { DOMParser } = require('xmldom');
 const geojsonPrecision = require('geojson-precision');
+const { parse } = require('csv-parse/sync');
+ // synchronous CSV parser
 
 // -------------------------------------------------------------
-// 1) PARSE RELIVE HTML → extract { date → {title, url} }
+// 1) LOAD CSV → map { gpx_file → CSV data }
 // -------------------------------------------------------------
-const reliveHtmlPath = path.join(__dirname, "Relive _ Settings.html");
-let reliveVideos = {}; // { "2025-04-12": { title, url } }
-
-if (fs.existsSync(reliveHtmlPath)) {
-    const html = fs.readFileSync(reliveHtmlPath, 'utf8');
-
-    // Full correct regex:
-    // <h6>TITLE</h6> <small class="subtitle">DATE | <a href="URL">
-    const regex = /<h6[^>]*>([^<]+)<\/h6>\s*<small[^>]*>\s*([^|]+?)\s*\|\s*<a[^>]+href="([^"]+)"/gi;
-
-    let match;
-    while ((match = regex.exec(html)) !== null) {
-        const title = match[1].trim();        // e.g. "Jbel Asstef, Toudra"
-        const longDate = match[2].trim();     // e.g. "15 September 2025"
-        const url = match[3].trim();          // relive video URL
-
-        // Convert "15 September 2025" → "2025-09-15"
-        let dateObj = new Date(longDate);
-        if (isNaN(dateObj)) continue;
-
-        const date = new Intl.DateTimeFormat("en-CA", {
-            timeZone: "Europe/Ljubljana", // force correct timezone
-        }).format(dateObj);
-        
-
-        reliveVideos[date] = { title, url };
-    }
-
-    console.log(`📹 Loaded ${Object.keys(reliveVideos).length} Relive video entries (by date)`);
-} else {
-    console.log("⚠ Relive _ Settings.html not found → skipping Relive linking");
+const csvPath = path.join(__dirname, 'matched_activities.csv');
+if (!fs.existsSync(csvPath)) {
+    console.error("❌ relive.csv not found.");
+    process.exit(1);
 }
 
+const csvContent = fs.readFileSync(csvPath, 'utf8');
+const rows = parse(csvContent, {
+    columns: true,
+    skip_empty_lines: true
+});
+
+const csvData = {}; // gpx_file → row
+rows.forEach(row => {
+    if (!row.gpx_file) return;
+
+    const gpxFile = row.gpx_file.replace(/^"|"$/g, ''); // remove quotes if any
+    csvData[gpxFile] = {
+        relive_id: row.relive_id?.replace(/^"|"$/g, '') || '',
+        relive_url: row.relive_url?.replace(/^"|"$/g, '') || '',
+        name: row.name?.replace(/^"|"$/g, '') || '',
+        date: row.date?.replace(/^"|"$/g, '') || '',
+        video_url: row.video_url?.replace(/^"|"$/g, '').replace('.com', '.cc') || '',
+        cover_photo: row.cover_photo?.replace(/^"|"$/g, '') || ''
+    };
+});
 
 // -------------------------------------------------------------
 // 2) GPX → MERGED.GEOJSON
@@ -96,37 +91,27 @@ gpxFiles.forEach(file => {
     if (coordinates.length === 0) return;
 
     // -------------------------------------------------------------
-    // 3) MATCH RELIVE BY DATE (YYYY-MM-DD extracted from filename)
+    // 3) MERGE CSV DATA
     // -------------------------------------------------------------
+    const baseName = path.basename(file); // keep full filename for CSV match
+    const csvRow = csvData[baseName];
 
-    const baseName = path.basename(file, ".gpx");
-    const dateMatch = baseName.match(/\b\d{4}-\d{2}-\d{2}\b/);
-
-    let reliveBlock = "";
-
-    if (dateMatch) {
-        const date = dateMatch[0];
-
-        if (reliveVideos[date]) {
-            const { title, url } = reliveVideos[date];
-
-            reliveBlock =
-                `<br><p><strong>Relive:</strong> ` +
-                `<a href="${url}" target="_blank">${title}</a></p>`;
-        }
+    if (csvRow) {
+        descriptionText += `<br><p><strong>Relive:</strong> ` +
+            `<a href="${csvRow.video_url}" target="_blank">${csvRow.name}</a></p>`;
     }
 
-    // append video block
-    if (reliveBlock !== "") {
-        descriptionText += reliveBlock;
-    }
-
-    // create feature
     const feature = {
         type: "Feature",
         properties: {
             descriptions: descriptionText,
-            sourceFile: baseName
+            sourceFile: baseName,
+            relive_id: csvRow?.relive_id || '',
+            relive_url: csvRow?.relive_url || '',
+            name: csvRow?.name || '',
+            date: csvRow?.date || '',
+            video_url: csvRow?.video_url || '',
+            cover_photo: csvRow?.cover_photo || ''
         },
         geometry: {
             type: "LineString",

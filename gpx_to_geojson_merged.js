@@ -130,5 +130,14 @@ gpxFiles.forEach(file => {
 // 4) WRITE MERGED GEOJSON (minified)
 // -------------------------------------------------------------
 const mergedGeoJSON = { type: "FeatureCollection", features: mergedFeatures };
-fs.writeFileSync(mergedFilePath, JSON.stringify(mergedGeoJSON));
+let output = '{\n' +
+    '  "type": "FeatureCollection",\n' +
+    '  "features": [\n' +
+    mergedFeatures
+        .map(f => "    " + JSON.stringify(f))   // one line per GPX track
+        .join(",\n") +
+    '\n  ]\n' +
+    '}\n';
+
+fs.writeFileSync(mergedFilePath, output);
 console.log(`✅ Merged ${mergedFeatures.length} tracks → ${mergedFilePath}`);

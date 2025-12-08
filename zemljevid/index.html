@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matej lezel je taM</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet.polylinemeasure/Leaflet.PolylineMeasure.css" />
+<script src="https://unpkg.com/leaflet.polylinemeasure/Leaflet.PolylineMeasure.js"></script>
+
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
+<script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/@raruto/leaflet-elevation/dist/leaflet-elevation.min.css" />
+<script src="https://unpkg.com/@raruto/leaflet-elevation/dist/leaflet-elevation.min.js"></script>
+
+<style>
+#map { height: 100vh; margin: 0; }
+#loading { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.85); z-index:9999; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:bold; color:#333; }
+.spinner { border: 6px solid #ddd; border-top:6px solid #2a4d9f; border-radius:50%; width:40px; height:40px; animation:spin 0.8s linear infinite; margin-right:12px; }
+@keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+.leaflet-popup-content h3 { margin:0; font-size:1.1em; color:#2a4d9f; }
+#filters { position:absolute; top:10px; left:50px; z-index:10000; background:white; padding:6px 12px; border-radius:6px; box-shadow:0 0 8px rgba(0,0,0,0.3); }
+#filters input { margin:2px 4px; }
+
+/* Elevation panel - draggable */
+#elevation-panel {
+    position: fixed;
+    bottom: 10px;
+    left: 0%;
+
+    width: 400px;
+    height: 300px;
+    z-index: 1200000;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    overflow:hidden;
+    display:flex;
+    flex-direction: column;
+    cursor: move;
+    transition: opacity 0.2s;
+}
+
+@media (max-width: 600px) {
+    #elevation-panel {
+        left: 0;
+        width: 100vw;       /* full width on phones */
+        height: 40vh;
+        bottom: 0;
+        border-radius: 0;
+    }
+    #filters {
+        flex-direction: column;
+    }
+}
+#elevation-panel.hidden {
+    opacity: 0;
+    pointer-events: none; /* ensures nothing is clickable */
+    transform: translateY(100vh);  /* move it off-screen instead of zero-size */
+    transition: transform 0.2s, opacity 0.2s;
+}
+#elevation-header { display:flex; justify-content:flex-end; background:#2a4d9f; color:white; padding:4px; cursor:grab; }
+#elevation-header button { background:red; color:white; border:none; border-radius:4px; cursor:pointer; padding:2px 6px; font-weight:bold; }
+.elevation-waypoint-icon,
+.elevation-waypoint {
+    display: none !important;
+}
+#elevation-div { flex:1; }
+
+.leaflet-control.filter-control {
+    margin-top:4px;
+}
+
+#filterBtn {
+    width: 30px;             /* same size as geocoder button */
+    height: 30px;
+    
+}
+
+/* SVG icon */
+#filterBtn {
+    background-image:url('data:image/svg+xml;utf8,<svg fill="black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 4h18l-7 8v6l-4 2v-8z"/></svg>');
+}
+
+body {
+      margin: 0;   /* removes all default margins */
+      padding: 0;  /* optional: removes default padding */
+    }
+
+</style>
+</head>
+<body>
+<div id="loading">
+    <div class="spinner"></div> Loading tracks...
+</div>
+
+
+<div id="filters" style="top:auto; left:50%; transform: translateX(-50%); display: none;">
+    <label>Start Date: <input type="date" id="startDate"></label>
+    <label>End Date: <input type="date" id="endDate"></label>
+    <button onclick="filterTracks()">Filter</button>
+</div>
+
+<button id="filterBtn" title="Filter tracks"></button>
+<div id="map"></div>
+
+<!-- Draggable Elevation panel -->
+<div id="elevation-panel" class="hidden">
+    <div id="elevation-header"><button id="closeElevationBtn">✖</button></div>
+    <div id="elevation-div"></div>
+</div>
+
+<script>
+const toggleBtn = document.getElementById('toggleFilter');
+const filtersDiv = document.getElementById('filters');
+
+
+
+const map = L.map('map').setView([46,14.5],6);
+let allMarkers = [];
+let activePolyline = null;
+let trackLayers = [];
+
+const baseLayers = {
+    "OSM Standard": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }),
+    "OSM Topo": L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { attribution: '© OpenTopoMap contributors' }),
+    "CyclOSM": L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', { attribution: '© CyclOSM, OpenStreetMap contributors' }),
+    "Satellite (Esri)": L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{ attribution: "Tiles © Esri" }
+    )
+};
+
+const overlays = {
+    "Hiking Trails": L.tileLayer('https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png', { attribution: '© Waymarked Trails, OpenStreetMap contributors' })
+};
+
+baseLayers["OSM Standard"].addTo(map);
+L.control.layers(baseLayers, overlays, { collapsed: true }).addTo(map);
+
+L.Control.geocoder({
+    defaultMarkGeocode: false,
+    collapsed: true,                  // search bar always visible
+    placeholder: "Search location…"    // text inside input
+})
+.on('markgeocode', function(e) {
+    const bbox = e.geocode.bbox;
+    const bounds = L.latLngBounds(
+        [bbox.getSouthEast().lat, bbox.getSouthEast().lng],
+        [bbox.getNorthWest().lat, bbox.getNorthWest().lng]
+    );
+    map.fitBounds(bounds);
+})
+.addTo(map);
+
+map.whenReady(() => {
+    const geoCtrl = document.querySelector(".leaflet-control-geocoder");
+    if (!geoCtrl) return;
+
+    const filterBtn = document.getElementById("filterBtn"); // <- get the <a> element
+    if (!filterBtn) return;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "leaflet-control filter-control";
+
+    wrapper.appendChild(filterBtn);  // append the actual node
+    geoCtrl.parentNode.insertBefore(wrapper, geoCtrl.nextSibling);
+
+    // Click event
+    filterBtn.onclick = () => {
+        const filtersDiv = document.getElementById("filters");
+        filtersDiv.style.display = filtersDiv.style.display === "none" ? "flex" : "none";
+    };
+});
+
+
+
+
+
+L.control.polylineMeasure({
+    position: 'topleft',
+    unit: 'metres',
+    measureControlTitleOn: 'Start measuring distance',
+    measureControlTitleOff: 'Stop measuring distance',
+}).addTo(map);
+
+map.addControl(new L.Control.Fullscreen());
+
+
+map.on("dblclick", async function(e) {
+    const res = await fetch(
+        `https://api.open-elevation.com/api/v1/lookup?locations=${e.latlng.lat},${e.latlng.lng}`
+    );
+    const json = await res.json();
+    const alt = json.results[0].elevation;
+
+    L.popup()
+        .setLatLng(e.latlng)
+        .setContent("Elevation: " + alt + " m")
+        .openOn(map);
+});
+
+
+
+// Move filter/elevation panels into Leaflet controls container
+const controlContainer = document.querySelector('.leaflet-control-container');
+//controlContainer.appendChild(document.getElementById('filterBtn'));
+controlContainer.appendChild(document.getElementById('elevation-panel'));
+controlContainer.appendChild(document.getElementById('filters'));
+
+// Elevation
+const elevationControl = L.control.elevation({detachedView:true,elevationDiv:'#elevation-div',theme:'steelblue-theme',collapsed:false}).addTo(map);
+const elevationPanel = document.getElementById('elevation-panel');
+
+
+// Show/Hide helpers
+function showElevation(gpxPath){
+    // Hide tracks
+    trackLayers.forEach(l => map.removeLayer(l));
+    elevationPanel.classList.remove('hidden');
+    try { elevationControl.load(gpxPath, { wpt: false }); } catch(err){ console.error('Elevation load error', err); }
+}
+function hideElevation(){
+    elevationPanel.classList.add('hidden');
+    elevationControl.clear();
+    trackLayers.forEach(l => l.addTo(map));
+}
+
+document.getElementById('closeElevationBtn').addEventListener('click', hideElevation);
+
+// Make panel draggable
+let isDragging=false, dragOffset={x:0,y:0};
+const header=document.getElementById('elevation-header');
+header.addEventListener('mousedown', e => { isDragging=true; dragOffset.x=e.clientX-elevationPanel.offsetLeft; dragOffset.y=e.clientY-elevationPanel.offsetTop; elevationPanel.style.cursor='grabbing'; });
+document.addEventListener('mousemove', e => { if(isDragging){ elevationPanel.style.left=(e.clientX-dragOffset.x)+'px'; elevationPanel.style.top=(e.clientY-dragOffset.y)+'px'; }});
+document.addEventListener('mouseup', () => { isDragging=false; elevationPanel.style.cursor='grab'; });
+
+document.getElementById("loading").style.display="flex";
+let geojsonData = null;
+fetch('../merged.geojson')
+.then(res => res.json())
+.then(data => {
+    geojsonData = data;
+    drawTracks(geojsonData.features);
+    document.getElementById("loading").style.display = "none";
+})
+.catch(err => {
+    console.error('Error loading merged.geojson:', err);
+    document.getElementById("loading").innerHTML = "<div style='color:red;'>Failed to load data.</div>";
+});
+function getTrackDate(name) {
+    const dateMatch = name.match(/^(\d{4}-\d{2}-\d{2})/);
+    if (dateMatch) return new Date(dateMatch[1]);
+    return null;
+}
+
+function drawTracks(features){
+    trackLayers.forEach(l=>{
+        if(l.startMarker) map.removeLayer(l.startMarker);
+        if(l.endMarker) map.removeLayer(l.endMarker);
+        map.removeLayer(l);
+    });
+    trackLayers = [];
+
+    features.forEach(feature => {
+        const geometry = feature.geometry;
+        if (!geometry || geometry.type !== 'LineString') return;
+
+        const coords = geometry.coordinates.map(c => [c[1], c[0]]);
+        if (coords.length <= 1) return;
+
+        const props = feature.properties || {};
+        let reliveVideoUrl = props.video_url || null;
+        let reliveUrl = props.relive_url || null;
+        let cover_photo = props.cover_photo || null;
+
+        const hiddenKeys = [
+            "SourceFile",
+            "relive_id",
+            "relive_url",
+            "name",
+            "date",
+            "video_url",
+            "cover_photo"
+        ];
+     
+
+
+        let propsHtml = Object.entries(props)
+            .filter(([key]) => key !== 'ele' && key !== 'type' && key !== 'sourceFile' && !hiddenKeys.includes(key))
+            .map(([key,value]) => {
+                if (key.toLowerCase() === 'descriptions') {
+                    let html = value.replace(/\\"/g,'"').replace(/\\n/g,'')
+                        .replace(/<h1[^>]*>.*?<\/h1>/gi,'')
+                        .replace(/<h2[^>]*>.*?<\/h2>/gi,'')
+                        .replace(/<h3[^>]*>.*?<\/h3>/gi,'')
+                        .replace(/<hr[^>]*>/gi,'')
+                        .replace(/<p>\s*(<br\s*\/?>)+/gi,'<p>')
+                        .replace(/^(?:\s*<br\s*\/?>)+/gi,'')
+                        .replace(/<p>\s*<\/p>/gi,'')
+                        .replace(/<p>/gi,'<p style="margin:2px 0;">');
+                    return html.trim();
+                }
+                return '<strong>' + key + ':</strong> ' + value;
+            }).join('<br>');
+        
+        const rawName = props.sourceFile || props.name || 'Unnamed Track';
+        const name = rawName.split('__')[0].trim();
+
+// Color: tracks with video toggle between green/red, others blue
+        const hasVideo = !!reliveUrl;
+        const initialColor = hasVideo ? 'blue' : 'green';
+        const polyline = L.polyline(coords.slice(2), { color: initialColor, weight: 3, opacity: 1 }).addTo(map);
+
+        const popupContent = `
+    <h3 style="margin:0; font-size:1.1em;">${name}</h3>
+    ${cover_photo ? `
+        <a href="${cover_photo}" target="_blank">
+        <img src="${cover_photo}"
+         alt="Relive cover photo"
+         style="position:relative;top:0;left:0;width:100%;height:100%;object-fit:cover;border:0;"></a>` : ""}
+
+
+    <div style="margin-top:6px; display:flex; gap:8px; align-items:center;">
+        <button class="show-details-btn" style="padding:4px 8px; white-space:nowrap;">See details</button>
+        <button class="open-elevation-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">Graph</button>
+        ${reliveUrl ? `<button class="open-relive-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">Relive</button>
+        <button onclick="window.open('${reliveUrl}/explore', '_blank')" class="open-3D-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">3D</button>` : ""}
+    </div>
+    <div class="details" style="display:none; margin-top:8px;">
+        ${propsHtml}
+    </div>
+`;
+
+        polyline.bindPopup(popupContent);      
+
+        polyline.on('popupopen',e=>{
+            const popupEl=e.popup.getElement();
+            const detailsBtn=popupEl.querySelector('.show-details-btn');
+            const detailsDiv=popupEl.querySelector('.details');
+            if(detailsBtn && detailsDiv){
+                detailsBtn.onclick = function(){
+                    const gpxPath = 'gpx-files/' + rawName + (rawName.toLowerCase().endsWith('.gpx')?'':'.gpx');
+                    if(detailsDiv.style.display==='none'){
+                        detailsDiv.style.display='block';
+                        detailsBtn.textContent='Hide details';
+                        //showElevation(gpxPath);
+                    } else {
+                        detailsDiv.style.display='none';
+                        detailsBtn.textContent='See details';
+                        //hideElevation();
+                    }
+                };
+            }
+            const elevationBtn = popupEl.querySelector('.open-elevation-btn');
+            if(elevationBtn){
+                elevationBtn.onclick = function(){
+                    const gpxPath = 'gpx-files/' + rawName + (rawName.toLowerCase().endsWith('.gpx') ? '' : '.gpx');
+                    showElevation(gpxPath);
+                };
+            }
+            
+const reliveBtn = popupEl.querySelector('.open-relive-btn');
+
+if (reliveBtn) {
+    reliveBtn.addEventListener('click', () => {
+        if (!reliveVideoUrl || reliveVideoUrl.trim() === "") {
+        if (reliveUrl) {
+            window.open(reliveUrl, "_blank");
+        }
+        return;
+        }
+
+        const mapDiv = document.getElementById('map');
+
+        // Transparent overlay container
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+            position:fixed;
+            inset:0;
+            z-index:999999;
+            pointer-events:none; /* only parent is transparent */
+        `;
+        mapDiv.appendChild(overlay);
+
+        // Wrapper (interactive region)
+        const wrapper = document.createElement('div');
+        wrapper.style.cssText = `
+            position:absolute;
+            top:170px;
+            
+            width:100vw;
+            max-width:1200px;
+            padding-bottom:52%;
+            pointer-events:auto;     /* IMPORTANT: allows clicks */
+            z-index:1000000;
+        `;
+        overlay.appendChild(wrapper);
+
+        // Relive iframe
+        wrapper.innerHTML = `
+                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+            <iframe class="embedly-embed" frameborder="0" scrolling="no" allowfullscreen allow="autoplay"
+                    src="${reliveVideoUrl}?autoplay=1"
+                    style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;">
+            </iframe>
+        </div>
+        `;
+
+        // Close button – must be INSIDE wrapper and pointer-events:auto
+        const close = document.createElement('div');
+        close.textContent = "☒";
+        close.style.cssText = `
+            position:absolute;
+            top:-50px;          /* appears above wrapper */
+            right:5px;
+            font-size:45px;
+            cursor:pointer;
+            color:black;
+            pointer-events:auto;   /* ← REQUIRED */
+            z-index:1000001;       /* above iframe */
+        `;
+
+        close.onclick = () => overlay.remove();
+
+        wrapper.appendChild(close);
+        });
+
+        }
+
+        });
+
+        polyline.on('click',()=>{
+            if(activePolyline && activePolyline!==polyline) activePolyline.setStyle({ color: activePolyline.options.color==='red'?initialColor:activePolyline.options.color });
+            polyline.setStyle({ color:'red', weight:4, opacity:1 });
+polyline.bringToFront();
+
+            // Store as active
+            activePolyline = polyline;
+            allMarkers.forEach(m => map.removeLayer(m));
+            allMarkers = [];
+
+            
+    // Start flag
+    const startMarker = L.marker(coords[0], {
+        icon: L.divIcon({
+            className: 'start-icon',
+            html: `<div style="font-size:40px; line-height:40px;">🚩</div>`,
+            iconSize: [40,40],
+            iconAnchor: [5,40]
+        })
+    }).addTo(map);
+    allMarkers.push(startMarker);
+
+    // Finish flag
+            const endMarker = L.marker(coords[coords.length - 1], {
+        icon: L.divIcon({
+            className: 'finish-icon',
+            html: `<div style="font-size:40px; line-height:40px;">🏁</div>`,
+            iconSize: [40,40],
+            iconAnchor: [5,40]
+        })
+    }).addTo(map);
+            allMarkers.push(endMarker);
+
+
+        });
+
+
+
+
+        trackLayers.push(polyline);
+    });
+
+    const bounds = L.featureGroup(trackLayers).getBounds();
+    if (bounds.isValid()) map.fitBounds(bounds);
+}
+
+function filterTracks() {
+    if (!geojsonData) return;
+
+    const start = new Date(document.getElementById('startDate').value);
+    const end = new Date(document.getElementById('endDate').value);
+
+    const filtered = geojsonData.features.filter(f => {
+        const name = f.properties.sourceFile || f.properties.name || '';
+        const d = getTrackDate(name);
+        return d && (!isNaN(start) ? d >= start : true) && (!isNaN(end) ? d <= end : true);
+    });
+
+    drawTracks(filtered);
+}
+</script>
+</body>
+</html>

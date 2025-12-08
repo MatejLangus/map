@@ -1,0 +1,790 @@
+/* Fancy blog post styling */
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background: #fdfdfd;
+    color: #333;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  h2 {
+    font-family: 'Merriweather', serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.3rem;
+  }
+
+  a {
+    color: #2980b9;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  img {
+    max-width: 100%;
+    margin: auto;
+  }
+
+
+.page-wrapper {
+  min-height: 100vh;
+}
+
+/* Header */
+.top-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0rem;
+  margin: 50px 0 10px 0;
+}
+
+.top-header h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1; /* makes it grow to fill available space */
+  margin: 0; /* remove default h1 margin */
+}
+
+/* Ensures the SVG titlt scales with its container */
+.logo-svg {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  max-width: 540px; /* adjust as needed */
+}
+
+/* Ensures the SVG titlt scales with its container */
+.logo-svg a{
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  max-width: 540px; /* adjust as needed */
+}
+
+.home .logo-svg {
+  pointer-events: none;
+  cursor: default;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Footer */
+.site-footer {
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 1rem;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
+.site-footer p {
+    color: #626262;
+}
+
+  .main-layout {
+    display: flex;
+    gap: 2em;
+    padding: 1em 0em;
+    max-width: 1400px;
+    margin: auto;
+    box-sizing: border-box;
+  }
+  
+  .content-wrapper {
+    max-width: 920px;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    flex: 1;
+    position: relative;
+  }
+
+
+/* Navigation Buttons Styling */
+.nav-links-wrapper {
+  margin: 2em 0;
+  clear: both;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.nav-links .prev-link,
+.nav-links .next-link {
+  flex: 1 1 45%;
+  max-width: 48%;
+  text-align: left;
+}
+
+.nav-links .next-link {
+  text-align: right;
+}
+
+.pager-title {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #999;
+  margin-bottom: 0.5em;
+  transition: color 0.3s ease;
+}
+
+.nav-links a {
+  display: inline-block;
+  font-size: 18px;
+  text-shadow: 0.5px 0.5px 0px #000;
+  background-color: #ccc;
+  /* color: #2c3e50; Blogger: $(attribution.link.color)*/
+  text-decoration: none;
+  padding: 7px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 800;
+  word-break: initial;
+  transition: background-color 0.2s ease;
+  text-align: center;
+}
+
+.nav-links a:hover {
+  background-color: #aaa;
+}
+
+.nav-links .prev-link:hover .pager-title,
+.nav-links .next-link:hover .pager-title {
+  color: #ddd;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 360px) {
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-links .prev-link,
+  .nav-links .next-link {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .nav-links a {
+    font-size: 17px;
+    padding: 5px 10px;
+    margin: 0.5rem 0;
+  }
+
+  .pager-title {
+    font-size: 16px;
+  }
+}
+
+
+/* sidebar pages */
+aside.sidebar-pages li {
+    list-style: none;
+    padding: 5px 10px;
+    margin: 0;
+}
+
+
+/* sidebar archive */
+.sidebar-archive h3 {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+.sidebar-archive details {
+  margin-bottom: 0.5em;
+}
+
+.sidebar-archive summary {
+  cursor: pointer;
+  list-style: none;
+  font-weight: bold;
+  /* color: #222; */
+}
+
+.sidebar-archive details[open] > summary::before,
+.sidebar-archive summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.4em;
+  transform: rotate(0deg);
+  transition: transform 0.2s ease;
+}
+
+.sidebar-archive details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.sidebar-archive .month-group {
+  margin-left: 1em;
+}
+
+.sidebar-archive .month-group summary {
+  font-weight: normal;
+  color: #9b6e00; /* dark gold */
+}
+
+.sidebar-archive ul {
+  list-style: none;
+  padding-left: 1em;
+  margin-top: 0.2em;
+}
+
+.sidebar-archive li {
+  margin: 0.2em 0;
+}
+
+.sidebar-archive a {
+  text-decoration: none;
+  color: #9b6e00; /* match gold link color */
+}
+
+.sidebar-archive a:hover {
+  text-decoration: underline;
+}
+
+.active-post > a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+
+
+/* Post lables */
+.post-labels {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.post-label {
+  background-color: #eee;
+  border-radius: 4px;
+  padding: 3px 8px;
+  margin-right: 6px;
+  font-size: 0.85em;
+  color: #555;
+  display: inline-block;
+}
+
+a.my-labels {
+background-color: rgba(243, 137, 29, 0.10);
+border: 1px solid rgba(243, 137, 29, 0.5);
+border-radius:15px;
+display:inline-block;
+margin:4px 4px 4px 0;
+padding:3px 8px
+}
+
+a:visited {
+    color: #F4A900;
+}
+
+a {
+    text-decoration: none;
+    color: #f3891d;
+}
+a {
+    background: transparent;
+}
+
+
+/* Sidebar lables */
+.sidebar-labels {
+  margin-top: 2em;
+}
+.sidebar-labels h3 {
+  margin-bottom: 0.5em;
+}
+.label-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.label-list li {
+    background-color: rgba(243, 137, 29, 0.10);
+    border: 1px solid rgba(243, 137, 29, 0.5);
+    border-radius: 15px;
+    display: inline-block;
+    margin: 4px 4px 4px 0;
+    padding: 3px 8px;
+}
+
+.pill-button {
+  background-color: #eee;
+  border: none;
+  padding: 0.4em 0.8em;
+  margin-top: 1em;
+  cursor: pointer;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.hidden {
+  display: none;
+}
+
+
+.sidebar {
+  display: flex;
+  flex-direction: column; /* Stack vertically */
+  gap: 1rem; /* Optional spacing between Archive and Labels */
+  width: 310px;
+}
+
+.archive,
+.labels,
+.pages,
+.settings,
+.random-photo {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+
+/* Searchbox */
+/* Container for the search box - starts offscreen to the right */
+.search-container {
+  position: fixed;
+  top: 10px;
+  right: -60%;               /* hidden off the screen */
+  width: 50%;
+  transition: right 0.3s ease;
+  z-index: 1000;
+}
+
+/* Visible state – slides into view */
+.search-container.visible {
+  right: 10px;               /* on screen */
+}
+
+/* Search input styling */
+#searchBox {
+  width: 98%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 8px;
+}
+
+/* Search toggle button – same style as .menu-toggle but on the right */
+.search-toggle {
+  display: flex;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 48px;
+  height: 48px;
+  background-color: #fff;        /* pure white */
+  color: #000;                   /* black icon */
+  border: none;
+  border-radius: 10px;
+  font-size: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  z-index: 1001;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-close {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+/* Base styles for menu button (hidden by default) */
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 48px;
+  height: 48px;
+  background-color: #ffffffdd;
+  color: #333;
+  border: none;
+  border-radius: 10px;
+  font-size: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  z-index: 1001;
+  padding: 0;
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive layout for small screens */
+@media (max-width: 1150px) {
+  .sidebar {
+    display: none;
+    padding: 0;
+  }
+
+  .sidebar.visible {
+    display: block;
+    position: fixed;     /* 👈 overlay it */
+    top: 60px;           /* below the button */
+    left: 0;
+    height: calc(100% - 60px); /* adjust height if needed */
+    width: 310px;
+    padding: 15px;
+    z-index: 1000;
+    background-color: #f0f0f0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    overflow-y: auto;
+  }
+
+  .main-layout {
+    gap: 0em;
+    padding: 0em;
+    padding-top: 1em;
+  }
+
+  .content-wrapper {
+    margin: auto;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .logo-svg {
+    width: 80%;
+    max-width: 540px; /* adjust as needed */
+  }
+}
+
+/* Between 800px and 1150px */
+@media (max-width: 1150px) and (min-width: 801px) {
+  .content-wrapper {
+    padding: 1.7rem;
+  }
+}
+
+/* Responsive layout for small screens */
+@media (max-width: 800px) {
+  .content-wrapper {
+    padding: 1rem;
+  }
+
+  .logo-svg {
+    width: 80%;
+    max-width: 540px; /* adjust as needed */
+  }
+}
+
+/* Responsive layout for the smallest screens */
+@media (max-width: 600px) {
+  .content-wrapper {
+    padding: 0.5rem;
+  }
+}
+
+
+/* Mody start - nice picture frame*/
+table.tr-caption-container {
+    max-width: 100%;
+    font-size: 11px;
+    font-style: italic;
+    border-width: 1px;
+    border-style: solid;
+    margin: 5px 15px 10px 0;
+    position: relative;
+}
+
+td.tr-caption {
+    display: block;
+    font-size: 11px;
+    font-style: italic;
+    margin: 0 auto;
+    padding: 3px 10px 5px;
+    text-align: center;
+    font-family: Georgia, times new roman;
+    float: none;
+}
+
+table.tr-caption-container a {
+	  padding: 0px !important;
+}
+
+table.tr-caption-container img {
+    display: block;
+    padding: 5px;
+    margin: 0 auto;
+    max-width: calc(100% - 10px);
+}
+
+.separator:not(:has(.tr-caption-container)) img{
+  /* Apply styles to .separator when .tr-caption-container is not present */
+ padding: 5px;
+    border-width: 1px;
+    border-style: solid;
+    color: gray;
+    max-width: calc(100% - 10px);
+}
+
+/* Mody stop - nice picture frame*/
+
+
+/* TODO Clean up this aditional styling */
+
+/* Disable Text Selection 
+body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+*/
+/* Ensure padding between page links */
+div#PageList1 ul li {
+    padding: 5px 0px;
+}
+
+.sidebar-container {
+    color: #444;
+}
+
+.sidebar-container h2 {
+    font-size: 25px;
+}
+
+/* Adds a thin black border around text for links and pill buttons */
+.sidebar-container a, .pill-button {
+    -webkit-text-stroke: 0.3px black; /* Fallback for Webkit browsers */
+    text-stroke: 0.3px black; /* Thin black border for text */
+}
+
+/* Search results layout */
+.search-posts-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  padding: 30px;
+  background-color: #fafafa;
+  border-radius: 16px;
+}
+
+/* Individual post cards */
+.search-posts-container .post-container {
+  width: 280px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-posts-container .post-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Thumbnail images */
+.search-posts-container .post-thumb {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Post title */
+.search-posts-container .overlay-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  padding: 12px;
+  margin: 0;
+  background-color: #fff;
+  text-align: center;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+/* Make image clickable with smooth hover */
+.search-posts-container .image-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .search-posts-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+  }
+
+  .search-posts-container .post-container {
+    width: 90%;
+  }
+}
+
+.overlay-hidden {
+  display: none;
+}
+
+.overlay-visible {
+  display: block; /* or flex/grid depending on your layout */
+  position: fixed;
+  top: 60px; /* or wherever you want */
+  right: 20px;
+  left: 20px;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 70vh;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: #d33;
+  outline: none;
+  transform: scale(1.2);
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+
+/* Pagination */
+.blog-pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin: 30px auto;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  font-size: 24px;
+}
+
+.blog-pager span {
+  display: inline-block;
+}
+
+.blog-pager a,
+.blog-pager .pagecurrent {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: background-color 0.2s, color 0.2s;
+  min-width: 36px;
+  text-align: center;
+}
+
+.blog-pager a:hover {
+  background-color: #e0e0e0;
+}
+
+.blog-pager .pagecurrent {
+  background-color: #333;
+  color: white;
+  font-weight: bold;
+  cursor: default;
+}
+
+.blog-pager .ellipsis {
+  padding: 6px 10px;
+  color: #999;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+
+/* Gumb 'Na vrh' */
+#backToTop {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: rgba(243, 137, 29, 0.75)
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 22px;
+  padding: 8px 14px;
+  cursor: pointer;
+  display: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: background 0.3s, transform 0.2s;
+  z-index: 9999;
+}
+#backToTop:hover {
+  background: #e07e00;
+  transform: translateY(-2px);
+}
+
+/* Comments */
+#comments h2 {
+  font-size: 18px; /* adjust to your preferred size */
+  font-weight: bold; /* optional, keeps it bold */
+  margin-bottom: 10px; /* optional, space below the title */
+}
+
+/* cover photo style */
+.cover-photo {
+    border-radius: 12px; /* Slightly more rounded for modern look */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}

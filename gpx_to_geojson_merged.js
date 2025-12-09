@@ -98,7 +98,7 @@ gpxFiles.forEach(file => {
 
     if (csvRow) {
         descriptionText += `<br><p><strong>Relive:</strong> ` +
-            `<a href="${csvRow.video_url}" target="_blank">${csvRow.name}</a></p>`;
+            `<a href="${csvRow.relive_url}" target="_blank">${csvRow.name}</a></p>`;
     }
 
     const feature = {

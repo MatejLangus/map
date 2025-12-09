@@ -3,7 +3,7 @@ const path = require('path');
 
 // Directories
 const geojsonDir = './geojson-files';
-const htmlFile = './index.html';
+const htmlFile = './zemljevid/index.html';
 
 // Find all GeoJSON files
 const geojsonFiles = fs.readdirSync(geojsonDir).filter(file => file.endsWith('.geojson'));

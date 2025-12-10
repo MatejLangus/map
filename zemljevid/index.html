@@ -276,6 +276,7 @@ function drawTracks(features){
         let reliveVideoUrl = props.video_url || null;
         let reliveUrl = props.relive_url || null;
         let cover_photo = props.cover_photo || null;
+        let blog_url = props.blog_url || null;
 
         const hiddenKeys = [
             "SourceFile",
@@ -284,7 +285,8 @@ function drawTracks(features){
             "name",
             "date",
             "video_url",
-            "cover_photo"
+            "cover_photo",
+            "blog_url"
         ];
      
 
@@ -326,9 +328,10 @@ function drawTracks(features){
 
     <div style="margin-top:6px; display:flex; gap:8px; align-items:center;">
         <button class="show-details-btn" style="padding:4px 8px; white-space:nowrap;">See details</button>
-        <button class="open-elevation-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">Graph</button>
-        ${reliveUrl ? `<button class="open-relive-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">Relive</button>
-        <button onclick="window.open('${reliveUrl}/explore', '_blank')" class="open-3D-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">3D</button>` : ""}
+        <button class="open-elevation-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">📈</button>
+        ${blog_url ? `<button onclick="window.open('${blog_url}', '_blank')" class="open-3D-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">📷</button>` : ""}
+        ${reliveUrl ? `<button class="open-relive-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">🎬</button>
+        <button onclick="window.open('${reliveUrl}/explore', '_blank')" class="open-3D-btn" style="padding:4px 8px; background:#2a4d9f; color:white; border:none; border-radius:4px; cursor:pointer;">🌍</button>` : ""}
     </div>
     <div class="details" style="display:none; margin-top:8px;">
         ${propsHtml}

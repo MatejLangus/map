@@ -32,7 +32,8 @@ rows.forEach(row => {
         name: row.name?.replace(/^"|"$/g, '') || '',
         date: row.date?.replace(/^"|"$/g, '') || '',
         video_url: row.video_url?.replace(/^"|"$/g, '').replace('.com', '.cc') || '',
-        cover_photo: row.cover_photo?.replace(/^"|"$/g, '') || ''
+        cover_photo: row.cover_photo?.replace(/^"|"$/g, '') || '',
+        blog_url: row.blog_url?.replace(/^"|"$/g, '') || ''
     };
 });
 
@@ -131,7 +132,8 @@ gpxFiles.forEach(file => {
             name: csvRow?.name || '',
             date: csvRow?.date || '',
             video_url: csvRow?.video_url || '',
-            cover_photo: csvRow?.cover_photo || ''
+            cover_photo: csvRow?.cover_photo || '',
+            blog_url: csvRow?.blog_url || ''
         },
         geometry: {
             type: "LineString",

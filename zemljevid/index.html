@@ -343,22 +343,19 @@ function drawTracks(features){
             const detailsDiv=popupEl.querySelector('.details');
             if(detailsBtn && detailsDiv){
                 detailsBtn.onclick = function(){
-                    const gpxPath = 'gpx-files/' + rawName + (rawName.toLowerCase().endsWith('.gpx')?'':'.gpx');
                     if(detailsDiv.style.display==='none'){
                         detailsDiv.style.display='block';
                         detailsBtn.textContent='Hide details';
-                        //showElevation(gpxPath);
                     } else {
                         detailsDiv.style.display='none';
                         detailsBtn.textContent='See details';
-                        //hideElevation();
                     }
                 };
             }
             const elevationBtn = popupEl.querySelector('.open-elevation-btn');
             if(elevationBtn){
                 elevationBtn.onclick = function(){
-                    const gpxPath = 'gpx-files/' + rawName + (rawName.toLowerCase().endsWith('.gpx') ? '' : '.gpx');
+                    const gpxPath = '../gpx-files/' + rawName + (rawName.toLowerCase().endsWith('.gpx') ? '' : '.gpx');
                     showElevation(gpxPath);
                 };
             }

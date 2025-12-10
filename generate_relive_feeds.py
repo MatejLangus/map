@@ -34,11 +34,10 @@ CDN_FEED_COVER_WIDTH = 600  # width for feed cover image
 
 # Paths
 GITHUB_REPO_NAME = "matejlangus.github.io/map"
-LOCAL_REPO_PATH = r"C:\Matej_blog\map"
-source_file = r"C:\Matej_blog\map\relive_data.txt"
+source_file = "relive_data.txt"
 
-gpx_list_file = Path(LOCAL_REPO_PATH) / "gpx_files.txt"
-GPX_BASE_URL = "https://matejlangus.github.io/map/gpx-files/"
+gpx_list_file = r"gpx_files.txt"
+GPX_BASE_URL = r"https://matejlangus.github.io/map/gpx-files/"
 
 data_root = Path("data")
 data_root.mkdir(exist_ok=True)
@@ -96,31 +95,30 @@ def parse_datetime_from_token(token):
 
 # Read full GPX list with full-line retention
 gpx_candidates = []
-if gpx_list_file.exists():
-    with open(gpx_list_file, "r", encoding="latin-1", errors="ignore") as gf:
-        for raw in gf:
-            full_line = raw.strip()
-            if not full_line:
-                continue
-            mfile = re.search(r'(.+\.gpx)', full_line, flags=re.I)
-            if not mfile:
-                continue
-            filename = mfile.group(1)
-            m_ts = re.search(r'(\d{8}[_-]?\d{4,6})', filename)
-            dt_found = None
-            if m_ts:
-                dt_found = parse_datetime_from_token(m_ts.group(1))
-            else:
-                m_date = re.search(r'(\d{8})', filename)
-                if m_date:
-                    dt_found = parse_datetime_from_token(m_date.group(1))
-            gpx_candidates.append({
-                "filename": filename,
-                "fullpath": full_line,
-                "dt": dt_found
-            })
-else:
-    gpx_candidates = []
+
+with open(gpx_list_file, "r", encoding="latin-1", errors="ignore") as gf:
+    for raw in gf:
+        full_line = raw.strip()
+        if not full_line:
+            continue
+        mfile = re.search(r'(.+\.gpx)', full_line, flags=re.I)
+        if not mfile:
+            continue
+        filename = mfile.group(1)
+        m_ts = re.search(r'(\d{8}[_-]?\d{4,6})', filename)
+        dt_found = None
+        if m_ts:
+            dt_found = parse_datetime_from_token(m_ts.group(1))
+        else:
+            m_date = re.search(r'(\d{8})', filename)
+            if m_date:
+                dt_found = parse_datetime_from_token(m_date.group(1))
+        gpx_candidates.append({
+            "filename": filename,
+            "fullpath": full_line,
+            "dt": dt_found
+        })
+
 
 gpx_with_dt = [g for g in gpx_candidates if g["dt"] is not None]
 gpx_without_dt = [g for g in gpx_candidates if g["dt"] is None]

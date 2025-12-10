@@ -37,7 +37,7 @@ import time
 
 GITHUB_USER_NAME = "matejlangus"
 GITHUB_REPO_NAME = "map"
-LOCAL_REPO_PATH = r"C:\Matej_blog\map"
+LOCAL_REPO_PATH = r"C:\Users\Dom\Documents\Blogger\map"
 LOCAL_HOST_URL = f"http://127.0.0.1:5500"
 
 # Nastavitve - Change this one line when switching local <-> GitHub Pages

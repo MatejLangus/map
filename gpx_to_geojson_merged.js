@@ -47,6 +47,26 @@ if (!fs.existsSync(inputFolder)) {
     process.exit(1);
 }
 
+const outputFile = "gpx_files.txt";
+
+try {
+    // Read all entries in the folder
+    const files = fs.readdirSync(inputFolder);
+
+    // Filter only .gpx files
+    const gpxFiles = files.filter(f => f.toLowerCase().endsWith(".gpx"));
+
+    // Create output text (one file per line)
+    const text = gpxFiles.join("\n");
+
+    // Save list.txt
+    fs.writeFileSync(outputFile, text, "utf8");
+
+    console.log(`Created ${outputFile} with ${gpxFiles.length} GPX files.`);
+} catch (err) {
+    console.error("Error:", err);
+}
+
 const gpxFiles = fs.readdirSync(inputFolder).filter(f => f.endsWith('.gpx'));
 if (gpxFiles.length === 0) {
     console.log("No GPX files found in 'gpx-files'.");

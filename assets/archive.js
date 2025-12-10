@@ -4,13 +4,22 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary>2025 (94)</summary>
+    <summary>2025 (98)</summary>
     <details class="month-group">
-      <summary>november 2025 (3)</summary>
+      <summary>december 2025 (2)</summary>
+      <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/12/kepa/">Kepa</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/12/potoska-gora/">Potoška gora</a></li>
+      </ul>
+    </details>
+    <details class="month-group">
+      <summary>november 2025 (5)</summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2025/11/oistra-topitza/">Oistra, Topitza</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/11/sv-jakob-srednji-vrh/">sv. Jakob, Srednji vrh</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/11/monte-cit-monte-torre/">Monte Cit, Monte Torre</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/11/goli-vrh-mala-baba/">Goli vrh, Mala Baba</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/11/jerebikovec/">Jerebikovec</a></li>
       </ul>
     </details>
     <details class="month-group">
@@ -156,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function() {
     </details>
   </details>
   <details open>
-    <summary>2024 (127)</summary>
+    <summary>2024 (128)</summary>
     <details class="month-group">
       <summary>december 2024 (6)</summary>
       <ul>
@@ -273,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary>maj 2024 (12)</summary>
+      <summary>maj 2024 (13)</summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2024/05/pasja-ravan/">Pasja ravan</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/05/dobrca/">Dobrča</a></li>
@@ -287,6 +296,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <li><a href="https://matejlangus.github.io/map/posts/2024/05/glocknergrat-erikagrat/">Glocknergrat, Erikagrat 🧗</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/05/falkenstein/">Falkenstein</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/05/dunaj/">Dunaj</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2024/05/bruck-an-der-mur/">Bruck an der Mur</a></li>
       </ul>
     </details>
     <details class="month-group">
@@ -570,7 +580,7 @@ MARATON FRANJA</a></li>
     </details>
   </details>
   <details open>
-    <summary>2022 (155)</summary>
+    <summary>2022 (156)</summary>
     <details class="month-group">
       <summary>december 2022 (14)</summary>
       <ul>
@@ -624,7 +634,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary>september 2022 (25)</summary>
+      <summary>september 2022 (26)</summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/09/tirana/">Tirana</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/09/elbasan/">Elbasan</a></li>
@@ -651,6 +661,7 @@ MARATON FRANJA</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/09/meteora/">Meteora</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/09/fanoti/">Fanoti</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/09/igoumenitsa-ioannina/">Igoumenitsa - Ioannina</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2022/09/aoos/">Aoös</a></li>
       </ul>
     </details>
     <details class="month-group">

@@ -96,7 +96,7 @@ def parse_datetime_from_token(token):
 # Read full GPX list with full-line retention
 gpx_candidates = []
 
-with open(gpx_list_file, "r", encoding="latin-1", errors="ignore") as gf:
+with open(gpx_list_file, "r", encoding="utf8", errors="ignore") as gf:
     for raw in gf:
         full_line = raw.strip()
         if not full_line:

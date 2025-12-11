@@ -257,6 +257,8 @@ function getTrackDate(name) {
     return null;
 }
 
+const trackLayers1 = {};
+
 function drawTracks(features){
     trackLayers.forEach(l=>{
         if(l.startMarker) map.removeLayer(l.startMarker);
@@ -266,6 +268,7 @@ function drawTracks(features){
     trackLayers = [];
 
     features.forEach(feature => {
+        
         const geometry = feature.geometry;
         if (!geometry || geometry.type !== 'LineString') return;
 
@@ -316,7 +319,7 @@ function drawTracks(features){
         const hasVideo = !!reliveUrl;
         const initialColor = hasVideo ? 'blue' : 'green';
         const polyline = L.polyline(coords.slice(2), { color: initialColor, weight: 3, opacity: 1 }).addTo(map);
-
+        trackLayers1[rawName] = polyline;
         const popupContent = `
     <h3 style="margin:0; font-size:1.1em;">${name}</h3>
     ${cover_photo ? `
@@ -476,8 +479,25 @@ polyline.bringToFront();
     });
 
     const bounds = L.featureGroup(trackLayers).getBounds();
-    if (bounds.isValid()) map.fitBounds(bounds);
+    //if (bounds.isValid()) map.fitBounds(bounds);
+
+        // --- URL argument auto-select ---
+const params = new URLSearchParams(window.location.search);
+const wanted = params.get("track");
+
+if (wanted && trackLayers1[wanted]) {
+    const layer = trackLayers1[wanted];
+    map.fitBounds(layer.getBounds(), { padding: [20, 20] });
+
+    layer.fire('click');
+    // optional: remove ?track=... so browser Back does not reload
+    history.replaceState({}, "", window.location.pathname);
 }
+
+}
+
+
+
 
 function filterTracks() {
     if (!geojsonData) return;

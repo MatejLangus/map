@@ -70,7 +70,7 @@ function insertMapContainer(gpxURL, reliveURL, stravaURL, index) {
 
         // Create the button to show the map
         const button = document.createElement('button');
-        button.innerText = 'Prikaži zemljevid';
+        button.innerText = 'Zemljevid ene sledi';
 
         // Apply the CSS class to the button
         button.className = 'show-map-button';
@@ -80,7 +80,7 @@ function insertMapContainer(gpxURL, reliveURL, stravaURL, index) {
 
         // Create the button to show the map
         const button2 = document.createElement('button');
-        button.innerText = 'Skupni zemljevid';
+        button2.innerText = 'Skupni zemljevid';
 
         // Apply the CSS class to the button
         button2.className = 'show-map-button2';

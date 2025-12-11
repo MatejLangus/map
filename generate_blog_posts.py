@@ -1412,7 +1412,7 @@ def fetch_and_save_all_posts(entries):
   <script src='https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js'></script>
   <script src='https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@3.1.0/dist/Control.Geocoder.min.js'></script>
   <script src="{BASE_SITE_URL}/assets/Main.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MyMapScript.js" defer></script>
+  <script src="https://matejlangus.github.io/map/assets/MyMapScript.js" defer></script>
   <script src="https://metodlangus.github.io/assets/MySlideshowScript.js" defer></script>
 </body>
 </html>""")

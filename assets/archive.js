@@ -4,10 +4,12 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary>2025 (98)</summary>
+    <summary>2025 (100)</summary>
     <details class="month-group">
-      <summary>december 2025 (2)</summary>
+      <summary>december 2025 (4)</summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/12/spik/">Špik</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/12/dobrca/">Dobrča</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/12/potoska-gora/">Potoška gora</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/12/kepa/">Kepa</a></li>
       </ul>
@@ -799,7 +801,7 @@ MARATON FRANJA</a></li>
     </details>
   </details>
   <details open>
-    <summary>2021 (49)</summary>
+    <summary>2021 (53)</summary>
     <details class="month-group">
       <summary>december 2021 (11)</summary>
       <ul>
@@ -843,7 +845,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary>september 2021 (22)</summary>
+      <summary>september 2021 (26)</summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/koroska-rinka-vellacherturm-velika-baba/">Koroška Rinka, Vellacherturm, Velika Baba</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/gamsweisenspitze-simonskopf-seekofel/">Gamsweisenspitze, Simonskopf, Seekofel</a></li>
@@ -864,8 +866,12 @@ MARATON FRANJA</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/grosser-priel/">Großer Priel</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/poppenberg-ferata/">Poppenberg (ferata)</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/zirbitzkogel/">Zirbitzkogel</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/09/zirbitzkogel/">Zirbitzkogel</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/09/ferate-kala-kalo-kali-in-heildi/">ferate Kala, Kalo, Kali in Heildi</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/ferate-kala-kalo-kali-in-heildi/">ferate Kala, Kalo, Kali in Heildi</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/ferati-silberkar-in-sinabell/">ferati Silberkar in Sinabell</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/09/ferati-silberkar-in-sinabell/">ferati Silberkar in Sinabell</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/09/schladming/">Schladming</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/schladming/">Schladming</a></li>
       </ul>
     </details>

@@ -346,6 +346,8 @@ var StravaURL0 = "";
         # Save JSON
         with open(posts_root / f"{activity.get('id')}.json", 'w', encoding='utf-8') as pf:
             json.dump({"version": "1.0", "encoding": "UTF-8", "entry": entry}, pf, indent=2, ensure_ascii=False)
+# SORT ENTRIES: latest first
+feed["feed"]["entry"].sort(key=lambda e: e["published"]["$t"], reverse=True)            
 
 feed["feed"]["category"] = all_terms_list
 

@@ -83,7 +83,7 @@ function insertMapContainer(gpxURL, reliveURL, stravaURL, index) {
         button2.innerText = 'Skupni zemljevid';
 
         // Apply the CSS class to the button
-        button2.className = 'show-map-button2';
+        button2.className = 'show-map-button';
 
         url = "https://matejlangus.github.io/map/zemljevid/index.html?track=" + encodeURIComponent(gpxURL.split("/").pop());
 

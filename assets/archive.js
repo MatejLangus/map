@@ -801,7 +801,7 @@ MARATON FRANJA</a></li>
     </details>
   </details>
   <details open>
-    <summary>2021 (53)</summary>
+    <summary>2021 (51)</summary>
     <details class="month-group">
       <summary>december 2021 (11)</summary>
       <ul>
@@ -845,7 +845,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary>september 2021 (26)</summary>
+      <summary>september 2021 (24)</summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/koroska-rinka-vellacherturm-velika-baba/">Koroška Rinka, Vellacherturm, Velika Baba</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/gamsweisenspitze-simonskopf-seekofel/">Gamsweisenspitze, Simonskopf, Seekofel</a></li>
@@ -866,13 +866,11 @@ MARATON FRANJA</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/grosser-priel/">Großer Priel</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/poppenberg-ferata/">Poppenberg (ferata)</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/zirbitzkogel/">Zirbitzkogel</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2021/09/zirbitzkogel/">Zirbitzkogel</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2021/09/ferate-kala-kalo-kali-in-heildi/">ferate Kala, Kalo, Kali in Heildi</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/ferate-kala-kalo-kali-in-heildi/">ferate Kala, Kalo, Kali in Heildi</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/ferati-silberkar-in-sinabell/">ferati Silberkar in Sinabell</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2021/09/ferati-silberkar-in-sinabell/">ferati Silberkar in Sinabell</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/schladming/">Schladming</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2021/09/schladming/">Schladming</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/09/dachsteinwarte/">Dachsteinwarte</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/09/ferata-laserer-alpin-steig/">ferata Laserer alpin Steig</a></li>
       </ul>
     </details>
   </details>

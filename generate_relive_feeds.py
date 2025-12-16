@@ -23,6 +23,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 from slugify import slugify
+from urllib.parse import unquote
 
 # ---------------- CONFIG ----------------
 EXCLUDE_PRIVATE = True  # set to True to skip private activities
@@ -197,7 +198,7 @@ with open(source_file, 'r', encoding='utf-8') as f:
         if cover and cover.get('type') == 'url' and 'image' in cover:
             img = cover['image']
             if 'url' in img:
-                cover_photo_url = img['url']
+                cover_photo_url = str(unquote(img['url']))
                 # Compute width from media list if possible
                 cover_filename = cover_photo_url.split("/")[-1]
                 for media in media_list:
@@ -243,7 +244,7 @@ with open(source_file, 'r', encoding='utf-8') as f:
             if not variants:
                 continue
             original = variants[0]
-            original_url = original.get('url')
+            original_url = str(unquote(original.get('url')))
             if not original_url:
                 continue
 

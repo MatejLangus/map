@@ -801,7 +801,7 @@ MARATON FRANJA</a></li>
     </details>
   </details>
   <details open>
-    <summary>2021 (51)</summary>
+    <summary>2021 (52)</summary>
     <details class="month-group">
       <summary>december 2021 (11)</summary>
       <ul>
@@ -845,7 +845,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary>september 2021 (24)</summary>
+      <summary>september 2021 (25)</summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/koroska-rinka-vellacherturm-velika-baba/">Koroška Rinka, Vellacherturm, Velika Baba</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/gamsweisenspitze-simonskopf-seekofel/">Gamsweisenspitze, Simonskopf, Seekofel</a></li>
@@ -871,11 +871,18 @@ MARATON FRANJA</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/schladming/">Schladming</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/dachsteinwarte/">Dachsteinwarte</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/ferata-laserer-alpin-steig/">ferata Laserer alpin Steig</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/09/grosser-donnerkogel/">Großer Donnerkogel</a></li>
       </ul>
     </details>
   </details>
   <details open>
-    <summary>2020 (1)</summary>
+    <summary>2020 (2)</summary>
+    <details class="month-group">
+      <summary>avgust 2020 (1)</summary>
+      <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/08/reisseck/">Reißeck</a></li>
+      </ul>
+    </details>
     <details class="month-group">
       <summary>april 2020 (1)</summary>
       <ul>

@@ -100,6 +100,42 @@ def create_matched_csv():
                     "cover_photo": cover_url,
                     "blog_url": blog_url
                 })
+            elif relive_timestamp[:-2] + f"{int(relive_timestamp[-2:]) + 1:02d}" in gpx_timestamps:
+                # get cover photo URL if available
+                cover_url = activity.get("activity_info", {}).get("cover", {}).get("image", {}).get("url", "")
+                blog_url = make_blog_url(
+                activity.get("activity_info", {}).get("name"),
+                start)
+                if blog_url not in sitemap_urls:
+                    blog_url = None
+                
+                matched.append({
+                    "gpx_file": gpx_timestamps[relive_timestamp[:-2] + f"{int(relive_timestamp[-2:]) + 1:02d}"],  # just filename
+                    "relive_id": activity.get("id"),
+                    "relive_url": activity.get("activity_page_url"),
+                    "name": activity.get("activity_info", {}).get("name"),
+                    "video_url": activity.get("video_url"),
+                    "cover_photo": cover_url,
+                    "blog_url": blog_url
+                })
+            elif relive_timestamp[:-2] + f"{int(relive_timestamp[-2:]) - 1:02d}" in gpx_timestamps:
+                # get cover photo URL if available
+                cover_url = activity.get("activity_info", {}).get("cover", {}).get("image", {}).get("url", "")
+                blog_url = make_blog_url(
+                activity.get("activity_info", {}).get("name"),
+                start)
+                if blog_url not in sitemap_urls:
+                    blog_url = None
+                
+                matched.append({
+                    "gpx_file": gpx_timestamps[relive_timestamp[:-2] + f"{int(relive_timestamp[-2:]) - 1:02d}"],  # just filename
+                    "relive_id": activity.get("id"),
+                    "relive_url": activity.get("activity_page_url"),
+                    "name": activity.get("activity_info", {}).get("name"),
+                    "video_url": activity.get("video_url"),
+                    "cover_photo": cover_url,
+                    "blog_url": blog_url
+                })
             else:
                 print(activity.get("activity_info", {}).get("name"), relive_timestamp)
 

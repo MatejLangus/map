@@ -582,7 +582,7 @@ MARATON FRANJA</a></li>
     </details>
   </details>
   <details open>
-    <summary>2022 (156)</summary>
+    <summary>2022 (157)</summary>
     <details class="month-group">
       <summary>december 2022 (14)</summary>
       <ul>
@@ -726,7 +726,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary>maj 2022 (8)</summary>
+      <summary>maj 2022 (9)</summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/05/ljubno/">Ljubno</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/05/loibler-grintoutz-singerberg/">Loibler Grintoutz, Singerberg</a></li>
@@ -734,6 +734,7 @@ MARATON FRANJA</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/05/rt-silo/">Rt Šilo</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/05/skrbina/">Škrbina 🥾&amp;🚲</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/05/storzic/">Storžič</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2022/05/royal-bled-golf/">Royal Bled Golf</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/05/grmada-smarna-gora/">Grmada, Šmarna gora</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/05/bela-pec/">Bela Peč   🚲&amp;🥾</a></li>
       </ul>

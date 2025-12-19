@@ -25,7 +25,11 @@ from pathlib import Path
 from slugify import slugify
 from urllib.parse import unquote
 
-# ---------------- CONFIG ----------------
+# Settings - Change this one line when switching local <-> GitHub Pages
+GITHUB_REPO_NAME = "matejlangus.github.io/map"    # GitHub Pages
+# GITHUB_REPO_NAME = "matejlangus.github.io/"       # Live server
+
+# Confing
 EXCLUDE_PRIVATE = True  # set to True to skip private activities
 
 # CDN widths
@@ -33,8 +37,6 @@ CDN_SRC_WIDTH = 1000   # width for <img src>
 CDN_HREF_WIDTH = 1600  # width for <a href>
 CDN_FEED_COVER_WIDTH = 600  # width for feed cover image
 
-# Paths
-GITHUB_REPO_NAME = "matejlangus.github.io/map"
 source_file = "relive_data.txt"
 
 gpx_list_file = r"gpx_files.txt"

@@ -1,4 +1,7 @@
-const WindowBaseUrl = window.location.origin + "/map/";
+// # Settings - Change this one line when switching local <-> GitHub Pages
+const WindowBaseUrl = window.location.origin + "/map/";    // GitHub Pages
+// const WindowBaseUrl = window.location.origin;              // Live server
+
 const initPhotos = 3; // Determine range of photos to be shown on slideshows and in posts
 const initMapPhotos = 3; // Determine range of photos to be shown on map
 

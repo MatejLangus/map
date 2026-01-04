@@ -4,10 +4,27 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2025/">2025 (102)</a></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026 (2)</a></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/12/">december 2025 (6)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/01/">januar 2026 (2)</a></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/01/kamnek/">Kamnek</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/01/hochtristen-knoten/">Hochtristen, Knoten</a></li>
+      </ul>
+    </details>
+  </details>
+  <details open>
+    <summary><a href="https://matejlangus.github.io/map/posts/2025/">2025 (109)</a></summary>
+    <details class="month-group">
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/12/">december 2025 (13)</a></summary>
+      <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/12/ziganja-vas/">Žiganja vas</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/12/mallestiger-mittagskogel-murnovec-kresisce/">Mallestiger Mittagskogel, Murnovec, Kresišče</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/12/vrh-velikih-gac/">Vrh Velikih Gač</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/12/latschur-staff/">Latschur, Staff</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/12/bela-pec/">Bela peč</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/12/mallnitz/">Mallnitz 🎄</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/12/mallnitz/">Mallnitz</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/12/zeniklovec/">Ženiklovec</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/12/gorenji-krivi-rob/">Gorenji Krivi Rob</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/12/spik/">Špik</a></li>

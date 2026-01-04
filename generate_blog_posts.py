@@ -78,11 +78,10 @@ BASE_FEED_PATH = f"{LOCAL_REPO_PATH }/data/all-posts.json"
 REMOTE_DB_URL = f"{BASE_SITE_URL}/.build/lastmod.json"
 
 def load_lastmod_db():
-    LASTMOD_DB.parent.mkdir(parents=True, exist_ok=True)
-    if not LASTMOD_DB.exists():
-        LASTMOD_DB.write_text("{}", encoding="utf-8")  # create empty JSON
-    with open(LASTMOD_DB, "r", encoding="utf-8") as f:
-        return json.load(f)
+    if LASTMOD_DB.exists():
+        with open(LASTMOD_DB, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
 
 def save_lastmod_db(db):
     LASTMOD_DB.parent.mkdir(parents=True, exist_ok=True)
@@ -432,6 +431,7 @@ def build_archive_sidebar_html(entries):
     Generate complete archive sidebar HTML from Blogger entries.
     Clicking a year/month navigates to the correct archive page,
     arrow still expands/collapses the section.
+    Numbers are displayed with a space before parentheses.
     """
     archive_dict = generate_unique_slugs(entries, return_type="archive")
 
@@ -442,9 +442,9 @@ def build_archive_sidebar_html(entries):
     for y in sorted(archive_dict.keys(), reverse=True):
         year_posts = archive_dict[y]
         year_count = sum(len(posts) for posts in year_posts.values())
-        # Link to yearly page
+        # Year link with space before parentheses
         archive_html += f"""  <details open>
-    <summary><a href="{BASE_SITE_URL}/posts/{y}/">{y} ({year_count})</a></summary>
+    <summary><a href="{BASE_SITE_URL}/posts/{y}/">{y}</a>&nbsp;<span class="post-count" dir="ltr">({year_count})</span></summary>
 """
 
         for m in sorted(year_posts.keys(), reverse=True):
@@ -455,11 +455,11 @@ def build_archive_sidebar_html(entries):
                 month_name = format_datetime(dummy_date, "LLLL", locale="sl")
             except ValueError:
                 month_name = m
-            month_label = f"{month_name} {y} ({len(posts)})"
+            month_label = f"{month_name} {y}"
 
-            # Month link
+            # Month link with space before parentheses
             archive_html += f"""    <details class="month-group">
-      <summary><a href="{BASE_SITE_URL}/posts/{y}/{m}/">{month_label}</a></summary>
+      <summary><a href="{BASE_SITE_URL}/posts/{y}/{m}/">{month_label}</a>&nbsp;<span class="post-count" dir="ltr">({len(posts)})</span></summary>
       <ul>
 """
 
@@ -1076,6 +1076,7 @@ def generate_sitemap_from_folder(folder_path: Path, exclude_dirs=None, exclude_f
         exclude_files = []
 
     lastmod_db = load_lastmod_db()
+    new_lastmod_db = {}  # Collect updated entries
 
     urlset = Element("urlset", {"xmlns": "http://www.sitemaps.org/schemas/sitemap/0.9"})
 
@@ -1101,6 +1102,12 @@ def generate_sitemap_from_folder(folder_path: Path, exclude_dirs=None, exclude_f
             # Changed → update time
             lastmod = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
+        # Persist entry so next run can compare correctly
+        new_lastmod_db[key] = {
+            "md5": md5,
+            "lastmod": lastmod
+        }
+
         # Build URL
         url = f"{BASE_SITE_URL}/{relative_path}"
 
@@ -1116,11 +1123,14 @@ def generate_sitemap_from_folder(folder_path: Path, exclude_dirs=None, exclude_f
         elif len(parts) == 1 and parts[0] != "index.html":
             priority = 0.6                     # other root HTML files
         else:
-            priority = 0.5                       # fallback default
+            priority = 0.5                     # fallback default
 
         changefreq = "monthly"
 
         urlset.append(generate_url_element(url, lastmod=lastmod, changefreq=changefreq, priority=priority))
+
+    # Save updated DB (this was missing)
+    save_lastmod_db(new_lastmod_db)
 
     # Pretty-print & write XML
     indent_xml(urlset)

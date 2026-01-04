@@ -29,7 +29,7 @@ from urllib.parse import unquote
 GITHUB_REPO_NAME = "matejlangus.github.io/map"    # GitHub Pages
 # GITHUB_REPO_NAME = "matejlangus.github.io/"       # Live server
 
-# Confing
+# Config
 EXCLUDE_PRIVATE = True  # set to True to skip private activities
 
 # CDN widths
@@ -122,7 +122,6 @@ with open(gpx_list_file, "r", encoding="utf8", errors="ignore") as gf:
             "dt": dt_found
         })
 
-
 gpx_with_dt = [g for g in gpx_candidates if g["dt"] is not None]
 gpx_without_dt = [g for g in gpx_candidates if g["dt"] is None]
 
@@ -142,6 +141,9 @@ feed = {
         "entry": []
     }
 }
+
+# --- Track slug counts for uniqueness per month/year ---
+slug_counter = {}  # key = (base_slug, year, month)
 
 # Process activities
 with open(source_file, 'r', encoding='utf-8') as f:
@@ -163,7 +165,6 @@ with open(source_file, 'r', encoding='utf-8') as f:
             continue
 
         activity_name = info.get('name', f"activity-{i+1}")
-        slug = sanitize_name(activity_name)
 
         start_date = info.get('start_date_local') or info.get('start_date')
         if start_date:
@@ -173,6 +174,16 @@ with open(source_file, 'r', encoding='utf-8') as f:
 
         year = dt.strftime("%Y")
         month = dt.strftime("%m")
+
+        # --- Generate unique slug per month/year ---
+        base_slug = sanitize_name(activity_name)
+        slug_key = (base_slug, year, month)
+        count = slug_counter.get(slug_key, 0)
+        if count == 0:
+            slug = base_slug
+        else:
+            slug = f"{base_slug}-{count+1}"
+        slug_counter[slug_key] = count + 1
 
         post_url = f"https://{GITHUB_REPO_NAME}/posts/{year}/{month}/{slug}/index.html"
 
@@ -194,7 +205,6 @@ with open(source_file, 'r', encoding='utf-8') as f:
 
         # Cover photo
         cover_photo_url = None
-        thumbnail_url = None
         cover_width = 800  # default horizontal
         cover = info.get('cover', {})
         if cover and cover.get('type') == 'url' and 'image' in cover:
@@ -220,7 +230,6 @@ with open(source_file, 'r', encoding='utf-8') as f:
 </div>
 <span><a name='more'></a></span>
 """
-
         # Cover image with separate CDN widths
         if cover_photo_url:
             src_cdn = relive_cdn(cover_photo_url, CDN_SRC_WIDTH)
@@ -291,7 +300,6 @@ var CoverPhoto0 = '{relive_cdn(cover_photo_url, CDN_SRC_WIDTH)}';
 """
 
         # GPX matching
-        matched_gpx = None
         activity_dt_naive = dt.replace(tzinfo=None)
         best = None
         best_diff = None
@@ -349,9 +357,9 @@ var StravaURL0 = "";
         # Save JSON
         with open(posts_root / f"{activity.get('id')}.json", 'w', encoding='utf-8') as pf:
             json.dump({"version": "1.0", "encoding": "UTF-8", "entry": entry}, pf, indent=2, ensure_ascii=False)
-# SORT ENTRIES: latest first
-feed["feed"]["entry"].sort(key=lambda e: e["published"]["$t"], reverse=True)            
 
+# SORT ENTRIES: latest first
+feed["feed"]["entry"].sort(key=lambda e: e["published"]["$t"], reverse=True)
 feed["feed"]["category"] = all_terms_list
 
 with open(feed_file, 'w', encoding='utf-8') as f:

@@ -40,8 +40,8 @@ def missing_relive_to_file():
             page.goto("https://www.relive.com/login")
             page.fill('input[name="email"]', EMAIL)
             page.fill('input[name="password"]', PASSWORD)
-            page.click('input.login-button')
-            page.wait_for_load_state("networkidle")
+            with page.expect_navigation(wait_until="domcontentloaded"):
+                page.click('input.login-button')
             print("Logged in successfully.")
 
             # Navigate to My Data
@@ -106,8 +106,12 @@ def missing_relive_to_file():
             extra_in_file = file_ids - parsed_ids
 
             print("-------------------------------------------------")
-            if missing_in_file:
-                    output_file = "missing_ids.txt"
+
+            
+            output_file = "missing_ids.txt"
+            if os.path.exists(output_file):
+                os.remove(output_file)
+                print("old missing.txt file removed")
             with open(output_file, "w", encoding="utf-8") as f:
                 for mid in missing_in_file:
                     f.write(f"https://www.relive.com/view/{mid}\n")

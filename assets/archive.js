@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
     </details>
   </details>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2025/">2025</a>&nbsp;<span class="post-count" dir="ltr">(109)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2025/">2025</a>&nbsp;<span class="post-count" dir="ltr">(117)</span></summary>
     <details class="month-group">
       <summary><a href="https://matejlangus.github.io/map/posts/2025/12/">december 2025</a>&nbsp;<span class="post-count" dir="ltr">(13)</span></summary>
       <ul>
@@ -53,11 +53,19 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/09/">september 2025</a>&nbsp;<span class="post-count" dir="ltr">(7)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/09/">september 2025</a>&nbsp;<span class="post-count" dir="ltr">(15)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/cedre-gouraud/">Cèdre Gouraud 🐒</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/jurassique-trail/">Jurassique trail</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/kanjon-ziz/">kanjon Ziz</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/09/grande-dune-de-merzouga/">Grande dune de Merzouga</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/erg-chebbi/">Erg Chebbi</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/09/jbel-asstef-toudra/">Jbel Asstef, Toudra</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/tinghir/">Tinghir</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/09/soteska-dades/">soteska Dadès</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/ait-benhaddou/">Aït Benhaddou</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/tizi-n-tichka/">Tizi n&#x27;Tichka</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/ait-ourir/">Ait Ourir</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/09/toubkal/">Toubkal</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/09/aourirt-n-ouassif/">Aourirt n&#x27;Ouassif</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/09/maroko-roadtrip/">Maroko roadtrip</a></li>

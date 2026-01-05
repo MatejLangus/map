@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026 (2)</a></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/01/">januar 2026 (2)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/01/">januar 2026</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2026/01/kamnek/">Kamnek</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/01/hochtristen-knoten/">Hochtristen, Knoten</a></li>
@@ -14,9 +14,9 @@ document.addEventListener("DOMContentLoaded", function() {
     </details>
   </details>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2025/">2025 (109)</a></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2025/">2025</a>&nbsp;<span class="post-count" dir="ltr">(109)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/12/">december 2025 (13)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/12/">december 2025</a>&nbsp;<span class="post-count" dir="ltr">(13)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2025/12/ziganja-vas/">Žiganja vas</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/12/mallestiger-mittagskogel-murnovec-kresisce/">Mallestiger Mittagskogel, Murnovec, Kresišče</a></li>
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <li><a href="https://matejlangus.github.io/map/posts/2025/12/latschur-staff/">Latschur, Staff</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/12/bela-pec/">Bela peč</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/12/mallnitz/">Mallnitz 🎄</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2025/12/mallnitz/">Mallnitz</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/12/mallnitz-2/">Mallnitz</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/12/zeniklovec/">Ženiklovec</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/12/gorenji-krivi-rob/">Gorenji Krivi Rob</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/12/spik/">Špik</a></li>
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/11/">november 2025 (5)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/11/">november 2025</a>&nbsp;<span class="post-count" dir="ltr">(5)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2025/11/goli-vrh-mala-baba/">Goli vrh, Mala Baba</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/11/jerebikovec/">Jerebikovec</a></li>
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/10/">oktober 2025 (4)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/10/">oktober 2025</a>&nbsp;<span class="post-count" dir="ltr">(4)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2025/10/volcji-potok/">Volčji Potok 🚲&amp;👟</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/10/greben-polovnika/">greben Polovnika</a></li>
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/09/">september 2025 (7)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/09/">september 2025</a>&nbsp;<span class="post-count" dir="ltr">(7)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2025/09/grande-dune-de-merzouga/">Grande dune de Merzouga</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/09/jbel-asstef-toudra/">Jbel Asstef, Toudra</a></li>
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/08/">avgust 2025 (7)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/08/">avgust 2025</a>&nbsp;<span class="post-count" dir="ltr">(7)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2025/08/nad-podljubelj/">nad Podljubelj</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/08/ponza-piccola-mala-ponca/">Ponza Piccola/Mala Ponca</a></li>
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/07/">julij 2025 (8)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/07/">julij 2025</a>&nbsp;<span class="post-count" dir="ltr">(8)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2025/07/gorjuse/">Gorjuše</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/07/picco-di-mezzodi-skala/">Picco di Mezzodì, Skala</a></li>
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/06/">junij 2025 (14)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/06/">junij 2025</a>&nbsp;<span class="post-count" dir="ltr">(14)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2025/06/vorder-geisslkopf/">Vorder Geißlkopf</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/06/hohe-leier/">Hohe Leier</a></li>
@@ -102,14 +102,14 @@ document.addEventListener("DOMContentLoaded", function() {
         <li><a href="https://matejlangus.github.io/map/posts/2025/06/ravnik-brda/">Ravnik, Brda</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/06/jezersko/">Jezersko</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/06/begunje/">Begunje</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2025/06/begunje/">Begunje</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/06/begunje-2/">Begunje</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/06/7-tek-na-stari-ljubelj/">7. tek na stari Ljubelj</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/06/jamnik/">Jamnik</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/06/creta-di-timau/">Creta di Timau</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/05/">maj 2025 (17)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/05/">maj 2025</a>&nbsp;<span class="post-count" dir="ltr">(17)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2025/05/timau-cleulis/">Timau, Cleulis</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/05/cuestalta-hoher-trieb/">Cuestalta (Hoher Trieb)</a></li>
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/04/">april 2025 (17)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/04/">april 2025</a>&nbsp;<span class="post-count" dir="ltr">(17)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2025/04/veliki-sibenik-sveti-jure/">Veliki Šibenik, Sveti Jure</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/04/fortica/">Fortica</a></li>
@@ -145,15 +145,15 @@ document.addEventListener("DOMContentLoaded", function() {
         <li><a href="https://matejlangus.github.io/map/posts/2025/04/drazgose-bohinj/">Dražgoše, Bohinj</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/04/frankfurt-brnik/">Frankfurt - Brnik ✈️</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/04/rieselfelder-munster/">Rieselfelder Münster</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2025/04/munster/">Münster</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2025/04/munster/">Münster</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/04/munster-3/">Münster</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/04/munster-2/">Münster</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/04/munster/">Münster</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/04/frankfurt/">Frankfurt ✈️</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/04/dobrca/">Dobrča</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/03/">marec 2025 (5)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/03/">marec 2025</a>&nbsp;<span class="post-count" dir="ltr">(5)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2025/03/schilchernock-gaipahohe/">Schilchernock, Gaipahöhe</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/03/ojstra-pec/">Ojstra peč</a></li>
@@ -163,19 +163,19 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/02/">februar 2025 (7)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/02/">februar 2025</a>&nbsp;<span class="post-count" dir="ltr">(7)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2025/02/medvode/">Medvode</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2025/02/kanin/">Kanin</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/02/kanin-2/">Kanin</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/02/savske-jame/">Savske jame 🛷</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/02/dobrca/">Dobrča</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/02/kanin/">Kanin</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/02/jezero-crnava/">jezero Črnava</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2025/02/kanin/">Kanin</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/02/kanin-3/">Kanin</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/01/">januar 2025 (5)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/01/">januar 2025</a>&nbsp;<span class="post-count" dir="ltr">(5)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2025/01/hochobir/">Hochobir</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/01/vosca-trupejevo-poldne/">Vošca, Trupejevo poldne</a></li>
@@ -186,9 +186,9 @@ document.addEventListener("DOMContentLoaded", function() {
     </details>
   </details>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2024/">2024 (128)</a></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2024/">2024</a>&nbsp;<span class="post-count" dir="ltr">(128)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2024/12/">december 2024 (6)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2024/12/">december 2024</a>&nbsp;<span class="post-count" dir="ltr">(6)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2024/12/caven/">Čaven</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/12/vojsko-tek-na-smuceh/">Vojsko (tek na smučeh)</a></li>
@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2024/11/">november 2024 (11)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2024/11/">november 2024</a>&nbsp;<span class="post-count" dir="ltr">(11)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2024/11/graslitzen-vellacher-egel-spitzegel/">Graslitzen, Vellacher Egel, Spitzegel</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/11/srednji-vrh-vrtaca/">Srednji vrh, Vrtača</a></li>
@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2024/10/">oktober 2024 (4)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2024/10/">oktober 2024</a>&nbsp;<span class="post-count" dir="ltr">(4)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2024/10/cima-d-auta-orientale/">Cima d&#x27;Auta Orientale</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/10/cima-di-val-di-roda/">Cima di Val di Roda</a></li>
@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2024/09/">september 2024 (22)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2024/09/">september 2024</a>&nbsp;<span class="post-count" dir="ltr">(22)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2024/09/mali-grintovec/">Mali Grintovec</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/09/prsivec-tolminski-kuk/">Pršivec, Tolminski Kuk</a></li>
@@ -251,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2024/08/">avgust 2024 (10)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2024/08/">avgust 2024</a>&nbsp;<span class="post-count" dir="ltr">(10)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2024/08/kremnica/">Kremnica</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/08/haj/">Háj</a></li>
@@ -266,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2024/07/">julij 2024 (14)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2024/07/">julij 2024</a>&nbsp;<span class="post-count" dir="ltr">(14)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2024/07/slap-pod-kurico/">Slap pod Kurico</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/07/cimon-del-cavallo/">Cimon del Cavallo</a></li>
@@ -285,7 +285,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2024/06/">junij 2024 (13)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2024/06/">junij 2024</a>&nbsp;<span class="post-count" dir="ltr">(13)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2024/06/velika-baba/">Velika Baba</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/06/monte-sart/">Monte Sart</a></li>
@@ -303,7 +303,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2024/05/">maj 2024 (13)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2024/05/">maj 2024</a>&nbsp;<span class="post-count" dir="ltr">(13)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2024/05/pasja-ravan/">Pasja ravan</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/05/dobrca/">Dobrča</a></li>
@@ -321,7 +321,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2024/04/">april 2024 (17)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2024/04/">april 2024</a>&nbsp;<span class="post-count" dir="ltr">(17)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2024/04/gebirgsvereinssteig-wildenauersteig/">Gebirgsvereinssteig, Wildenauersteig</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/04/grosse-kanzel/">Große Kanzel 🧗</a></li>
@@ -332,7 +332,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <li><a href="https://matejlangus.github.io/map/posts/2024/04/osterreichischer-skulpturenpark/">Österreichischer Skulpturenpark</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/04/7-summits-klettersteig/">7 Summits Klettersteig</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/04/vrh-ljubeljscice/">Vrh Ljubeljščice</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2024/04/vrh-ljubeljscice/">Vrh Ljubeljščice</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2024/04/vrh-ljubeljscice-2/">Vrh Ljubeljščice</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/04/baba/">Baba 🚲&amp;🥾</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/04/monte-plananizza/">Monte Plananizza</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/04/monte-acuto/">Monte Acuto</a></li>
@@ -343,7 +343,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2024/03/">marec 2024 (5)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2024/03/">marec 2024</a>&nbsp;<span class="post-count" dir="ltr">(5)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2024/03/jamnik/">Jamnik</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/03/staza-7-slapova/">Staza 7 slapova</a></li>
@@ -353,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2024/02/">februar 2024 (5)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2024/02/">februar 2024</a>&nbsp;<span class="post-count" dir="ltr">(5)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2024/02/visoka-pec/">Visoka peč</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/02/arnoldhohe/">Arnoldhöhe</a></li>
@@ -363,7 +363,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2024/01/">januar 2024 (8)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2024/01/">januar 2024</a>&nbsp;<span class="post-count" dir="ltr">(8)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2024/01/monte-taiet/">Monte Taiet</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2024/01/anduins/">Anduins</a></li>
@@ -377,9 +377,9 @@ document.addEventListener("DOMContentLoaded", function() {
     </details>
   </details>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2023/">2023 (160)</a></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2023/">2023</a>&nbsp;<span class="post-count" dir="ltr">(160)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2023/12/">december 2023 (11)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2023/12/">december 2023</a>&nbsp;<span class="post-count" dir="ltr">(11)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2023/12/ledinski-vrh/">Ledinski vrh</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/12/golz/">Golz</a></li>
@@ -395,7 +395,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2023/11/">november 2023 (5)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2023/11/">november 2023</a>&nbsp;<span class="post-count" dir="ltr">(5)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2023/11/zajmenove-peci/">Zajmenove peči</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/11/slap-hudic-babo-pere/">Slap Hudič babo pere🚲🥾</a></li>
@@ -405,7 +405,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2023/10/">oktober 2023 (11)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2023/10/">oktober 2023</a>&nbsp;<span class="post-count" dir="ltr">(11)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2023/10/risika/">Risika</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/10/mali-hlam/">Mali Hlam</a></li>
@@ -421,7 +421,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2023/09/">september 2023 (34)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2023/09/">september 2023</a>&nbsp;<span class="post-count" dir="ltr">(34)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2023/09/bocchetta-dei-tre-sassi-passo-di-pra-castron/">Bocchetta dei Tre Sassi - Passo di Pra Castron</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/09/via-delle-bocchette/">Via delle Bocchette</a></li>
@@ -460,7 +460,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2023/08/">avgust 2023 (12)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2023/08/">avgust 2023</a>&nbsp;<span class="post-count" dir="ltr">(12)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2023/08/stegovnik/">Stegovnik 🚲&amp;🥾</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/08/prisank/">Prisank</a></li>
@@ -477,7 +477,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2023/07/">julij 2023 (12)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2023/07/">julij 2023</a>&nbsp;<span class="post-count" dir="ltr">(12)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2023/07/ovceniki/">Ovčeniki</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/07/trziske-planine/">Tržiške planine</a></li>
@@ -494,7 +494,7 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2023/06/">junij 2023 (11)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2023/06/">junij 2023</a>&nbsp;<span class="post-count" dir="ltr">(11)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2023/06/kursingerhutte-hopffeldboden/">Kürsingerhütte - Hopffeldboden</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/06/grossvenediger/">Großvenediger</a></li>
@@ -511,7 +511,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2023/05/">maj 2023 (18)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2023/05/">maj 2023</a>&nbsp;<span class="post-count" dir="ltr">(18)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2023/05/bunker-valburna/">Bunker Valburna</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/05/smodnisnica-pissebus/">Smodnišnica Pissebus</a></li>
@@ -534,7 +534,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2023/04/">april 2023 (19)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2023/04/">april 2023</a>&nbsp;<span class="post-count" dir="ltr">(19)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2023/04/oristano/">Oristano</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/04/sella-del-diavolo/">Sella del Diavolo</a></li>
@@ -558,7 +558,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2023/03/">marec 2023 (9)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2023/03/">marec 2023</a>&nbsp;<span class="post-count" dir="ltr">(9)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2023/03/ajdna-potoska-planina/">Ajdna, Potoška planina 🚲&amp;🥾</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/03/bistriska-planina/">Bistriška planina</a></li>
@@ -572,7 +572,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2023/02/">februar 2023 (8)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2023/02/">februar 2023</a>&nbsp;<span class="post-count" dir="ltr">(8)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2023/02/begunjska-vrtaca-z-grapa-begunjscica/">Begunjska Vrtača (Z grapa), Begunjščica</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/02/visevnik-in-mali-draski-vrh/">Viševnik in Mali Draški vrh</a></li>
@@ -585,13 +585,13 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2023/01/">januar 2023 (10)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2023/01/">januar 2023</a>&nbsp;<span class="post-count" dir="ltr">(10)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2023/01/jelovica/">Jelovica</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/01/bohinjska-bistrica/">Bohinjska Bistrica</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/01/grahovse/">Grahovše</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2023/01/grahovse/">Grahovše</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2023/01/grahovse/">Grahovše</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2023/01/grahovse-2/">Grahovše</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2023/01/grahovse-3/">Grahovše</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/01/kladivo/">Kladivo</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/01/kabinska-zicnica-krvavec/">Kabinska žičnica Krvavec</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2023/01/begunjscica-centralc-in-sentanc/">Begunjščica (Centralc&#x27; in Šentanc&#x27;)</a></li>
@@ -601,13 +601,13 @@ MARATON FRANJA</a></li>
     </details>
   </details>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2022/">2022 (157)</a></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2022/">2022</a>&nbsp;<span class="post-count" dir="ltr">(157)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2022/12/">december 2022 (14)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2022/12/">december 2022</a>&nbsp;<span class="post-count" dir="ltr">(14)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/12/proti-dobrci/">Proti Dobrči</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/12/gardaland/">Gardaland</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2022/12/gardaland/">Gardaland 🎢</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2022/12/gardaland-2/">Gardaland 🎢</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/12/arco-monte-colodri/">Arco, Monte Colodri</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/12/cima-sat/">Cima Sat</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/12/riva-del-garda/">Riva del Garda</a></li>
@@ -622,7 +622,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2022/11/">november 2022 (6)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2022/11/">november 2022</a>&nbsp;<span class="post-count" dir="ltr">(6)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/11/visoki-kurji-vrh/">Visoki Kurji vrh</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/11/storzic/">Storžič</a></li>
@@ -633,7 +633,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2022/10/">oktober 2022 (17)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2022/10/">oktober 2022</a>&nbsp;<span class="post-count" dir="ltr">(17)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/10/longarone/">Longarone</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/10/ra-gusela-nuvolau-avreau-cinque-torri/">Ra Gusela, Nuvolau, Avreau, Cinque Torri</a></li>
@@ -655,7 +655,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2022/09/">september 2022 (26)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2022/09/">september 2022</a>&nbsp;<span class="post-count" dir="ltr">(26)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/09/podbrezje/">Podbrezje</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/09/storzic/">Storžič</a></li>
@@ -686,7 +686,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2022/08/">avgust 2022 (16)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2022/08/">avgust 2022</a>&nbsp;<span class="post-count" dir="ltr">(16)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/08/vrtaca/">Vrtača</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/08/nemske-glave/">Nemške glave</a></li>
@@ -707,14 +707,14 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2022/07/">julij 2022 (15)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2022/07/">julij 2022</a>&nbsp;<span class="post-count" dir="ltr">(15)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/07/montaz/">Montaž</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/07/vevnica-mangart/">Vevnica, Mangart</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/07/col-dei-bos-lagazuoi-piccolo/">Col dei Bos, Lagazuoi Piccolo</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/07/cortina-d-ampezzo/">Cortina d&#x27;Ampezzo</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/07/tofana-di-mezzo-tofana-di-dentro/">Tofana di Mezzo, Tofana di Dentro</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2022/07/cortina-d-ampezzo/">Cortina d&#x27;Ampezzo</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2022/07/cortina-d-ampezzo-2/">Cortina d&#x27;Ampezzo</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/07/giro-del-sorapiss/">Giro del Sorapiss</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/07/sci-club-18/">Sci Club 18</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/07/cristallo-di-mezzo/">Cristallo di Mezzo</a></li>
@@ -727,7 +727,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2022/06/">junij 2022 (13)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2022/06/">junij 2022</a>&nbsp;<span class="post-count" dir="ltr">(13)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/06/mischabelhutte-saas-fee/">Mischabelhütte - Saas-fee</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/06/nadelhorn/">Nadelhorn</a></li>
@@ -745,7 +745,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2022/05/">maj 2022 (9)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2022/05/">maj 2022</a>&nbsp;<span class="post-count" dir="ltr">(9)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/05/ljubno/">Ljubno</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/05/loibler-grintoutz-singerberg/">Loibler Grintoutz, Singerberg</a></li>
@@ -759,7 +759,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2022/04/">april 2022 (9)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2022/04/">april 2022</a>&nbsp;<span class="post-count" dir="ltr">(9)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/04/glinscica/">Glinščica</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/04/rupnikova-linija/">Rupnikova linija 🚲&amp;🥾</a></li>
@@ -773,7 +773,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2022/03/">marec 2022 (11)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2022/03/">marec 2022</a>&nbsp;<span class="post-count" dir="ltr">(11)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/03/mezica-luschasattel-kirschentheuer/">Mežica - Luschasattel - Kirschentheuer</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/03/kirschentheuer-drauradweg-mezica/">Kirschentheuer - Drauradweg - Mežica</a></li>
@@ -789,7 +789,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2022/02/">februar 2022 (9)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2022/02/">februar 2022</a>&nbsp;<span class="post-count" dir="ltr">(9)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/02/grosser-spiekkofel-bertthohe/">Großer Spiekkofel, Bertthöhe</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/02/ferlacher-horn/">Ferlacher Horn</a></li>
@@ -803,16 +803,16 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2022/01/">januar 2022 (12)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2022/01/">januar 2022</a>&nbsp;<span class="post-count" dir="ltr">(12)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2022/01/javorov-vrh/">Javorov vrh</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2022/01/grahovse/">Grahovše</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2022/01/grahovse-2/">Grahovše</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/01/stol/">Stol</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/01/val-saisera/">Val Saisera</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/01/srednji-vrh/">Srednji vrh</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2022/01/grahovse-3/">Grahovše</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/01/grahovse/">Grahovše</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2022/01/grahovse/">Grahovše</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2022/01/grahovse/">Grahovše</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2022/01/grahovse-4/">Grahovše</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/01/koca-na-dobrci/">Koča na Dobrči</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/01/planina-sija/">Planina Šija</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2022/01/dobratsch/">Dobratsch</a></li>
@@ -821,9 +821,9 @@ MARATON FRANJA</a></li>
     </details>
   </details>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2021/">2021 (52)</a></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2021/">2021</a>&nbsp;<span class="post-count" dir="ltr">(52)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2021/12/">december 2021 (11)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2021/12/">december 2021</a>&nbsp;<span class="post-count" dir="ltr">(11)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2021/12/kamnisko-sedlo/">Kamniško sedlo</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/12/trupejevo-poldne/">Trupejevo poldne</a></li>
@@ -831,7 +831,7 @@ MARATON FRANJA</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/12/bodental/">Bodental</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/12/grahovse/">Grahovše</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/12/soriska-planina/">Soriška planina</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2021/12/grahovse/">Grahovše</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/12/grahovse-2/">Grahovše</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/12/jezersko/">Jezersko</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/12/valvasorjev-dom/">Valvasorjev dom 🛷</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/12/slaparska-vas/">Slaparska vas</a></li>
@@ -839,7 +839,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2021/11/">november 2021 (7)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2021/11/">november 2021</a>&nbsp;<span class="post-count" dir="ltr">(7)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2021/11/storzic/">Storžič</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/11/hruski-vrh-klek-golica/">Hruški vrh, Klek, Golica</a></li>
@@ -851,7 +851,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2021/10/">oktober 2021 (9)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2021/10/">oktober 2021</a>&nbsp;<span class="post-count" dir="ltr">(9)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2021/10/olseva/">Olševa</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/10/dolkova-spica-kriz/">Dolkova špica, Križ</a></li>
@@ -865,7 +865,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2021/09/">september 2021 (25)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2021/09/">september 2021</a>&nbsp;<span class="post-count" dir="ltr">(25)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/koroska-rinka-vellacherturm-velika-baba/">Koroška Rinka, Vellacherturm, Velika Baba</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/gamsweisenspitze-simonskopf-seekofel/">Gamsweisenspitze, Simonskopf, Seekofel</a></li>
@@ -896,15 +896,15 @@ MARATON FRANJA</a></li>
     </details>
   </details>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2020/">2020 (2)</a></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2020/">2020</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2020/08/">avgust 2020 (1)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2020/08/">avgust 2020</a>&nbsp;<span class="post-count" dir="ltr">(1)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2020/08/reisseck/">Reißeck</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2020/04/">april 2020 (1)</a></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2020/04/">april 2020</a>&nbsp;<span class="post-count" dir="ltr">(1)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2020/04/proti-pecovniku/">Proti Pečovniku</a></li>
       </ul>

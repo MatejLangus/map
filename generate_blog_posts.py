@@ -2474,7 +2474,7 @@ if __name__ == "__main__":
 
     generate_sitemap_from_folder(
         Path(LOCAL_REPO_PATH),
-        exclude_dirs=[],
+        exclude_dirs=["node_modules", "arhiv"],
         exclude_files=["Relive _ Settings.html"]
     )
 

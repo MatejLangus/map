@@ -4,17 +4,19 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(4)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/01/">januar 2026</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/01/">januar 2026</a>&nbsp;<span class="post-count" dir="ltr">(4)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/01/bodental/">Bodental</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/01/dreilandereck/">Dreiländereck</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/01/kamnek/">Kamnek</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/01/hochtristen-knoten/">Hochtristen, Knoten</a></li>
       </ul>
     </details>
   </details>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2025/">2025</a>&nbsp;<span class="post-count" dir="ltr">(117)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2025/">2025</a>&nbsp;<span class="post-count" dir="ltr">(125)</span></summary>
     <details class="month-group">
       <summary><a href="https://matejlangus.github.io/map/posts/2025/12/">december 2025</a>&nbsp;<span class="post-count" dir="ltr">(13)</span></summary>
       <ul>
@@ -53,8 +55,16 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2025/09/">september 2025</a>&nbsp;<span class="post-count" dir="ltr">(15)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2025/09/">september 2025</a>&nbsp;<span class="post-count" dir="ltr">(23)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/marakes/">Marakeš</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/desert-dagafay/">Désert d’Agafay</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/vallee-du-paradis/">Vallée du Paradis</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/nad-tagherat-anekrim/">nad Tagherat Anekrim</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/douira-atlantska-obala/">Douira (atlantska obala)</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/tizi-n-test/">Tizi n&#x27; Test</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/bougandaz-ain-tamda/">Bougandaz, Ain Tamda</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2025/09/ifrane/">Ifrane</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/09/cedre-gouraud/">Cèdre Gouraud 🐒</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/09/jurassique-trail/">Jurassique trail</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2025/09/kanjon-ziz/">kanjon Ziz</a></li>

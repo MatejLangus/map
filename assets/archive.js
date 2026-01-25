@@ -4,10 +4,12 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(4)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(6)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/01/">januar 2026</a>&nbsp;<span class="post-count" dir="ltr">(4)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/01/">januar 2026</a>&nbsp;<span class="post-count" dir="ltr">(6)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/01/dleskovec/">Dleskovec</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/01/dreilandereck-2/">Dreiländereck</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/01/bodental/">Bodental</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/01/dreilandereck/">Dreiländereck</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/01/kamnek/">Kamnek</a></li>

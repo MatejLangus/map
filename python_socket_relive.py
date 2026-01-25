@@ -2,10 +2,10 @@ import socketio
 import time
 import re
 import requests
-from export_relive import missing_relive_to_file
+#from export_relive import missing_relive_to_file
 from combine_relive_data import create_matched_csv
 
-missing_relive_to_file()
+#missing_relive_to_file()
 
 sio = socketio.Client()
 

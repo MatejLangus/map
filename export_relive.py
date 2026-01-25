@@ -135,6 +135,7 @@ def missing_relive_to_file():
             browser.close()
 
 def main():
+    missing_relive_to_file()
     return            
 
 if __name__ == "__main__":

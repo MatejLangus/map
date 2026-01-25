@@ -8,6 +8,7 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    environment: github-pages
 
     steps:
       - name: Checkout repository

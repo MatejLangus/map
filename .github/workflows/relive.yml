@@ -32,7 +32,7 @@ jobs:
           RELIVE_EMAIL: ${{ secrets.RELIVE_EMAIL }}
           RELIVE_PASSWORD: ${{ secrets.RELIVE_PASSWORD }}
         run: |
-          python export_relive.py
+          python python_socket_relive.py
 
       - name: Commit and push changes
         run: |

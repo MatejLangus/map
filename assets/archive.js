@@ -4,10 +4,11 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(12)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(13)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/02/">februar 2026</a>&nbsp;<span class="post-count" dir="ltr">(4)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/02/">februar 2026</a>&nbsp;<span class="post-count" dir="ltr">(5)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/02/monte-lussari/">Monte Lussari</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/02/vrsic/">Vršič</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/02/tromeja/">Tromeja</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/02/dobratsch/">Dobratsch</a></li>

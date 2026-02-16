@@ -1,10 +1,3 @@
-// # Settings - Change this one line when switching local <-> GitHub Pages
-const WindowBaseUrl = window.location.origin + "/map/";    // GitHub Pages
-// const WindowBaseUrl = window.location.origin;              // Live server
-
-const initPhotos = 3; // Determine range of photos to be shown on slideshows and in posts
-const initMapPhotos = 3; // Determine range of photos to be shown on map
-
 // Format date
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.post-date').forEach(function (el) {
@@ -123,10 +116,15 @@ document.addEventListener("DOMContentLoaded", function() {
 /* Searchbox */
 let posts = [];
 
-fetch(`${WindowBaseUrl}/data/all-posts.json`)
-  .then(response => response.json())
-  .then(data => {
-    const entries = data.feed.entry || [];
+Promise.all([
+  fetch(`${WindowBaseUrl}/data/all-posts.json`).then(r => r.json()),
+  fetch(`${WindowBaseUrl}/data/all-relive-posts.json`).then(r => r.json())
+])
+  .then(([normalData, reliveData]) => {
+    const normalEntries = normalData.feed?.entry || [];
+    const reliveEntries = reliveData.feed?.entry || [];
+
+    const entries = [...normalEntries, ...reliveEntries];
 
     posts = entries.map((entry, i) => {
       const title = entry.title?.$t || `untitled-${i}`;
@@ -138,7 +136,7 @@ fetch(`${WindowBaseUrl}/data/all-posts.json`)
     });
   })
   .catch(error => {
-    console.error("Napaka pri nalaganju Blogger feeda:", error);
+    console.error("Error loading feeds:", error);
   });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -252,9 +250,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function showPage(page) {
         entries.forEach(entry => {
-            entry.style.display = entry.getAttribute("data-page") == page ? "block" : "none";
+            if (parseInt(entry.dataset.page) === page) {
+                entry.classList.remove("visually-hidden");
+            } else {
+                entry.classList.add("visually-hidden");
+            }
         });
         renderPager(page);
+        // Scroll to top of blog list for better UX
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function renderPager(page) {
@@ -269,7 +273,9 @@ document.addEventListener("DOMContentLoaded", function () {
         pager.innerHTML = '';
 
         // Previous button
-        pager.innerHTML += `<span class="displaypageNum"><a href="#" onclick="redirectpage(${page - 1}); return false" ${page === 1 ? 'style="pointer-events:none;opacity:0.5;"' : ''}>&laquo;</a></span>`;
+        pager.innerHTML += `<span class="displaypageNum">
+            <a href="#" onclick="redirectpage(${page - 1}); return false" ${page === 1 ? 'style="pointer-events:none;opacity:0.5;"' : ''}>&laquo;</a>
+        </span>`;
 
         // First page
         if (page === 1) {
@@ -307,7 +313,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Next button
-        pager.innerHTML += `<span class="displaypageNum"><a href="#" onclick="redirectpage(${page + 1}); return false" ${page === totalPages ? 'style="pointer-events:none;opacity:0.5;"' : ''}>&raquo;</a></span>`;
+        pager.innerHTML += `<span class="displaypageNum">
+            <a href="#" onclick="redirectpage(${page + 1}); return false" ${page === totalPages ? 'style="pointer-events:none;opacity:0.5;"' : ''}>&raquo;</a>
+        </span>`;
     }
 
     window.redirectpage = redirectpage;
@@ -315,7 +323,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-/* Gumb 'Na vrh' */
+/* Button 'Na vrh' */
 const btn = document.getElementById("backToTop");
 window.addEventListener("scroll", () => {
   btn.style.display = window.scrollY > 400 ? "block" : "none";

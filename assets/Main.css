@@ -769,6 +769,45 @@ div#PageList1 ul li {
   pointer-events: none;
 }
 
+.tracker img {
+  display: none;
+}
+
+
+/* Cookie banner */
+#cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(20, 20, 20, 0.95);
+  color: #fff;
+  padding: 12px 16px;
+  font-size: 14px;
+  display: none; /* prikaže se preko JS */
+  z-index: 9999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#cookie-banner button {
+  margin-left: 12px;
+  padding: 6px 12px;
+  background: #4caf50;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+#cookie-banner span {
+  flex: 1 1 auto;
+  margin-right: 12px;
+}
+
 
 /* Gumb 'Na vrh' */
 #backToTop {
@@ -803,4 +842,52 @@ div#PageList1 ul li {
 .cover-photo {
     border-radius: 12px; /* Slightly more rounded for modern look */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* invisible class */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+}
+
+/* about page */
+.about-image-right {
+  float: right;
+  max-width: 40%;
+  margin: 0 0 1rem 1.5rem;
+}
+.about-image-right img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  height: auto;
+}
+@media (max-width: 768px) {
+  .about-image-right { float: none; max-width: 100%; margin: 0 0 1rem 0; }
+}
+.about-cite {
+  margin-top: 2rem;
+  font-style: italic;
+  color: #555;
+  border-top: 1px solid #ddd;
+  padding-top: 1rem;
+}
+
+.image-caption {
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* blog content */
+.content-wrapper p {
+  text-align: justify;
 }

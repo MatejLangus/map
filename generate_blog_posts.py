@@ -14,6 +14,7 @@
  *
  * @author Metod Langus
  * @date 2025-12-08
+ * @last-modified 2026-02-16
  */
 """
 
@@ -308,7 +309,7 @@ def render_post_html(entry, index, entries_per_page, slugify_func, post_id):
 
     page_number = 1 if entries_per_page == 0 else (index // entries_per_page + 1)
 
-    style_attr = "" if entries_per_page == 0 else ' style="display:none;"'
+    style_attr = "" if entries_per_page == 0 else " visually-hidden"
 
     # --- Extract summary / description for alt text ---
     content_html = entry.get("content", {}).get("$t", "")
@@ -630,7 +631,7 @@ def render_sidebar_settings(picture_settings=True, map_settings=True, current_pa
             <label for='photosSliderElement'>
                 <b>Obseg prikazanih slik:</b> <span id='photosValueElement'></span>
             </label>
-            <input id='photosSliderElement' max='3' min='0' step='1' type='range' value='initPhotos' style="width: 160px;"/>
+            <input id='photosSliderElement' max='1' min='-1' step='2' type='range' value='initPhotos' style="width: 160px;"/>
         </div>
         """
 
@@ -897,7 +898,7 @@ def generate_footer_html():
         GitHub
       </a>
     </p>
-    <p>© 2025 Matej Langus. Vse pravice pridržane. Temo izdelal <a href="https://metodlangus.github.io/" target="_blank">Metod Langus</a>.</p>
+    <p>© {datetime.now().year} Matej Langus. Vse pravice pridržane. Temo izdelal <a href="https://metodlangus.github.io/" target="_blank">Metod Langus</a>.</p>
   </footer>
   </footer>"""
 
@@ -1361,7 +1362,7 @@ def fetch_and_save_all_posts(entries):
   <link href='https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css' rel='stylesheet'>
   <link href='https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css' rel='stylesheet'>
   <link href='https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@3.1.0/dist/Control.Geocoder.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="{BASE_SITE_URL}/assets/Main.css">
+  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
   <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyMapScript.css">
   <link rel="stylesheet" href="https://metodlangus.github.io/assets/MySlideshowScript.css">
   <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyPostContainerScript.css">
@@ -1404,9 +1405,11 @@ def fetch_and_save_all_posts(entries):
   <script src='https://metodlangus.github.io/scripts/full_img_size_button.js'></script>
   <script src='https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js'></script>
   <script src='https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@3.1.0/dist/Control.Geocoder.min.js'></script>
-  <script src="{BASE_SITE_URL}/assets/Main.js" defer></script>
+  <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
   <script src="https://matejlangus.github.io/map/assets/MyMapScript.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MySlideshowScript.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/MyFiltersScriptModule.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/MySlideshowScriptModule.js" defer></script>
 </body>
 </html>""")
 
@@ -1515,7 +1518,7 @@ def generate_label_pages(entries, label_posts_raw):
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{BASE_SITE_URL}/assets/Main.css">
+  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
   <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyPostContainerScript.css">
 </head>
 
@@ -1544,7 +1547,8 @@ def generate_label_pages(entries, label_posts_raw):
   {back_to_top_html}
   {footer_html}
 
-  <script src="{BASE_SITE_URL}/assets/Main.js" defer></script>
+  <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
 </body>
 </html>"""
 
@@ -1674,7 +1678,7 @@ def generate_archive_pages(entries):
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{BASE_SITE_URL}/assets/Main.css">
+  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
   <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyPostContainerScript.css">
 </head>
 <body>
@@ -1702,7 +1706,8 @@ def generate_archive_pages(entries):
   {back_to_top_html}
   {footer_html}
 
-  <script src="{BASE_SITE_URL}/assets/Main.js" defer></script>
+  <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
 </body>
 </html>"""
 
@@ -1778,7 +1783,7 @@ def generate_archive_pages(entries):
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{BASE_SITE_URL}/assets/Main.css">
+  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
   <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyPostContainerScript.css">
 </head>
 <body>
@@ -1806,7 +1811,8 @@ def generate_archive_pages(entries):
   {back_to_top_html}
   {footer_html}
 
-  <script src="{BASE_SITE_URL}/assets/Main.js" defer></script>
+  <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
 </body>
 </html>"""
 
@@ -1891,7 +1897,7 @@ def generate_predvajalnik_page(current_page):
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{BASE_SITE_URL}/assets/Main.css">
+  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
   <link rel="stylesheet" href="https://metodlangus.github.io/assets/MySlideshowScript.css">
 </head>
 
@@ -1920,9 +1926,10 @@ def generate_predvajalnik_page(current_page):
   {back_to_top_html}
   {footer_html}
 
-  <script src="{BASE_SITE_URL}/assets/Main.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MySlideshowScript.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MyFiltersScript.js" defer></script>
+  <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/MySlideshowScriptModule.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/MyFiltersScriptModule.js" defer></script>
 </body>
 </html>"""
 
@@ -2008,7 +2015,7 @@ def generate_gallery_page(current_page):
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
   <link href='https://metodlangus.github.io/plugins/lightbox2/2.11.1/css/lightbox.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="{BASE_SITE_URL}/assets/Main.css">
+  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
   <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyGalleryScript.css">
 </head>
 
@@ -2025,6 +2032,7 @@ def generate_gallery_page(current_page):
       <div class="content-wrapper">
         {searchbox_html}
         <h1>Galerija spominov</h1>
+        <div id='loadingMessage'>Nalaganje ...</div>
         <div id="gallery" class="my-gallery-wrapper">
           <div class="gallery-container" id="galleryContainer">
           </div>
@@ -2039,9 +2047,10 @@ def generate_gallery_page(current_page):
 
   <script src='https://metodlangus.github.io/plugins/lightbox2/2.11.1/js/lightbox-plus-jquery.min.js'></script>
   <script src='https://metodlangus.github.io/scripts/full_img_size_button.js'></script>
-  <script src="{BASE_SITE_URL}/assets/Main.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MyFiltersScript.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MyGalleryScript.js" defer></script>
+  <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/MyFiltersScriptModule.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/MyGalleryScriptModule.js" defer></script>
 </body>
 </html>"""
 
@@ -2126,7 +2135,7 @@ def generate_peak_list_page():
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{BASE_SITE_URL}/assets/Main.css">
+  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
   <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyPeakListScript.css">
 </head>
 
@@ -2153,8 +2162,9 @@ def generate_peak_list_page():
   {back_to_top_html}
   {footer_html}
 
-  <script src="{BASE_SITE_URL}/assets/Main.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MyPeakListScript.js" defer></script>
+  <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/MyPeakListScriptModule.js" defer></script>
 </body>
 </html>"""
 
@@ -2226,7 +2236,7 @@ def generate_home_si_page(homepage_html):
     <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{BASE_SITE_URL}/assets/Main.css">
+    <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
     <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyRandomPhoto.css">
     <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyPostContainerScript.css">
 </head>
@@ -2255,8 +2265,9 @@ def generate_home_si_page(homepage_html):
   {back_to_top_html}
   {footer_html}
 
-  <script src="{BASE_SITE_URL}/assets/Main.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MyRandomPhoto.js" defer></script>
+  <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/MyRandomPhotoModule.js" defer></script>
 </body>
 </html>"""
 
@@ -2346,7 +2357,7 @@ def generate_useful_links_page():
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{BASE_SITE_URL}/assets/Main.css">
+  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
 </head>
 
 <body>
@@ -2366,7 +2377,8 @@ def generate_useful_links_page():
   {back_to_top_html}
   {footer_html}
 
-  <script src="{BASE_SITE_URL}/assets/Main.js" defer></script>
+  <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
+  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
   <script src="{BASE_SITE_URL}/assets/MyUsefulLinksScript.js" defer></script>
 </body>
 </html>"""

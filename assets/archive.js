@@ -4,10 +4,11 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(17)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(18)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/03/">marec 2026</a>&nbsp;<span class="post-count" dir="ltr">(1)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/03/">marec 2026</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/03/zapreval/">Zapreval</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/03/cuarnan/">Cuarnan</a></li>
       </ul>
     </details>
@@ -862,7 +863,7 @@ MARATON FRANJA</a></li>
     </details>
   </details>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2021/">2021</a>&nbsp;<span class="post-count" dir="ltr">(52)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2021/">2021</a>&nbsp;<span class="post-count" dir="ltr">(53)</span></summary>
     <details class="month-group">
       <summary><a href="https://matejlangus.github.io/map/posts/2021/12/">december 2021</a>&nbsp;<span class="post-count" dir="ltr">(11)</span></summary>
       <ul>
@@ -933,6 +934,12 @@ MARATON FRANJA</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/dachsteinwarte/">Dachsteinwarte</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/ferata-laserer-alpin-steig/">ferata Laserer alpin Steig</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/09/grosser-donnerkogel/">Großer Donnerkogel</a></li>
+      </ul>
+    </details>
+    <details class="month-group">
+      <summary><a href="https://matejlangus.github.io/map/posts/2021/08/">avgust 2021</a>&nbsp;<span class="post-count" dir="ltr">(1)</span></summary>
+      <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/08/spodnji-plot/">Spodnji plot</a></li>
       </ul>
     </details>
   </details>

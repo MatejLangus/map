@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(21)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(20)</span></summary>
     <details class="month-group">
       <summary><a href="https://matejlangus.github.io/map/posts/2026/04/">april 2026</a>&nbsp;<span class="post-count" dir="ltr">(1)</span></summary>
       <ul>
@@ -12,10 +12,9 @@ document.addEventListener("DOMContentLoaded", function() {
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/03/">marec 2026</a>&nbsp;<span class="post-count" dir="ltr">(4)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/03/">marec 2026</a>&nbsp;<span class="post-count" dir="ltr">(3)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2026/03/sneznik/">Snežnik</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2026/03/sneznik-2/">Snežnik</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/03/zapreval/">Zapreval</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/03/cuarnan/">Cuarnan</a></li>
       </ul>
@@ -871,7 +870,7 @@ MARATON FRANJA</a></li>
     </details>
   </details>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2021/">2021</a>&nbsp;<span class="post-count" dir="ltr">(67)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2021/">2021</a>&nbsp;<span class="post-count" dir="ltr">(60)</span></summary>
     <details class="month-group">
       <summary><a href="https://matejlangus.github.io/map/posts/2021/12/">december 2021</a>&nbsp;<span class="post-count" dir="ltr">(11)</span></summary>
       <ul>
@@ -945,23 +944,16 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2021/08/">avgust 2021</a>&nbsp;<span class="post-count" dir="ltr">(15)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2021/08/">avgust 2021</a>&nbsp;<span class="post-count" dir="ltr">(8)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2021/08/spodnji-plot/">Spodnji plot</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/08/ferata-siroka-polica/">ferata Široka polica</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2021/08/ferata-siroka-polica-2/">ferata Široka polica</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/08/mangart/">Mangart</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2021/08/mangart-2/">Mangart</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/08/cjajnik/">Cjajnik</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2021/08/cjajnik-2/">Cjajnik</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/08/luft-unter-den-sholen/">Luft unter den Sholen</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2021/08/luft-unter-den-sholen-2/">Luft unter den Sholen</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/08/pirknerklamm/">Pirknerklamm</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2021/08/pirknerklamm-2/">Pirknerklamm</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/08/ferata-kirchblick/">ferata Kirchblick</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2021/08/ferata-kirchblick-2/">ferata Kirchblick</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/08/creta-della-chianevate/">Creta della Chianevate</a></li>
-        <li><a href="https://matejlangus.github.io/map/posts/2021/08/creta-della-chianevate-2/">Creta della Chianevate</a></li>
       </ul>
     </details>
   </details>

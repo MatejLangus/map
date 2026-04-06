@@ -4,10 +4,11 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(20)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(21)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/04/">april 2026</a>&nbsp;<span class="post-count" dir="ltr">(1)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/04/">april 2026</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/jelovica/">Jelovica</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/04/vitranc-ciprnik/">Vitranc, Ciprnik</a></li>
       </ul>
     </details>

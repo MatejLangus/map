@@ -17,6 +17,7 @@ def on_connect():
 def on_activity_done(data):
     print("Activity ID:", data.get("id"))
     print("Name:", data["activity_info"].get("name"))
+    data["activity_page_url"]=link
     print("Page URL:", data.get("activity_page_url"))
     with open("relive_data.txt", "a", encoding="utf-8") as file1:
         file1.write(str(data) + "\n")

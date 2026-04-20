@@ -4,10 +4,12 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(21)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(23)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/04/">april 2026</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/04/">april 2026</a>&nbsp;<span class="post-count" dir="ltr">(4)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/bohinj/">Bohinj</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/menina-planina/">Menina planina</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/04/jelovica/">Jelovica</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/04/vitranc-ciprnik/">Vitranc, Ciprnik</a></li>
       </ul>
@@ -871,7 +873,7 @@ MARATON FRANJA</a></li>
     </details>
   </details>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2021/">2021</a>&nbsp;<span class="post-count" dir="ltr">(60)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2021/">2021</a>&nbsp;<span class="post-count" dir="ltr">(65)</span></summary>
     <details class="month-group">
       <summary><a href="https://matejlangus.github.io/map/posts/2021/12/">december 2021</a>&nbsp;<span class="post-count" dir="ltr">(11)</span></summary>
       <ul>
@@ -945,7 +947,7 @@ MARATON FRANJA</a></li>
       </ul>
     </details>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2021/08/">avgust 2021</a>&nbsp;<span class="post-count" dir="ltr">(8)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2021/08/">avgust 2021</a>&nbsp;<span class="post-count" dir="ltr">(13)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2021/08/spodnji-plot/">Spodnji plot</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/08/ferata-siroka-polica/">ferata Široka polica</a></li>
@@ -955,6 +957,11 @@ MARATON FRANJA</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/08/pirknerklamm/">Pirknerklamm</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/08/ferata-kirchblick/">ferata Kirchblick</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2021/08/creta-della-chianevate/">Creta della Chianevate</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/08/turkenkopf/">Türkenkopf</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/08/montaz/">Montaž</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/08/prisank/">Prisank</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/08/triglav/">Triglav</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2021/08/zeljava/">Željava</a></li>
       </ul>
     </details>
   </details>

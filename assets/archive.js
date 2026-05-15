@@ -4,10 +4,34 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(23)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(42)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/04/">april 2026</a>&nbsp;<span class="post-count" dir="ltr">(4)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/05/">maj 2026</a>&nbsp;<span class="post-count" dir="ltr">(7)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/05/porezen-kobla/">Porezen, Kobla</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/05/kremsmauer/">Kremsmauer</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/05/cesky-krumlov/">Česky Krumlov</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/05/peklo/">Peklo</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/05/snezka/">Sněžka</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/05/doliny-bobru/">Doliny Bobru</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/05/lausche/">Lausche</a></li>
+      </ul>
+    </details>
+    <details class="month-group">
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/04/">april 2026</a>&nbsp;<span class="post-count" dir="ltr">(16)</span></summary>
+      <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/ceske-svycarsko/">České Švýcarsko</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/mala-pravcicka-brana-saunstejn/">Mala Pravčicka brana, Šaunštejn</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/sachsische-schweiz/">Sächsische Schweiz</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/grosser-zschirenstein/">Großer Zschirenstein</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/pastyrska-stena/">Pastyrska stena</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/stolicna-hora/">Stoličná hora</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/kozi-vrch/">Kozí vrch</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/luzicka-spojka/">Lužická spojka</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/slanska-hora/">Slánská hora</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/karlstejn-velka-amerika/">Karlštejn, Velká Amerika</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/hluboka-nad-vltavou/">Hluboká nad Vltavou</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/04/hoher-nock/">Hoher Nock</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/04/bohinj/">Bohinj</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/04/menina-planina/">Menina planina</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/04/jelovica/">Jelovica</a></li>

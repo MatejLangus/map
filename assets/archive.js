@@ -4,10 +4,14 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(42)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(46)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/05/">maj 2026</a>&nbsp;<span class="post-count" dir="ltr">(7)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/05/">maj 2026</a>&nbsp;<span class="post-count" dir="ltr">(11)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/05/boka/">Boka</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/05/monte-zaiavor/">Monte Zaiavor</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/05/kobariski-stol/">Kobariški Stol</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/05/8-tek-na-stari-ljubelj/">8. tek na Stari Ljubelj</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/05/porezen-kobla/">Porezen, Kobla</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/05/kremsmauer/">Kremsmauer</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/05/cesky-krumlov/">Česky Krumlov</a></li>

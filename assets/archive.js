@@ -4,10 +4,18 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(46)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(49)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/05/">maj 2026</a>&nbsp;<span class="post-count" dir="ltr">(11)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/06/">junij 2026</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/06/stara-baska/">Stara Baška</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/06/krk/">Krk</a></li>
+      </ul>
+    </details>
+    <details class="month-group">
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/05/">maj 2026</a>&nbsp;<span class="post-count" dir="ltr">(12)</span></summary>
+      <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/05/ogradi/">Ogradi</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/05/boka/">Boka</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/05/monte-zaiavor/">Monte Zaiavor</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/05/kobariski-stol/">Kobariški Stol</a></li>

@@ -4,10 +4,11 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(49)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(50)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/06/">junij 2026</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/06/">junij 2026</a>&nbsp;<span class="post-count" dir="ltr">(3)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/06/45-veliki-maraton-franja/">45. Veliki maraton Franja</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/06/stara-baska/">Stara Baška</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/06/krk/">Krk</a></li>
       </ul>

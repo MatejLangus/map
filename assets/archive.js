@@ -4,10 +4,31 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(51)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(67)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/06/">junij 2026</a>&nbsp;<span class="post-count" dir="ltr">(4)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/07/">julij 2026</a>&nbsp;<span class="post-count" dir="ltr">(7)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/07/belska-planina-planina-seca/">Belska planina, planina Seča</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/07/ablanca-draska-vrhova/">Ablanca, Draška vrhova</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/07/monte-cavallino/">Monte Cavallino</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/07/serauta-quota-3065m/">Serauta, Quota 3065m</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/07/rifugio-padon/">Rifugio Padon</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/07/punta-penia/">Punta Penia</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/07/tofana-di-rozes/">Tofana di Rozes</a></li>
+      </ul>
+    </details>
+    <details class="month-group">
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/06/">junij 2026</a>&nbsp;<span class="post-count" dir="ltr">(13)</span></summary>
+      <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/06/passo-di-stalle/">Passo di Stalle</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/06/piz-da-peres/">Piz da Peres</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/06/gilfenklamm/">Gilfenklamm</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/06/passo-giovo/">Passo Giovo</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/06/wilde-rotespitze/">Wilde Rötespitze</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/06/mittagskogel/">Mittagskogel</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/06/erlspitze/">Erlspitze</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/06/leutaschklamm/">Leutaschklamm</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/06/zugspitze/">Zugspitze</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/06/vernar-tosc-teme/">Vernar, Tosc, Teme</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/06/45-veliki-maraton-franja/">45. Veliki maraton Franja</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/06/stara-baska/">Stara Baška</a></li>

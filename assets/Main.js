@@ -242,13 +242,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    if (reliveURL && reliveURL.trim() !== "") {
-      var reliveButton = document.createElement('a');
-      reliveButton.href = reliveURL;
-      reliveButton.target = '_blank';  // Open in a new tab
-      reliveButton.className = 'button relive-button';
-      hrAfter.appendChild(reliveButton);
-
     function redirectpage(page) {
         if (page < 1 || page > totalPages) return;
         currentPage = page;

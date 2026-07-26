@@ -4,10 +4,11 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(67)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(68)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/07/">julij 2026</a>&nbsp;<span class="post-count" dir="ltr">(7)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/07/">julij 2026</a>&nbsp;<span class="post-count" dir="ltr">(8)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/07/plaski-vogel/">Plaski Vogel</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/07/belska-planina-planina-seca/">Belska planina, planina Seča</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/07/ablanca-draska-vrhova/">Ablanca, Draška vrhova</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/07/monte-cavallino/">Monte Cavallino</a></li>

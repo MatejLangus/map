@@ -76,4 +76,5 @@ document.addEventListener('DOMContentLoaded', () => {
         reliveButton.target = '_blank';  // Open in a new tab
         reliveButton.className = 'button relive-button';
         hrAfter.appendChild(reliveButton);
+    }
 });

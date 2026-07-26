@@ -293,8 +293,7 @@ function insertMapContainer(gpxURL, reliveURL, stravaURL, index) {
                 reliveButton.href = reliveURL;
                 reliveButton.target = '_blank';  // Open in a new tab
                 reliveButton.className = 'button relive-button';
-                //smapDiv.appendChild(reliveButton);
-                hrAfter.appendChild(reliveButton);
+                smapDiv.appendChild(reliveButton);
 
                 // Position Strava button 50px from the bottom
                 if (stravaButton) {

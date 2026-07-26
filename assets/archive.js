@@ -1026,11 +1026,35 @@ MARATON FRANJA</a></li>
     </details>
   </details>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2020/">2020</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2020/">2020</a>&nbsp;<span class="post-count" dir="ltr">(21)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2020/08/">avgust 2020</a>&nbsp;<span class="post-count" dir="ltr">(1)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2020/08/">avgust 2020</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
       <ul>
         <li><a href="https://matejlangus.github.io/map/posts/2020/08/reisseck/">Reißeck</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/08/crna-prst/">Črna prst</a></li>
+      </ul>
+    </details>
+    <details class="month-group">
+      <summary><a href="https://matejlangus.github.io/map/posts/2020/07/">julij 2020</a>&nbsp;<span class="post-count" dir="ltr">(18)</span></summary>
+      <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/kosutica/">Košutica</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/begunjscica/">Begunjščica</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/koca-pr-zdravc/">Koča Pr Zdravc</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/kepa/">Kepa</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/skuta/">Skuta</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/skrbina/">Škrbina 🚲&amp;🥾</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/pecovnik/">Pečovnik 🚲&amp;🥾</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/bistriska-planina/">Bistriška planina</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/vajnez/">Vajnež</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/lom/">Lom</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/matzen/">Matzen</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/sechter/">Sechter</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/rjautza/">Rjautza</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/za-kosuto/">za Košuto</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/stegovnik/">Stegovnik 🚲&amp;🥾</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/tolsta-kosuta/">Tolsta Košuta</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/obir/">Obir</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/07/eisenhut/">Eisenhut</a></li>
       </ul>
     </details>
     <details class="month-group">

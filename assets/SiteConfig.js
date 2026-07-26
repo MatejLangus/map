@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         reliveButton.href = ReliveURL0;
         reliveButton.target = '_blank';  // Open in a new tab
         reliveButton.className = 'button relive-button';
+        reliveButton.style = "position: relative; background:orange";
         document.getElementsByClassName("peak-tag")[0].appendChild(reliveButton);
     }
 });

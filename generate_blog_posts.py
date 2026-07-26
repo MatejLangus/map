@@ -14,7 +14,8 @@
  *
  * @author Metod Langus
  * @date 2025-12-08
- * @last-modified 2026-02-16
+ * @last-modified 2026-07-26
+ * @modified 2026-02-16
  */
 """
 
@@ -28,7 +29,7 @@ from babel.dates import format_datetime
 from xml.etree.ElementTree import Element, SubElement, ElementTree
 from zoneinfo import ZoneInfo  # Python 3.9+
 from dateutil import parser  # pip install python-dateutil
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 from collections import defaultdict
 from urllib.parse import urlparse, urlunparse, urljoin
 import os
@@ -36,22 +37,31 @@ import json
 import hashlib
 import time
 
-# Settings - Change this one line when switching local <-> GitHub Pages
-BASE_SITE_URL = "https://matejlangus.github.io/map"    # GitHub Pages
-# BASE_SITE_URL = f"http://127.0.0.1:5500"               # Live server
 
 GITHUB_USER_NAME = "matejlangus"
 GITHUB_REPO_NAME = "map"
+GITHUB_DOMAIN = "matejlangus.github.io"
+LOCAL_HOST_URL = f"http://127.0.0.1:5500"
 LOCAL_REPO_PATH  = os.path.dirname(os.path.abspath(__file__))
+
+# Settings  - Change this section when switching local <-> GitHub Pages
+BASE_SITE_URL = f"https://{GITHUB_DOMAIN}/{GITHUB_REPO_NAME}"
+BASE_BLOG_URL = f"https://{GITHUB_DOMAIN}/{GITHUB_REPO_NAME}"
+DEBUG_NUM_ENTRIES = None  # Set to None to process all entries
+# BASE_SITE_URL = f"{LOCAL_HOST_URL}/{GITHUB_REPO_NAME}"
+# BASE_BLOG_URL = f"{LOCAL_HOST_URL}/{GITHUB_REPO_NAME}"
+# DEBUG_NUM_ENTRIES = 5
 
 BLOG_AUTHOR = "Matej Langus"
 BLOG_TITLE = "Matej lezel je taM"
+
+BASE_ASSETS_URL = f"https://metodlangus.github.io"
 
 # Constants
 entries_per_page = 12 # Set pagination on home and label pages
 NO_IMAGE = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEih6RhkrzOOLNxaVeJR-PiYl4gL_LCvnt8_mQJMJ1QLqVoKAovrkocbpwT5Pf7Zc7jLFnKH2F4MdWZR7Fqq4ZDd1T5FqVB4Wn6uxoP1_JcGEprf-tt_7HqeHhLjKnaFHs3xrkitzcqQNmNaiVT-MrgmJgxjARcUDGpEVYdpif-J2gJF72h_xB9qnLkKfUH4/s1600/no-image-icon.jpg"
 DEFAULT_OG_IMAGE = "https://img.relive.com/-/w:1000/aHR0cHM6Ly91YS5yZWxpdmUuY2MvMTcyNzE0NjQvMjAyMjA3MTdfMDk1ODM4LmpwZ18xNjU4MDQ0NzE2MDAwLmpwZw=="
-SLIDESHOW_COVER_IMAGE = "https://img.relive.com/-/w:1000/aHR0cHM6Ly91YS5yZWxpdmUuY2MvMTcyNzE0NjQvMjAyMjA3MTdfMDk1ODM4LmpwZ18xNjU4MDQ0NzE2MDAwLmpwZw=="
+SLIDESHOW_COVER_IMAGE = DEFAULT_OG_IMAGE
 SLIDESHOW_COVER_UPPER_TEXT = "Cristallo di Mezzo"
 SLIDESHOW_COVER_TEXT = ""
 
@@ -76,7 +86,7 @@ SITEMAP_FILE = "sitemap.xml"
 LASTMOD_DB = Path("build/lastmod.json")
 
 BASE_FEED_PATH = f"{LOCAL_REPO_PATH }/data/all-posts.json"
-REMOTE_DB_URL = f"{BASE_SITE_URL}/.build/lastmod.json"
+REMOTE_DB_URL = f"{BASE_BLOG_URL}/.build/lastmod.json"
 
 def load_lastmod_db():
     if LASTMOD_DB.exists():
@@ -131,50 +141,47 @@ def parse_entry_date(entry, index=None):
 
     return formatted_date, year, month
 
+
 def generate_unique_slugs(entries, return_type="slugs"):
     slugs = []
     archive_dict = defaultdict(lambda: defaultdict(list))
 
     for i, entry in enumerate(entries):
-
         links = entry.get("link", [])
         href = next(
-            (l.get("href") for l in links if l.get("rel") == "alternate"),
+            (l.get("href") for l in links
+             if l.get("rel") == "alternate" and l.get("type") == "text/html"),
             None
         )
 
-        # Fallback slug
-        unique_slug = f"post-{i}"
-        year = month = "unknown"
+        year, month, unique_slug = "unknown", "unknown", None
 
         if href:
-            path_parts = [p for p in urlparse(href).path.split("/") if p]
+            path_parts = urlparse(href).path.strip("/").split("/")
 
-            # Try to detect pattern: .../posts/yyyy/mm/slug/ or .../posts/yyyy/mm/
-            if "posts" in path_parts:
-                try:
-                    idx = path_parts.index("posts")
-                    year = path_parts[idx + 1]
-                    month = path_parts[idx + 2]
+            # Expected:
+            # ['relive', 'posts', 'YYYY', 'MM', 'slug', 'index.html']
+            if (
+                len(path_parts) >= 6
+                and path_parts[-1] == "index.html"
+                and path_parts[-3].isdigit()
+                and path_parts[-4].isdigit()
+            ):
+                year = path_parts[-4]
+                month = path_parts[-3]
+                unique_slug = path_parts[-2]
 
-                    # slug may exist or not
-                    # if missing, build one from title
-                    if len(path_parts) > idx + 3:
-                        unique_slug = path_parts[idx + 3]
-                    else:
-                        title = entry.get("title", {}).get("$t", f"untitled-{i}")
-                        unique_slug = slugify(title)
+        # Fallback: slugify title
+        if not unique_slug or unique_slug.isdigit():
+            title = entry.get("title", {}).get("$t", f"post-{i}")
+            unique_slug = slugify(title) or f"post-{i}"
 
-                except Exception:
-                    pass
-
-        # Title
         title = entry.get("title", {}).get("$t", f"untitled-{i}")
-
         archive_dict[year][month].append((unique_slug, title))
         slugs.append(unique_slug)
 
     return archive_dict if return_type == "archive" else slugs
+
 
 def fetch_all_entries():
     print("Fetching all paginated posts...")
@@ -259,7 +266,10 @@ def fix_images_for_lightbox(html_content, post_title):
         a_tag["href"] = new_href
 
         # Step 3: Add lightbox attribute
-        a_tag["data-lightbox"] = "Gallery"
+        if image_index == 0:
+            a_tag["data-lightbox"] = "Cover"
+        else:
+            a_tag["data-lightbox"] = "Gallery"
 
         # Step 4: Loading and priority
         if image_index == 0:
@@ -293,7 +303,6 @@ def render_post_html(entry, index, entries_per_page, slugify_func, post_id):
     # Format published date in Slovenian (Unicode-safe)
     published = format_datetime(published_dt, "EEEE, d. MMMM y", locale="sl")
 
-
     title = entry.get("title", {}).get("$t", f"untitled-{index}")
     thumbnail = entry.get("media$thumbnail", {}).get("url", NO_IMAGE)
     link_list = entry.get("link", [])
@@ -304,16 +313,24 @@ def render_post_html(entry, index, entries_per_page, slugify_func, post_id):
     label_one = next((c["term"].replace("1. ", "") for c in categories if c["term"].startswith("1. ")), "")
     label_six = next((c["term"].replace("6. ", "") for c in categories if c["term"].startswith("6. ")), "")
 
-    label_one_link = f"{BASE_SITE_URL}/search/labels/{slugify_func(label_one)}/" if label_one else ""
-    label_six_link = f"{BASE_SITE_URL}/search/labels/{slugify_func(label_six)}/" if label_six else ""
+    label_one_link = f"{BASE_BLOG_URL}/search/labels/{slugify_func(label_one)}/" if label_one else ""
+    label_six_link = f"{BASE_BLOG_URL}/search/labels/{slugify_func(label_six)}/" if label_six else ""
 
     page_number = 1 if entries_per_page == 0 else (index // entries_per_page + 1)
-
-    style_attr = "" if entries_per_page == 0 else " visually-hidden"
+    hidden_class = "" if page_number == 1 else " visually-hidden"
 
     # --- Extract summary / description for alt text ---
     content_html = entry.get("content", {}).get("$t", "")
     soup = BeautifulSoup(content_html, "html.parser")
+
+    # Normalize whitespace in text nodes (prevents newlines in extracted text)
+    for text_node in soup.find_all(string=True):
+        if isinstance(text_node, NavigableString):
+            if text_node.parent.name in ("script", "style", "pre", "code"):
+                continue
+            cleaned = " ".join(text_node.split())
+            if cleaned:
+                text_node.replace_with(cleaned)
 
     def normalize(text):
         return ' '.join(text.split()).strip().lower()
@@ -326,20 +343,20 @@ def render_post_html(entry, index, entries_per_page, slugify_func, post_id):
     # Try extracting a <summary> or <meta name="description">
     summary_tag = soup.find("summary")
     if summary_tag and normalize(summary_tag.get_text()) not in unwanted:
-        description = summary_tag.get_text().strip()
+        description = " ".join(summary_tag.get_text().split())
     else:
         meta_tag = soup.find("meta", attrs={"name": "description"})
         if meta_tag and normalize(meta_tag.get("content", "")) not in unwanted:
-            description = meta_tag["content"].strip()
+            description = " ".join(meta_tag.get("content", "").split())
         else:
             description = title
 
     # Fallback alt text content
-    alt_text = f"{description}"
+    alt_text = description
 
     # --- Render HTML ---
     return f"""
-          <div class="photo-entry" data-page="{page_number}"{style_attr}>
+          <div class="photo-entry{hidden_class}" data-page="{page_number}">
             <article class="my-post-outer-container">
               <div class="post">
                 {'<div class="my-tag-container"><a href="' + label_six_link + '" class="my-labels label-six">' + label_six + '</a></div>' if label_six else ""}
@@ -354,7 +371,9 @@ def render_post_html(entry, index, entries_per_page, slugify_func, post_id):
                 </div>
                 <div class="my-thumbnail" id="post-snippet-{post_id}">
                   <div class="my-snippet-thumbnail">
-                    {'<img src="' + thumbnail.replace('/s72-c', '/s600-rw') + '" alt="' + alt_text + '">' if thumbnail else ""}
+                    {'<img src="' + thumbnail.replace('/s72-c', '/s600-rw') + '" alt="' + alt_text + '" loading="lazy">' if thumbnail else ""}
+                    if page_number == 1 else
+                    {'<img data-src="' + thumbnail.replace('/s72-c', '/s600-rw') + '" src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\'/%3E" alt="' + alt_text + '" loading="lazy">' if thumbnail else ""}
                   </div>
                 </div>
                 <a href="{alternate_link}" aria-label="{title}"></a>
@@ -445,7 +464,7 @@ def build_archive_sidebar_html(entries):
         year_count = sum(len(posts) for posts in year_posts.values())
         # Year link with space before parentheses
         archive_html += f"""  <details open>
-    <summary><a href="{BASE_SITE_URL}/posts/{y}/">{y}</a>&nbsp;<span class="post-count" dir="ltr">({year_count})</span></summary>
+    <summary><a href="{BASE_BLOG_URL}/posts/{y}/">{y}</a>&nbsp;<span class="post-count" dir="ltr">({year_count})</span></summary>
 """
 
         for m in sorted(year_posts.keys(), reverse=True):
@@ -460,7 +479,7 @@ def build_archive_sidebar_html(entries):
 
             # Month link with space before parentheses
             archive_html += f"""    <details class="month-group">
-      <summary><a href="{BASE_SITE_URL}/posts/{y}/{m}/">{month_label}</a>&nbsp;<span class="post-count" dir="ltr">({len(posts)})</span></summary>
+      <summary><a href="{BASE_BLOG_URL}/posts/{y}/{m}/">{month_label}</a>&nbsp;<span class="post-count" dir="ltr">({len(posts)})</span></summary>
       <ul>
 """
 
@@ -472,7 +491,7 @@ def build_archive_sidebar_html(entries):
                          .replace('"', "&quot;")
                          .replace("'", "&#x27;")
                 )
-                archive_html += f"""        <li><a href="{BASE_SITE_URL}/posts/{y}/{m}/{slug}/">{safe_title}</a></li>
+                archive_html += f"""        <li><a href="{BASE_BLOG_URL}/posts/{y}/{m}/{slug}/">{safe_title}</a></li>
 """
 
             archive_html += """      </ul>
@@ -511,8 +530,17 @@ document.addEventListener("DOMContentLoaded", function() {{
   }});
 }});
 """
+    # --- Corrected save_archive_as_js snippet ---
+    output_path = OUTPUT_DIR / output_path
+
+    # Ensure the parent directory exists
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Now safely write the file
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(js_code)
+
+    print(f"Saved archive JS: {output_path}")
 
 def save_navigation_as_js(labels_html, output_path="assets/navigation.js"):
     # Escape backticks so JS template literal doesn’t break
@@ -541,8 +569,17 @@ document.addEventListener("DOMContentLoaded", function() {{
   }});
 }});
 """
+    # --- Corrected save for navigation.js ---
+    output_path = OUTPUT_DIR / output_path
+
+    # Ensure parent directory exists
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Now safely write the file
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(js_code)
+
+    print(f"Saved navigation JS: {output_path}")
 
 def generate_labels_sidebar_html(feed_path):
     """Loads labels from a local Blogger JSON feed file and returns structured sidebar HTML."""
@@ -593,7 +630,7 @@ def generate_labels_sidebar_html(feed_path):
             clean_label = re.sub(r'^\d+\.\s*', '', raw_label)
             slug = slugify(clean_label)
             label_html_parts.append(
-                f"<li><a class='label-name' href='{BASE_SITE_URL}/search/labels/{slug}/'>{clean_label}</a></li>"
+                f"<li><a class='label-name' href='{BASE_BLOG_URL}/search/labels/{slug}/'>{clean_label}</a></li>"
             )
 
         label_html_parts.append("</ul>")
@@ -667,25 +704,25 @@ def render_sidebar_settings(picture_settings=True, map_settings=True, current_pa
 
             <!-- Date and Time Filters -->
             <div class='form-group'>
-                <label for='dayFilterStart'>Od dne:</label>
+                <label for='dayFilterStart'>Slike od dne:</label>
                 <input class='input-field' id='dayFilterStart' type='date'/>
             </div>
-            <div class='form-group'>
+            <div class='form-group'style="display:none;">
                 <label for='timeFilterStart'>od ure:</label>
                 <input class='input-field' id='timeFilterStart' type='time'/>
             </div>
             <div class='form-group'>
-                <label for='dayFilterEnd'>Do dne:</label>
+                <label for='dayFilterEnd'>do dne:</label>
                 <input class='input-field' id='dayFilterEnd' type='date'/>
             </div>
-            <div class='form-group'>
+            <div class='form-group'style="display:none;">
                 <label for='timeFilterEnd'>do ure:</label>
                 <input class='input-field' id='timeFilterEnd' type='time'/>
             </div>
 
             <!-- Daily Time Filters -->
             <div class='form-group'>
-                <label for='dailyTimeFilterStart'>Med:</label>
+                <label for='dailyTimeFilterStart'>med:</label>
                 <input class='input-field' id='dailyTimeFilterStart' type='time' value='00:00'/>
             </div>
             <div class='form-group'>
@@ -693,6 +730,24 @@ def render_sidebar_settings(picture_settings=True, map_settings=True, current_pa
                 <input class='input-field' id='dailyTimeFilterEnd' type='time' value='23:59'/>
             </div>
 
+            <div style="height:12px;"></div>
+            <!-- Track Filters -->
+            <div class='form-group'>
+                <label for='trackDayFilterStart'>Sledi od dne:</label>
+                <input class='input-field' id='trackDayFilterStart' type='date'/>
+            </div>
+            <div class='form-group'>
+                <label for='trackDayFilterEnd'>do dne:</label>
+                <input class='input-field' id='trackDayFilterEnd' type='date'/>
+            </div>
+            <div style="margin-top: 6px;">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                    <input type="checkbox" id="usePhotoFilterForTracks">
+                    Uporabi filter slik
+                </label>
+            </div>
+
+            <div style="height:12px;"></div>
             <!-- Apply Filters Button -->
             <div class='form-group' style='display: flex; justify-content: center;'>
                 <button class='pill-button' id='applyFilters'>Uporabi filtre</button>
@@ -787,9 +842,6 @@ def generate_label_filter_section(feed_path):
 
 
 
-
-
-
 def generate_sidebar_html(picture_settings, map_settings, current_page):
     # Render settings section (includes conditional logic for photo player page)
     settings_html = render_sidebar_settings(picture_settings, map_settings, current_page)
@@ -799,10 +851,10 @@ def generate_sidebar_html(picture_settings, map_settings, current_page):
     if current_page in ["posts", "labels", "home"]:
         posts_sections = f"""
         <div class="labels" id="navigation-placeholder">
-          <script src="{BASE_SITE_URL}/assets/navigation.js"></script>
+          <script src="{BASE_BLOG_URL}/assets/navigation.js"></script>
         </div>
         <div class="archive" id="archive-placeholder">
-          <script src="{BASE_SITE_URL}/assets/archive.js"></script>
+          <script src="{BASE_BLOG_URL}/assets/archive.js"></script>
         </div>
         """
 
@@ -812,7 +864,7 @@ def generate_sidebar_html(picture_settings, map_settings, current_page):
         random_photo_sections = f"""
         <div class="random-photo">
           <h2 class="title">Naključna fotografija</h2>
-          <a href="{BASE_SITE_URL}/predvajalnik-fotografij/">
+          <a href="{BASE_BLOG_URL}/predvajalnik-fotografij/">
           <div class="slideshow-container">
             <!-- First image (initial) -->
             <div class="mySlides slide1" style="opacity: 1;">
@@ -835,13 +887,16 @@ def generate_sidebar_html(picture_settings, map_settings, current_page):
       <div class="sidebar" id="sidebar">
         {random_photo_sections}
         <div class="pages">
-          <aside class='sidebar-pages'><h2>Strani</h2>
-            <li><a href="{BASE_SITE_URL}">Dnevnik</a></li>
-            <li><a href="{BASE_SITE_URL}/predvajalnik-fotografij/">Predvajalnik naključnih fotografij</a></li>
-            <li><a href="{BASE_SITE_URL}/galerija-fotografij/">Galerija fotografij</a></li>
-            <li><a href="{BASE_SITE_URL}/seznam-aktivnosti/">Seznam aktivnosti</a></li>
-            <li><a href="{BASE_SITE_URL}/zemljevid/">Zemljevid</a></li>
-            <li><a href="{BASE_SITE_URL}/uporabne-povezave/">Uporabne povezave</a></li>
+          <aside class='sidebar-pages'>
+            <h2>Strani</h2>
+            <ul>
+              <li><a href="{BASE_BLOG_URL}">Dnevnik</a></li>
+              <li><a href="{BASE_BLOG_URL}/predvajalnik-fotografij/">Predvajalnik naključnih fotografij</a></li>
+              <li><a href="{BASE_BLOG_URL}/galerija-fotografij/">Galerija fotografij</a></li>
+              <li><a href="{BASE_BLOG_URL}/seznam-aktivnosti/">Seznam aktivnosti</a></li>
+              <li><a href="{BASE_BLOG_URL}/zemljevid/">Zemljevid</a></li>
+              <li><a href="{BASE_BLOG_URL}/uporabne-povezave/">Uporabne povezave</a></li>
+            </ul>
           </aside>
         </div>
         {settings_html}
@@ -855,7 +910,7 @@ def generate_header_html():
       <span style="position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;">
         {BLOG_TITLE}
       </span>
-      <a class='logo-svg' href="{BASE_SITE_URL}">
+      <a class='logo-svg' href="{BASE_SITE_URL}" aria-label="Matej lezel je taM – domov">
         {BLOG_TITLE_SVG}
       </a>
     </h1>
@@ -891,9 +946,9 @@ def generate_footer_html():
     <p>
       Poganja 
       <a href="https://github.com" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="72 72 496 496" width="16" height="16" fill="currentColor" style="vertical-align: text-top; margin-right: -1px;">
-          <!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free -->
-          <path fill="#f3891d" d="M237.9 461.4C237.9 463.4 235.6 465 232.7 465C229.4 465.3 227.1 463.7 227.1 461.4C227.1 459.4 229.4 457.8 232.3 457.8C235.3 457.5 237.9 459.1 237.9 461.4zM206.8 456.9C206.1 458.9 208.1 461.2 211.1 461.8C213.7 462.8 216.7 461.8 217.3 459.8C217.9 457.8 216 455.5 213 454.6C210.4 453.9 207.5 454.9 206.8 456.9zM251 455.2C248.1 455.9 246.1 457.8 246.4 460.1C246.7 462.1 249.3 463.4 252.3 462.7C255.2 462 257.2 460.1 256.9 458.1C256.6 456.2 253.9 454.9 251 455.2zM316.8 72C178.1 72 72 177.3 72 316C72 426.9 141.8 521.8 241.5 555.2C254.3 557.5 258.8 549.6 258.8 543.1C258.8 536.9 258.5 502.7 258.5 481.7C258.5 481.7 188.5 496.7 173.8 451.9C173.8 451.9 162.4 422.8 146 415.3C146 415.3 123.1 399.6 147.6 399.9C147.6 399.9 172.5 401.9 186.2 425.7C208.1 464.3 244.8 453.2 259.1 446.6C261.4 430.6 267.9 419.5 275.1 412.9C219.2 406.7 162.8 398.6 162.8 302.4C162.8 274.9 170.4 261.1 186.4 243.5C183.8 237 175.3 210.2 189 175.6C209.9 169.1 258 202.6 258 202.6C278 197 299.5 194.1 320.8 194.1C342.1 194.1 363.6 197 383.6 202.6C383.6 202.6 431.7 169 452.6 175.6C466.3 210.3 457.8 237 455.2 243.5C471.2 261.2 481 275 481 302.4C481 398.9 422.1 406.6 366.2 412.9C375.4 420.8 383.2 435.8 383.2 459.3C383.2 493 382.9 534.7 382.9 542.9C382.9 549.4 387.5 557.3 400.2 555C500.2 521.8 568 426.9 568 316C568 177.3 455.5 72 316.8 72zM169.2 416.9C167.9 417.9 168.2 420.2 169.9 422.1C171.5 423.7 173.8 424.4 175.1 423.1C176.4 422.1 176.1 419.8 174.4 417.9C172.8 416.3 170.5 415.6 169.2 416.9zM158.4 408.8C157.7 410.1 158.7 411.7 160.7 412.7C162.3 413.7 164.3 413.4 165 412C165.7 410.7 164.7 409.1 162.7 408.1C160.7 407.5 159.1 407.8 158.4 408.8zM190.8 444.4C189.2 445.7 189.8 448.7 192.1 450.6C194.4 452.9 197.3 453.2 198.6 451.6C199.9 450.3 199.3 447.3 197.3 445.4C195.1 443.1 192.1 442.8 190.8 444.4zM179.4 429.7C177.8 430.7 177.8 433.3 179.4 435.6C181 437.9 183.7 438.9 185 437.9C186.6 436.6 186.6 434 185 431.7C183.6 429.4 181 428.4 179.4 429.7z"/>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="62 62 516 516" width="16" height="16" fill="currentColor" style="vertical-align: text-top; margin-right: -1px;">
+          <!--!Font Awesome Free v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+          <path fill="#f3891d" d="M280.5 426.5C214.5 418.5 168 371 168 309.5C168 284.5 177 257.5 192 239.5C185.5 223 186.5 188 194 173.5C214 171 241 181.5 257 196C276 190 296 187 320.5 187C345 187 365 190 383 195.5C398.5 181.5 426 171 446 173.5C453 187 454 222 447.5 239C463.5 258 472 283.5 472 309.5C472 371 425.5 417.5 358.5 426C375.5 437 387 461 387 488.5L387 540.5C387 555.5 399.5 564 414.5 558C505 523.5 576 433 576 321C576 179.5 461 64 319.5 64C178 64 64 179.5 64 321C64 432 134.5 524 229.5 558.5C243 563.5 256 554.5 256 541L256 501C249 504 240 506 232 506C199 506 179.5 488 165.5 454.5C160 441 154 433 142.5 431.5C136.5 431 134.5 428.5 134.5 425.5C134.5 419.5 144.5 415 154.5 415C169 415 181.5 424 194.5 442.5C204.5 457 215 463.5 227.5 463.5C240 463.5 248 459 259.5 447.5C268 439 274.5 431.5 280.5 426.5z"/>
         </svg>
         GitHub
       </a>
@@ -953,7 +1008,7 @@ def generate_post_navigation_html(entries, slugs, index, local_tz, year, month):
         nav_html += f"""
         <div class="prev-link">
           <div class="pager-title">Prejšnja objava</div>
-          <a href="{BASE_SITE_URL}/posts/{prev_year}/{prev_month}/{prev_slug}/">&larr; {prev_title}</a>
+          <a href="{BASE_BLOG_URL}/posts/{prev_year}/{prev_month}/{prev_slug}/">&larr; {prev_title}</a>
         </div>
         """
 
@@ -961,7 +1016,7 @@ def generate_post_navigation_html(entries, slugs, index, local_tz, year, month):
         nav_html += f"""
         <div class="next-link">
           <div class="pager-title">Naslednja objava</div>
-          <a href="{BASE_SITE_URL}/posts/{next_year}/{next_month}/{next_slug}/">{next_title} &rarr;</a>
+          <a href="{BASE_BLOG_URL}/posts/{next_year}/{next_month}/{next_slug}/">{next_title} &rarr;</a>
         </div>
         """
 
@@ -996,7 +1051,7 @@ def generate_labels_html(entry, title, slug, year, month, formatted_date, post_i
             label_links = []
             for label_raw in labels_raw:
                 slug_part = remove_first_prefix(label_raw)
-                label_url = f"{BASE_SITE_URL}/search/labels/{slugify(slug_part)}/"
+                label_url = f"{BASE_BLOG_URL}/search/labels/{slugify(slug_part)}/"
                 label_text = remove_all_prefixes(label_raw)
                 label_links.append(f"<a class='my-labels' href='{label_url}'>{label_text}</a>")
             labels_html = "<div class='post-labels'>" + " ".join(label_links) + "</div>"
@@ -1109,8 +1164,12 @@ def generate_sitemap_from_folder(folder_path: Path, exclude_dirs=None, exclude_f
             "lastmod": lastmod
         }
 
-        # Build URL
-        url = f"{BASE_SITE_URL}/{relative_path}"
+        # Build URL (remove index.html) ----------
+        if relative_path.endswith("index.html"):
+            clean_path = relative_path[:-len("index.html")]
+            url = f"{BASE_SITE_URL}/{clean_path}".rstrip("/") + "/"
+        else:
+            url = f"{BASE_SITE_URL}/{relative_path}"
 
         # Determine priority
         parts = Path(relative_path).parts
@@ -1128,15 +1187,18 @@ def generate_sitemap_from_folder(folder_path: Path, exclude_dirs=None, exclude_f
 
         changefreq = "monthly"
 
-        urlset.append(generate_url_element(url, lastmod=lastmod, changefreq=changefreq, priority=priority))
+        # Convert lastmod to date-only for sitemap (YYYY-MM-DD)
+        sitemap_lastmod = lastmod.split("T", 1)[0]
 
-    # Save updated DB (this was missing)
+        urlset.append( generate_url_element(url, lastmod=sitemap_lastmod, changefreq=changefreq, priority=priority))
+
+    # Save updated DB
     save_lastmod_db(new_lastmod_db)
 
     # Pretty-print & write XML
     indent_xml(urlset)
-    ElementTree(urlset).write(SITEMAP_FILE, encoding="utf-8", xml_declaration=True)
-    print(f"Sitemap je bil ustvarjen in shranjen kot {SITEMAP_FILE}")
+    ElementTree(urlset).write(SITEMAP_FILE, encoding="UTF-8", xml_declaration=True)
+    print(f"Generated sitemap: {SITEMAP_FILE}")
 
 def update_lastmod_tracking(folder_path: Path, exclude_dirs=None, exclude_files=None):
     """
@@ -1177,11 +1239,11 @@ def update_lastmod_tracking(folder_path: Path, exclude_dirs=None, exclude_files=
             if not folder_key.endswith("/"):
                 folder_key += "/"
             file_key = rel_path
-            url = f"https://{GITHUB_REPO_NAME}/{folder_key}"
+            url = f"{BASE_SITE_URL}/{folder_key}"
             return [file_key, folder_key], url, file_key
 
         # normal file
-        return [rel_path], f"https://{GITHUB_REPO_NAME}/{rel_path}", rel_path
+        return [rel_path], f"{BASE_SITE_URL}/{rel_path}", rel_path
 
     # Scan all html files
     for html_file in folder_path.rglob("*.html"):
@@ -1226,9 +1288,14 @@ def fetch_and_save_all_posts(entries):
 
     local_tz = ZoneInfo("Europe/Ljubljana")
     label_posts_raw = defaultdict(list)
+
+    # Generate unique slugs for all entries
     slugs = generate_unique_slugs(entries, local_tz)
 
-    for index, entry in enumerate(entries):  # Only first 5 entries entries[:5]
+    if DEBUG_NUM_ENTRIES is not None:
+        entries = entries[:DEBUG_NUM_ENTRIES]
+
+    for index, entry in enumerate(entries):
         title = entry.get("title", {}).get("$t", f"untitled-{index}")
         content_html = entry.get("content", {}).get("$t", "")
         slug = slugs[index]
@@ -1236,7 +1303,16 @@ def fetch_and_save_all_posts(entries):
         full_id = entry.get("id", {}).get("$t", "")
         post_id = full_id.split("post-")[-1] if "post-" in full_id else ""
         author = entry.get("author", {}).get("name", {}).get("$t", "")
+
+        # Parse published date
         formatted_date, year, month = parse_entry_date(entry, index)
+        dt_published = datetime.fromisoformat(formatted_date)
+        published_time = dt_published.replace(microsecond=0).isoformat()
+
+        # Parse modified date
+        updated_raw = entry.get("updated", {}).get("$t", formatted_date)
+        dt_modified = datetime.fromisoformat(updated_raw)
+        mod_date = dt_modified.replace(microsecond=0).isoformat()
 
         # Replace custom post containers
         content_html = replace_mypost_scripts_with_rendered_posts(
@@ -1250,38 +1326,86 @@ def fetch_and_save_all_posts(entries):
         # Fix images for lightbox
         content_html = fix_images_for_lightbox(content_html, title)
 
-        # First image for og:image
+        # Extract first image for Open Graph
         soup = BeautifulSoup(content_html, "html.parser")
         first_img_tag = soup.find("img")
         og_image = first_img_tag["src"] if first_img_tag else DEFAULT_OG_IMAGE
 
-        # Description extraction
+        # Extract description
         def normalize(text): return ' '.join(text.split()).strip().lower()
-        unwanted = [normalize("Summary, only on the post-container view."), normalize("Kaj češ lepšega, kot biti v naravi.")]
+        unwanted = [normalize("Summary, only on the post-container view."),
+                    normalize("Kaj češ lepšega, kot biti v naravi.")]
         summary_tag = soup.find("summary")
         if summary_tag and normalize(summary_tag.get_text()) not in unwanted:
-            description = summary_tag.get_text().strip()
+            description = " ".join(summary_tag.get_text().split())
         else:
             meta_tag = soup.find("meta", attrs={"name": "description"})
             if meta_tag and normalize(meta_tag.get("content", "")) not in unwanted:
-                description = meta_tag["content"].strip()
+                description = " ".join(meta_tag.get("content", "").split())
             else:
                 description = title
 
-        og_url = f"{BASE_SITE_URL}/posts/{year}/{month}/{slug}/"
+        og_url = f"{BASE_BLOG_URL}/posts/{year}/{month}/{slug}/"
         metadata_html = f"<div class='post-date' data-date='{formatted_date}'></div>"
+
+        # Navigation and labels
         nav_html = generate_post_navigation_html(entries, slugs, index, local_tz, year, month)
         labels_html = generate_labels_html(entry, title, slug, year, month, formatted_date, post_id,
                                            label_posts_raw, slugify, remove_first_prefix, remove_all_prefixes)
 
+        # Open Graph and tags
+        categories = [c.get("term", "") for c in entry.get("category", [])]
+
+        # Function to remove numeric prefixes like '1. ', '2. ', etc.
+        def strip_prefix(cat):
+            return cat.split(". ", 1)[-1] if ". " in cat else cat
+
+        # Apply the prefix removal
+        categories_clean = [strip_prefix(c) for c in categories]
+
+        # Section is first category, tags are the rest
+        section = categories_clean[0] if categories_clean else ""
+        tags = categories_clean[1:] if len(categories_clean) > 1 else []
+
+        og_meta_html = f"""<meta property="og:title" content="{title}">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="{og_image}">
+  <meta property="og:url" content="{og_url}">
+  <meta property="og:description" content="{description}">
+  <meta property="og:site_name" content="{BLOG_TITLE}">
+  <meta property="og:locale" content="sl_SI">
+  <meta property="article:published_time" content="{published_time}">
+  <meta property="article:modified_time" content="{mod_date}">
+  <meta property="article:author" content="{author}">
+  <meta property="article:section" content="{section}">
+"""
+        for tag in tags:
+            og_meta_html += f'  <meta property="article:tag" content="{tag}">\n'
+
+        # Generate keywords from <div class="peak-tag">
+        peak_divs = soup.find_all("div", class_="peak-tag")
+        keywords_list = []
+        for div in peak_divs:
+            text = " ".join(div.get_text(separator=",").split())
+            if text:
+                # Remove extra spaces, then split by comma
+                parts = [p.strip() for p in text.split(",") if p.strip()]
+                keywords_list.extend(parts)
+        # Append blog title and author as keywords
+        keywords_list.extend([BLOG_TITLE, BLOG_AUTHOR])
+        keywords = ", ".join(keywords_list) if keywords_list else f"{BLOG_TITLE}, {BLOG_AUTHOR}"
+
         # Schema.org JSON-LD
-        structured_data = f"""
-  <script type="application/ld+json">
+        schema_jsonld = f"""<script type="application/ld+json">
   {{
     "@context": "https://schema.org",
     "@type": "BlogPosting",
+    "mainEntityOfPage": {{
+      "@type": "WebPage",
+      "@id": "{og_url}"
+    }},
     "headline": "{title}",
-    "image": "{og_image}",
+    "image": ["{og_image}"],
     "author": {{
       "@type": "Person",
       "name": "{BLOG_AUTHOR}"
@@ -1294,12 +1418,40 @@ def fetch_and_save_all_posts(entries):
         "url": "https://matejlezeljetam.blogspot.com/favicon.ico"
       }}
     }},
+    "datePublished": "{published_time}",
+    "dateModified": "{mod_date}",
     "description": "{description}",
-    "datePublished": "{formatted_date}",
-    "url": "{og_url}"
+    "url": "{og_url}",
+    "inLanguage": "sl"
   }}
-  </script>
-"""
+  </script>"""
+
+        # Breadcrumb JSON-LD
+        breadcrumb_json_ld = f"""<script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Dnevnik",
+        "item": "{BASE_SITE_URL}/"
+      }},
+      {{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "{section}",
+        "item": "{BASE_SITE_URL}/search/labels/{slugify(section)}/"
+      }},
+      {{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "{title}"
+      }}
+    ]
+  }}
+  </script>"""
 
         # GitHub Comments (Utterances)
         comments_html = f"""
@@ -1324,29 +1476,28 @@ def fetch_and_save_all_posts(entries):
 <html lang="sl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=350, initial-scale=1, maximum-scale=2.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{description}" />
-  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}" />
+  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}, {keywords}" />
   <meta name="author" content="{BLOG_AUTHOR}" />
+  <meta name="robots" content="max-image-preview:large">
 
   <title>{title} | {BLOG_TITLE}</title>
   <link rel="canonical" href="{og_url}">
   <link rel="alternate" href="{og_url}" hreflang="sl" />
   <link rel="alternate" href="{BASE_SITE_URL}" hreflang="x-default" />
 
-  <meta property="og:title" content="{title}">
-  <meta property="og:type" content="article">
-  <meta property="og:image" content="{og_image}">
-  <meta property="og:url" content="{og_url}">
-  <meta property="og:description" content="{description}">
 
+  {og_meta_html}
   <script>
     var postTitle = {title!r};
     var postId = {post_id!r};
     var author = {author!r};
   </script>
 
-  {structured_data}
+  {schema_jsonld}
+
+  {breadcrumb_json_ld}
 
   <!-- Favicon -->
   <link rel="icon" href="https://matejlezeljetam.blogspot.com/favicon.ico" type="image/x-icon">
@@ -1358,14 +1509,14 @@ def fetch_and_save_all_posts(entries):
   <link href='https://metodlangus.github.io/plugins/@raruto/leaflet-elevation/dist/leaflet-elevation.min.css' rel='stylesheet'>
   <link href='https://metodlangus.github.io/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet'>
   <link href='https://metodlangus.github.io/scripts/leaflet-download-gpx-button.css' rel='stylesheet'>
-  <link href='https://metodlangus.github.io/plugins/lightbox2/2.11.1/css/lightbox.min.css' rel='stylesheet'>
   <link href='https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css' rel='stylesheet'>
   <link href='https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css' rel='stylesheet'>
   <link href='https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@3.1.0/dist/Control.Geocoder.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyMapScript.css">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/MySlideshowScript.css">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyPostContainerScript.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/Main.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/MyLightboxScriptModule.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/MyMapScript.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/MySlideshowScript.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/MyPostContainerScript.css">
 </head>
 
 <body>
@@ -1380,7 +1531,7 @@ def fetch_and_save_all_posts(entries):
       {sidebar_html}
       <div class="content-wrapper">
         {searchbox_html}
-        <h2>{title}</h2>
+        <h1>{title}</h1>
         {metadata_html}
         {content_html}
         {labels_html}
@@ -1401,15 +1552,14 @@ def fetch_and_save_all_posts(entries):
   <script src='https://metodlangus.github.io/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
   <script src='https://metodlangus.github.io/plugins/leaflet-polylinedecorator/1.1.0/leaflet.polylineDecorator.min.js'></script>
   <script src='https://metodlangus.github.io/scripts/leaflet-download-gpx-button.js'></script>
-  <script src='https://metodlangus.github.io/plugins/lightbox2/2.11.1/js/lightbox-plus-jquery.min.js'></script>
-  <script src='https://metodlangus.github.io/scripts/full_img_size_button.js'></script>
   <script src='https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js'></script>
   <script src='https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@3.1.0/dist/Control.Geocoder.min.js'></script>
   <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
-  <script src="https://matejlangus.github.io/map/assets/MyMapScript.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MyFiltersScriptModule.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MySlideshowScriptModule.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/Main.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/MyLightboxScriptModule.js" defer></script>
+  <script src="{BASE_SITE_URL}/assets/MyMapScript.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/MyFiltersScriptModule.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/MySlideshowScriptModule.js" defer></script>
 </body>
 </html>""")
 
@@ -1464,13 +1614,12 @@ def generate_label_pages(entries, label_posts_raw):
             post_scripts_html += render_post_html(entry, i, entries_per_page, slugify, post_id)
 
         # --- Schema.org structured data (JSON-LD)
-        schema_jsonld = f"""
-        <script type="application/ld+json">
+        schema_jsonld = f"""<script type="application/ld+json">
         {{
           "@context": "https://schema.org",
           "@type": "WebPage",
           "name": "Prikaz objav z oznako: {label_clean}",
-          "url": "{BASE_SITE_URL}/search/labels/{label_slug}/",
+          "url": "{BASE_BLOG_URL}/search/labels/{label_slug}/",
           "description": "Prikaz objav z oznako: {label_clean} - gorske avanture in nepozabni trenutki.",
           "inLanguage": "sl",
           "isPartOf": {{
@@ -1484,30 +1633,29 @@ def generate_label_pages(entries, label_posts_raw):
             "url": "{BASE_SITE_URL}/"
           }}
         }}
-        </script>
-        """
+  </script>"""
 
         html_content = f"""<!DOCTYPE html>
 <html lang="sl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=350, initial-scale=1, maximum-scale=2.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Prikaz objav z oznako: {label_clean} - gorske avanture in nepozabni trenutki." />
-  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}" />
+  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}, {label_clean}" />
   <meta name="author" content="{BLOG_AUTHOR}" />
 
   <meta property="og:title" content="Prikaz objav z oznako: {label_clean}" />
   <meta property="og:description" content="Prikaz objav z oznako: {label_clean} - gorske avanture in nepozabni trenutki." />
   <meta property="og:image" content="{DEFAULT_OG_IMAGE}" />
   <meta property="og:image:alt" content="Prikaz objav z oznako: {label_clean}" />
-  <meta property="og:url" content="{BASE_SITE_URL}/search/labels/{label_slug}/" />
+  <meta property="og:url" content="{BASE_BLOG_URL}/search/labels/{label_slug}/" />
   <meta property="og:type" content="website" />
 
   <title>Prikaz objav z oznako: {label_clean} | {BLOG_TITLE}</title>
 
   <!-- Canonical & hreflang -->
-  <link rel="canonical" href="{BASE_SITE_URL}/search/labels/{label_slug}/" />
-  <link rel="alternate" href="{BASE_SITE_URL}/search/labels/{label_slug}/" hreflang="sl" />
+  <link rel="canonical" href="{BASE_BLOG_URL}/search/labels/{label_slug}/" />
+  <link rel="alternate" href="{BASE_BLOG_URL}/search/labels/{label_slug}/" hreflang="sl" />
   <link rel="alternate" href="{BASE_SITE_URL}" hreflang="x-default" />
 
   {schema_jsonld}
@@ -1518,8 +1666,8 @@ def generate_label_pages(entries, label_posts_raw):
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyPostContainerScript.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/Main.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/MyPostContainerScript.css">
 </head>
 
 <body>
@@ -1548,7 +1696,7 @@ def generate_label_pages(entries, label_posts_raw):
   {footer_html}
 
   <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/Main.js" defer></script>
 </body>
 </html>"""
 
@@ -1624,13 +1772,12 @@ def generate_archive_pages(entries):
             year_posts_html += render_post_html(post_info["entry"], i, entries_per_page, slugify, post_info["post_id"])
 
         # --- Schema.org structured data (JSON-LD)
-        schema_jsonld = f"""
-        <script type="application/ld+json">
+        schema_jsonld = f"""<script type="application/ld+json">
         {{
           "@context": "https://schema.org",
           "@type": "WebPage",
           "name": "Prikaz objav, dodanih na: {year}",
-          "url": "{BASE_SITE_URL}/posts/{year}/",
+          "url": "{BASE_BLOG_URL}/posts/{year}/",
           "description": "Prikaz objav, dodanih na: {year} - gorske avanture in nepozabni trenutki.",
           "inLanguage": "sl",
           "isPartOf": {{
@@ -1644,42 +1791,41 @@ def generate_archive_pages(entries):
             "url": "{BASE_SITE_URL}/"
           }}
         }}
-        </script>
-        """
+  </script>"""
 
         html_year = f"""<!DOCTYPE html>
 <html lang="sl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=350, initial-scale=1, maximum-scale=2.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Prikaz objav, dodanih na: {year} - gorske avanture in nepozabni trenutki." />
-  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}" />
+  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}, {year}" />
   <meta name="author" content="{BLOG_AUTHOR}" />
 
   <meta property="og:title" content="Prikaz objav, dodanih na: {year}" />
   <meta property="og:description" content="Prikaz objav, dodanih na: {year} - gorske avanture in nepozabni trenutki." />
   <meta property="og:image" content="{DEFAULT_OG_IMAGE}" />
   <meta property="og:image:alt" content="Prikaz objav, dodanih na: {year}" />
-  <meta property="og:url" content="{BASE_SITE_URL}/posts/{year}/" />
+  <meta property="og:url" content="{BASE_BLOG_URL}/posts/{year}/" />
   <meta property="og:type" content="website" />
 
   <title>Prikaz objav, dodanih na: {year} | {BLOG_TITLE}</title>
 
   <!-- Canonical & hreflang -->
-  <link rel="canonical" href="{BASE_SITE_URL}/posts/{year}/" />
-  <link rel="alternate" href="{BASE_SITE_URL}/posts/{year}/" hreflang="sl" />
+  <link rel="canonical" href="{BASE_BLOG_URL}/posts/{year}/" />
+  <link rel="alternate" href="{BASE_BLOG_URL}/posts/{year}/" hreflang="sl" />
   <link rel="alternate" href="{BASE_SITE_URL}" hreflang="x-default" />
 
   {schema_jsonld}
 
   <!-- Favicon -->
-  <link rel="icon" href="{BASE_SITE_URL}/photos/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="https://matejlezeljetam.blogspot.com/favicon.ico" type="image/x-icon">
 
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyPostContainerScript.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/Main.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/MyPostContainerScript.css">
 </head>
 <body>
   <div class="page-wrapper">
@@ -1707,7 +1853,7 @@ def generate_archive_pages(entries):
   {footer_html}
 
   <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/Main.js" defer></script>
 </body>
 </html>"""
 
@@ -1729,13 +1875,12 @@ def generate_archive_pages(entries):
                 month_posts_html += render_post_html(post_info["entry"], i, entries_per_page, slugify, post_info["post_id"])
 
             # --- Schema.org structured data (JSON-LD)
-            schema_jsonld = f"""
-            <script type="application/ld+json">
+            schema_jsonld = f"""<script type="application/ld+json">
             {{
               "@context": "https://schema.org",
               "@type": "WebPage",
               "name": "Prikaz objav, dodanih na: {month_name_sl}, {year}",
-              "url": "{BASE_SITE_URL}/posts/{year}/{month}/",
+              "url": "{BASE_BLOG_URL}/posts/{year}/{month}/",
               "description": "Prikaz objav, dodanih na: {month_name_sl}, {year} - gorske avanture in nepozabni trenutki.",
               "inLanguage": "sl",
               "isPartOf": {{
@@ -1749,42 +1894,41 @@ def generate_archive_pages(entries):
                 "url": "{BASE_SITE_URL}/"
               }}
             }}
-            </script>
-            """
+  </script>"""
 
             html_month = f"""<!DOCTYPE html>
 <html lang="sl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=350, initial-scale=1, maximum-scale=2.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Prikaz objav, dodanih na: {month_name_sl}, {year} - gorske avanture in nepozabni trenutki." />
-  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}" />
+  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}, {month_name_sl}, {year}" />
   <meta name="author" content="{BLOG_AUTHOR}" />
 
   <meta property="og:title" content="Prikaz objav, dodanih na: {month_name_sl}, {year}" />
   <meta property="og:description" content="Prikaz objav, dodanih na: {month_name_sl}, {year} - gorske avanture in nepozabni trenutki." />
   <meta property="og:image" content="{DEFAULT_OG_IMAGE}" />
   <meta property="og:image:alt" content="Prikaz objav, dodanih na: {month_name_sl}, {year}" />
-  <meta property="og:url" content="{BASE_SITE_URL}/posts/{year}/{month}/" />
+  <meta property="og:url" content="{BASE_BLOG_URL}/posts/{year}/{month}/" />
   <meta property="og:type" content="website" />
 
   <title>Prikaz objav, dodanih na: {month_name_sl}, {year} | {BLOG_TITLE}</title>
 
   <!-- Canonical & hreflang -->
-  <link rel="canonical" href="{BASE_SITE_URL}/posts/{year}/{month}/" />
-  <link rel="alternate" href="{BASE_SITE_URL}/posts/{year}/{month}/" hreflang="sl" />
+  <link rel="canonical" href="{BASE_BLOG_URL}/posts/{year}/{month}/" />
+  <link rel="alternate" href="{BASE_BLOG_URL}/posts/{year}/{month}/" hreflang="sl" />
   <link rel="alternate" href="{BASE_SITE_URL}" hreflang="x-default" />
 
   {schema_jsonld}
 
   <!-- Favicon -->
-  <link rel="icon" href="{BASE_SITE_URL}/photos/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="https://matejlezeljetam.blogspot.com/favicon.ico" type="image/x-icon">
 
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyPostContainerScript.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/Main.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/MyPostContainerScript.css">
 </head>
 <body>
   <div class="page-wrapper">
@@ -1812,7 +1956,7 @@ def generate_archive_pages(entries):
   {footer_html}
 
   <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/Main.js" defer></script>
 </body>
 </html>"""
 
@@ -1833,55 +1977,53 @@ def generate_predvajalnik_page(current_page):
     back_to_top_html = generate_back_to_top_html()
 
     # --- Schema.org structured data (JSON-LD)
-    schema_jsonld = """
-    <script type="application/ld+json">
-    {
+    schema_jsonld = f"""<script type="application/ld+json">
+  {{
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "Predvajalnik naključnih fotografij",
-      "url": "{BASE_SITE_URL}/predvajalnik-fotografij/",
+      "url": "{BASE_BLOG_URL}/predvajalnik-fotografij/",
       "description": "Predvajalnik naključnih fotografij gorskih avantur in nepozabnih trenutkov.",
       "inLanguage": "sl",
-      "isPartOf": {
+      "isPartOf": {{
         "@type": "WebSite",
         "name": "{BLOG_TITLE}",
         "url": "{BASE_SITE_URL}/"
-      },
-      "publisher": {
+      }},
+      "publisher": {{
         "@type": "Person",
         "name": "{BLOG_AUTHOR}",
         "url": "{BASE_SITE_URL}/"
-      },
-      "potentialAction": {
+      }},
+      "potentialAction": {{
         "@type": "SearchAction",
-        "target": "{BASE_SITE_URL}/search?q={search_term_string}",
+        "target": "{BASE_BLOG_URL}/search?q={{search_term_string}}",
         "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
-    """
+      }}
+    }}
+  </script>"""
 
     html_content = f"""<!DOCTYPE html>
 <html lang="sl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=350, initial-scale=1, maximum-scale=2.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Predvajalnik naključnih fotografij gorskih avantur in nepozabnih trenutkov." />
-  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}" />
+  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}, predvajalnik fotografij, naključne slike, razgledi" />
   <meta name="author" content="{BLOG_AUTHOR}" />
 
   <meta property="og:title" content="Predvajalnik naključnih fotografij" />
   <meta property="og:description" content="Predvajalnik naključnih fotografij gorskih avantur in nepozabnih trenutkov." />
   <meta property="og:image" content="{DEFAULT_OG_IMAGE}" />
   <meta property="og:image:alt" content="Gorski razgledi in narava v slikah" />
-  <meta property="og:url" content="{BASE_SITE_URL}/predvajalnik-fotografij/" />
+  <meta property="og:url" content="{BASE_BLOG_URL}/predvajalnik-fotografij/" />
   <meta property="og:type" content="website" />
 
   <title>Predvajalnik naključnih fotografij | {BLOG_TITLE}</title>
 
   <!-- Canonical & hreflang -->
-  <link rel="canonical" href="{BASE_SITE_URL}/predvajalnik-fotografij/" />
-  <link rel="alternate" href="{BASE_SITE_URL}/predvajalnik-fotografij/" hreflang="sl" />
+  <link rel="canonical" href="{BASE_BLOG_URL}/predvajalnik-fotografij/" />
+  <link rel="alternate" href="{BASE_BLOG_URL}/predvajalnik-fotografij/" hreflang="sl" />
   <link rel="alternate" href="{BASE_SITE_URL}/" hreflang="x-default" />
 
   {schema_jsonld}
@@ -1897,8 +2039,8 @@ def generate_predvajalnik_page(current_page):
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/MySlideshowScript.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/Main.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/MySlideshowScript.css">
 </head>
 
 <body>
@@ -1927,9 +2069,9 @@ def generate_predvajalnik_page(current_page):
   {footer_html}
 
   <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MySlideshowScriptModule.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MyFiltersScriptModule.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/Main.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/MyFiltersScriptModule.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/MySlideshowScriptModule.js" defer></script>
 </body>
 </html>"""
 
@@ -1950,55 +2092,53 @@ def generate_gallery_page(current_page):
     back_to_top_html = generate_back_to_top_html()
 
     # --- Schema.org structured data (JSON-LD)
-    schema_jsonld = """
-    <script type="application/ld+json">
-    {
+    schema_jsonld = f"""<script type="application/ld+json">
+  {{
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "Galerija fotografij",
-      "url": "{BASE_SITE_URL}/galerija-fotografij/",
+      "url": "{BASE_BLOG_URL}/galerija-fotografij/",
       "description": "Galerija gorskih avantur in nepozabnih trenutkov.",
       "inLanguage": "sl",
-      "isPartOf": {
+      "isPartOf": {{
         "@type": "WebSite",
         "name": "{BLOG_TITLE}",
         "url": "{BASE_SITE_URL}/"
-      },
-      "publisher": {
+      }},
+      "publisher": {{
         "@type": "Person",
         "name": "{BLOG_AUTHOR}",
         "url": "{BASE_SITE_URL}/"
-      },
-      "potentialAction": {
+      }},
+      "potentialAction": {{
         "@type": "SearchAction",
-        "target": "{BASE_SITE_URL}/search?q={search_term_string}",
+        "target": "{BASE_BLOG_URL}/search?q={{search_term_string}}",
         "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
-    """
+      }}
+    }}
+  </script>"""
 
     html_content = f"""<!DOCTYPE html>
 <html lang="sl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=350, initial-scale=1, maximum-scale=2.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Galerija gorskih avantur in nepozabnih trenutkov." />
-  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}" />
+  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}, galerija fotografij, spomini, razgledi" />
   <meta name="author" content="{BLOG_AUTHOR}" />
 
   <meta property="og:title" content="Galerija fotografij" />
   <meta property="og:description" content="Galerija gorskih avantur in nepozabnih trenutkov." />
   <meta property="og:image" content="{DEFAULT_OG_IMAGE}" />
   <meta property="og:image:alt" content="Galerija gorskih avantur" />
-  <meta property="og:url" content="{BASE_SITE_URL}/galerija-fotografij/" />
+  <meta property="og:url" content="{BASE_BLOG_URL}/galerija-fotografij/" />
   <meta property="og:type" content="website" />
 
   <title>Galerija spominov | {BLOG_TITLE}</title>
 
   <!-- Canonical & hreflang -->
-  <link rel="canonical" href="{BASE_SITE_URL}/galerija-fotografij/" />
-  <link rel="alternate" href="{BASE_SITE_URL}/galerija-fotografij/" hreflang="sl" />
+  <link rel="canonical" href="{BASE_BLOG_URL}/galerija-fotografij/" />
+  <link rel="alternate" href="{BASE_BLOG_URL}/galerija-fotografij/" hreflang="sl" />
   <link rel="alternate" href="{BASE_SITE_URL}/" hreflang="x-default" />
 
   {schema_jsonld}
@@ -2014,9 +2154,9 @@ def generate_gallery_page(current_page):
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-  <link href='https://metodlangus.github.io/plugins/lightbox2/2.11.1/css/lightbox.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyGalleryScript.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/Main.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/MyLightboxScriptModule.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/MyGalleryScript.css">
 </head>
 
 <body>
@@ -2045,12 +2185,11 @@ def generate_gallery_page(current_page):
   {back_to_top_html}
   {footer_html}
 
-  <script src='https://metodlangus.github.io/plugins/lightbox2/2.11.1/js/lightbox-plus-jquery.min.js'></script>
-  <script src='https://metodlangus.github.io/scripts/full_img_size_button.js'></script>
   <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MyFiltersScriptModule.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MyGalleryScriptModule.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/Main.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/MyLightboxScriptModule.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/MyFiltersScriptModule.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/MyGalleryScriptModule.js" defer></script>
 </body>
 </html>"""
 
@@ -2071,55 +2210,53 @@ def generate_peak_list_page():
     back_to_top_html = generate_back_to_top_html()
 
     # --- Schema.org structured data (JSON-LD)
-    schema_jsonld = """
-    <script type="application/ld+json">
-    {
+    schema_jsonld = f"""<script type="application/ld+json">
+  {{
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "Seznam aktivnosti",
-      "url": "{BASE_SITE_URL}/seznam-aktivnosti/",
+      "url": "{BASE_BLOG_URL}/seznam-aktivnosti/",
       "description": "Seznam obiskanih vrhov na gorskih avanturah.",
       "inLanguage": "sl",
-      "isPartOf": {
+      "isPartOf": {{
         "@type": "WebSite",
         "name": "{BLOG_TITLE}",
         "url": "{BASE_SITE_URL}/"
-      },
-      "publisher": {
+      }},
+      "publisher": {{
         "@type": "Person",
         "name": "{BLOG_AUTHOR}",
         "url": "{BASE_SITE_URL}/"
-      },
-      "potentialAction": {
+      }},
+      "potentialAction": {{
         "@type": "SearchAction",
-        "target": "{BASE_SITE_URL}/search?q={search_term_string}",
+        "target": "{BASE_BLOG_URL}/search?q={{search_term_string}}",
         "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
-    """
+      }}
+    }}
+  </script>"""
 
     html_content = f"""<!DOCTYPE html>
 <html lang="sl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=350, initial-scale=1, maximum-scale=2.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Seznam aktivnosti." />
-  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}" />
+  <meta name="keywords" content="gorske avanture, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}, hribi, gore, vrhovi, planinski vrhovi, pohodniške ture, seznam vrhov" />
   <meta name="author" content="{BLOG_AUTHOR}" />
 
   <meta property="og:title" content="Seznam aktivnosti" />
   <meta property="og:description" content="Seznam aktivnosti." />
   <meta property="og:image" content="{DEFAULT_OG_IMAGE}" />
   <meta property="og:image:alt" content="Seznam aktivnosti" />
-  <meta property="og:url" content="{BASE_SITE_URL}/seznam-aktivnosti/" />
+  <meta property="og:url" content="{BASE_BLOG_URL}/seznam-aktivnosti/" />
   <meta property="og:type" content="website" />
 
   <title>Seznam aktivnosti | {BLOG_TITLE}</title>
 
   <!-- Canonical & hreflang -->
-  <link rel="canonical" href="{BASE_SITE_URL}/seznam-aktivnosti/" />
-  <link rel="alternate" href="{BASE_SITE_URL}/seznam-aktivnosti/" hreflang="sl" />
+  <link rel="canonical" href="{BASE_BLOG_URL}/seznam-aktivnosti/" />
+  <link rel="alternate" href="{BASE_BLOG_URL}/seznam-aktivnosti/" hreflang="sl" />
   <link rel="alternate" href="{BASE_SITE_URL}/" hreflang="x-default" />
 
   {schema_jsonld}
@@ -2135,8 +2272,8 @@ def generate_peak_list_page():
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyPeakListScript.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/Main.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/MyPeakListScript.css">
 </head>
 
 <body>
@@ -2163,8 +2300,8 @@ def generate_peak_list_page():
   {footer_html}
 
   <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MyPeakListScriptModule.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/Main.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/MyPeakListScriptModule.js" defer></script>
 </body>
 </html>"""
 
@@ -2183,39 +2320,37 @@ def generate_home_si_page(homepage_html):
     back_to_top_html = generate_back_to_top_html()
 
     # --- Schema.org structured data (JSON-LD)
-    schema_jsonld = f"""
-    <script type="application/ld+json">
+    schema_jsonld = f"""<script type="application/ld+json">
     {{
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "{BLOG_TITLE}",
-      "url": "{BASE_SITE_URL}/",
+      "url": "{BASE_BLOG_URL}/",
       "description": "Gorske avanture in nepozabni trenutki: Lepote gorskega sveta in predvajalniki slik, ki vas popeljejo skozi dogodivščine.",
       "publisher": {{
         "@type": "Person",
         "name": "{BLOG_AUTHOR}",
-        "url": "{BASE_SITE_URL}/"
+        "url": "{BASE_BLOG_URL}/"
       }},
       "potentialAction": {{
         "@type": "SearchAction",
-        "target": "{BASE_SITE_URL}/search?q={{search_term_string}}",
+        "target": "{BASE_BLOG_URL}/search?q={{search_term_string}}",
         "query-input": "required name=search_term_string"
       }}
     }}
-    </script>
-    """
+  </script>"""
 
     html_content = f"""<!DOCTYPE html>
 <html lang="sl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=350, initial-scale=1, maximum-scale=2.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Gorske avanture in nepozabni trenutki: Lepote gorskega sveta in predvajalniki slik, ki vas popeljejo skozi dogodivščine." />
-    <meta name="keywords" content="gorske avanture, pustolovščine, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}" />
+    <meta name="keywords" content="gorske avanture, pustolovščine, pohodništvo, gore, fotografije, narava, prosti čas, {BLOG_TITLE}, {BLOG_AUTHOR}, gorski vrhovi, razgledi, pohodniške poti, lepote narave" />
     <meta name="author" content="{BLOG_AUTHOR}" />
 
     <title>{BLOG_TITLE} | Gorske pustolovščine skozi slike | {BLOG_AUTHOR}</title>
-    <link rel="canonical" href="{BASE_SITE_URL}/" />
+    <link rel="canonical" href="{BASE_BLOG_URL}/" />
 
     {schema_jsonld}
 
@@ -2223,11 +2358,11 @@ def generate_home_si_page(homepage_html):
     <meta property="og:description" content="Gorske avanture in nepozabni trenutki: Lepote gorskega sveta in predvajalniki slik, ki vas popeljejo skozi dogodivščine." />
     <meta property="og:image" content="{DEFAULT_OG_IMAGE}" />
     <meta property="og:image:alt" content="Gorski razgledi in narava" />
-    <meta property="og:url" content="{BASE_SITE_URL}/" />
+    <meta property="og:url" content="{BASE_BLOG_URL}/" />
     <meta property="og:type" content="website" />
 
-    <link rel="alternate" href="{BASE_SITE_URL}/" hreflang="sl" />
-    <link rel="alternate" href="{BASE_SITE_URL}/en/" hreflang="en" />
+    <link rel="alternate" href="{BASE_BLOG_URL}/" hreflang="sl" />
+    <link rel="alternate" href="{BASE_BLOG_URL}/en/" hreflang="en" />
     <link rel="alternate" href="{BASE_SITE_URL}/" hreflang="x-default" />
 
     <!-- Favicon -->
@@ -2236,9 +2371,9 @@ def generate_home_si_page(homepage_html):
     <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
-    <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyRandomPhoto.css">
-    <link rel="stylesheet" href="https://metodlangus.github.io/assets/MyPostContainerScript.css">
+    <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/Main.css">
+    <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/MyRandomPhoto.css">
+    <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/MyPostContainerScript.css">
 </head>
 
 <body>
@@ -2266,15 +2401,14 @@ def generate_home_si_page(homepage_html):
   {footer_html}
 
   <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/MyRandomPhotoModule.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/Main.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/MyRandomPhotoModule.js" defer></script>
 </body>
 </html>"""
 
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html_content)
     print(f"Generated home SI page: {output_path}")
-
 
 def generate_useful_links_page():
     output_dir = OUTPUT_DIR / "uporabne-povezave"
@@ -2289,13 +2423,12 @@ def generate_useful_links_page():
     back_to_top_html = generate_back_to_top_html()
 
     # --- Schema.org structured data (JSON-LD)
-    schema_jsonld = f"""
-    <script type="application/ld+json">
+    schema_jsonld = f"""<script type="application/ld+json">
     {{
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "Uporabne povezave",
-      "url": "{BASE_SITE_URL}/uporabne-povezave/",
+      "url": "{BASE_BLOG_URL}/uporabne-povezave/",
       "description": "Seznam uporabnih povezav do drugih blogov in vsebin.",
       "inLanguage": "sl",
       "isPartOf": {{
@@ -2310,12 +2443,11 @@ def generate_useful_links_page():
       }},
       "potentialAction": {{
         "@type": "SearchAction",
-        "target": "{BASE_SITE_URL}/search?q={{search_term_string}}",
+        "target": "{BASE_BLOG_URL}/search?q={{search_term_string}}",
         "query-input": "required name=search_term_string"
       }}
     }}
-    </script>
-    """
+  </script>"""
 
     # Generate HTML for the links
     links_html = """<div id="useful-links-container"></div>"""
@@ -2325,23 +2457,23 @@ def generate_useful_links_page():
 <html lang="sl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=350, initial-scale=1, maximum-scale=2.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Seznam uporabnih povezav do drugih blogov in vsebin." />
-  <meta name="keywords" content="uporabne povezave, blog, pohodništvo, gore, narava, {BLOG_TITLE}, {BLOG_AUTHOR}" />
+  <meta name="keywords" content="uporabne povezave, blog, pohodništvo, gore, narava,{BLOG_TITLE}, {BLOG_AUTHOR}, izleti, planinske poti" />
   <meta name="author" content="{BLOG_AUTHOR}" />
 
   <meta property="og:title" content="Uporabne povezave" />
   <meta property="og:description" content="Seznam uporabnih povezav do drugih blogov in vsebin." />
   <meta property="og:image" content="{DEFAULT_OG_IMAGE}" />
   <meta property="og:image:alt" content="Uporabne povezave" />
-  <meta property="og:url" content="{BASE_SITE_URL}/uporabne-povezave.html" />
+  <meta property="og:url" content="{BASE_BLOG_URL}/uporabne-povezave/" />
   <meta property="og:type" content="website" />
 
   <title>Uporabne povezave | {BLOG_TITLE}</title>
 
   <!-- Canonical & hreflang -->
-  <link rel="canonical" href="{BASE_SITE_URL}/uporabne-povezave.html" />
-  <link rel="alternate" href="{BASE_SITE_URL}/uporabne-povezave.html" hreflang="sl" />
+  <link rel="canonical" href="{BASE_BLOG_URL}/uporabne-povezave/" />
+  <link rel="alternate" href="{BASE_BLOG_URL}/uporabne-povezave/" hreflang="sl" />
   <link rel="alternate" href="{BASE_SITE_URL}" hreflang="x-default" />
 
   {schema_jsonld}
@@ -2357,7 +2489,7 @@ def generate_useful_links_page():
   <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://metodlangus.github.io/assets/Main.css">
+  <link rel="stylesheet" href="{BASE_ASSETS_URL}/assets_min/Main.css">
 </head>
 
 <body>
@@ -2378,7 +2510,7 @@ def generate_useful_links_page():
   {footer_html}
 
   <script src="{BASE_SITE_URL}/assets/SiteConfig.js" defer></script>
-  <script src="https://metodlangus.github.io/assets/Main.js" defer></script>
+  <script src="{BASE_ASSETS_URL}/assets_min/Main.js" defer></script>
   <script src="{BASE_SITE_URL}/assets/MyUsefulLinksScript.js" defer></script>
 </body>
 </html>"""
@@ -2396,12 +2528,12 @@ def generate_404_page():
 <html lang="sl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Napaka 404 – Stran ne obstaja | {BLOG_TITLE}</title>
 
   <meta name="description" content="Napaka 404 – Stran, ki jo iščete, ne obstaja. Morda je bila odstranjena ali premaknjena. Oglejte si vsebino na {BLOG_TITLE}.">
-  <meta name="keywords" content="404, napaka 404, stran ne obstaja, pohodništvo, blog, {BLOG_TITLE}, {BLOG_AUTHOR}">
+  <meta name="keywords" content="404, napaka 404, stran ne obstaja, napaka, blog, pohodništvo, gore, {BLOG_TITLE}, {BLOG_AUTHOR}" />
   <meta name="author" content="{BLOG_AUTHOR}">
 
   <!-- Canonical & hreflang -->

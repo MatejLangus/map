@@ -13,6 +13,17 @@ function runIfDefined(obj, fn) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Lightbox
+    runIfDefined(window.MyLightboxModule, () => {
+        MyLightboxModule.init({
+            useLightbox: true,
+            selector: 'img',
+            container: null,
+            perfSlowMs: 500,
+            perfVerySlowMs: 1000
+        });
+    });
+
     // Random Photo
     runIfDefined(window.MyRandomPhoto, () => {
         MyRandomPhoto.init({
@@ -67,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     runIfDefined(window.PeakListModule, () => {
         PeakListModule.init({
             WindowBaseUrl: WindowBaseUrl,
+            isActivityList: true,
         }); 
     });
 });

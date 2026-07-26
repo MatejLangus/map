@@ -3,8 +3,11 @@ let mapIndex = 0;
 // Flag variable to choose the downloaded file name
 var usePostTitle = false; // Set to true to use post title, false to use extracted GPX name
 
+// Show an additional floating Relive button in the bottom-left corner of the post
+var FloatReliveButton = true;
+
 // Set track colour
-var trackColour = 'orange';
+var trackColour = 'blue';
 
 // Custom START (green) and END (red) icons
 const startMarkerIcon = L.icon({
@@ -109,6 +112,48 @@ function insertMapContainer(gpxURL, reliveURL, stravaURL, index) {
 
         // Insert the map container right after the title and button container
         targetScriptTag.parentNode.insertBefore(mapDiv, targetScriptTag.nextSibling);
+
+        // Create floating Relive button on cover photo parent container
+        if (FloatReliveButton && reliveURL && reliveURL.trim() !== "") {
+
+            // Find cover photo
+            var coverPhoto = document.querySelector('img.cover-photo');
+
+            if (coverPhoto) {
+
+                // Use the image parent container
+                var coverContainer = coverPhoto.parentElement;
+
+                if (coverContainer) {
+
+                    // Allow absolute positioning inside parent
+                    var computedPosition = window.getComputedStyle(coverContainer).position;
+
+                    if (computedPosition === 'static') {
+                        coverContainer.style.position = 'relative';
+                    }
+
+                    // Create Relive button
+                    var postReliveButton = document.createElement('a');
+                    postReliveButton.href = reliveURL;
+                    postReliveButton.target = '_blank';
+                    postReliveButton.className = 'button relive-button';
+
+                    postReliveButton.addEventListener('click', function(event) {
+                        event.stopPropagation();
+                    });
+
+                    // Position in bottom-right corner of parent container
+                    postReliveButton.style.position = 'absolute';
+                    postReliveButton.style.right = '15px';
+                    postReliveButton.style.bottom = '15px';
+                    postReliveButton.style.zIndex = '9999';
+
+                    // Add button to image parent
+                    coverContainer.appendChild(postReliveButton);
+                }
+            }
+        }
 
         // Attach click event to initialize and display the map
         button.onclick = function () {

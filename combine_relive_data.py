@@ -27,7 +27,7 @@ def load_sitemap_urls(path: str):
     return urls
 
 def make_blog_url(name: str, start_date_local: str) -> str:
-    """Create blog URL: posts/YYYY/MM/slug/index.html"""
+    """Create blog URL: posts/YYYY/MM/slug/"""
     try:
         dt = datetime.fromisoformat(start_date_local.replace("Z", "+00:00"))
         year = dt.strftime("%Y")
@@ -37,7 +37,7 @@ def make_blog_url(name: str, start_date_local: str) -> str:
         month = "00"
 
     slug = slugify(name)
-    return f"https://matejlangus.github.io/map/posts/{year}/{month}/{slug}/index.html"
+    return f"https://matejlangus.github.io/map/posts/{year}/{month}/{slug}/"
 
 def create_matched_csv():
     # ----- LOAD GPX FILES -----

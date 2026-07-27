@@ -147,7 +147,7 @@ function insertMapContainer(gpxURL, reliveURL, stravaURL, index) {
                     postReliveButton.style.position = 'absolute';
                     postReliveButton.style.right = '15px';
                     postReliveButton.style.bottom = '15px';
-                    postReliveButton.style.zIndex = '9999';
+                    postReliveButton.style.zIndex = '9';
 
                     // Add button to image parent
                     coverContainer.appendChild(postReliveButton);

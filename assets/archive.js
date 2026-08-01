@@ -4,7 +4,13 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(68)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(69)</span></summary>
+    <details class="month-group">
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/08/">avgust 2026</a>&nbsp;<span class="post-count" dir="ltr">(1)</span></summary>
+      <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/08/hochobir/">Hochobir</a></li>
+      </ul>
+    </details>
     <details class="month-group">
       <summary><a href="https://matejlangus.github.io/map/posts/2026/07/">julij 2026</a>&nbsp;<span class="post-count" dir="ltr">(8)</span></summary>
       <ul>
@@ -1026,7 +1032,7 @@ MARATON FRANJA</a></li>
     </details>
   </details>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2020/">2020</a>&nbsp;<span class="post-count" dir="ltr">(21)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2020/">2020</a>&nbsp;<span class="post-count" dir="ltr">(37)</span></summary>
     <details class="month-group">
       <summary><a href="https://matejlangus.github.io/map/posts/2020/08/">avgust 2020</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
       <ul>
@@ -1055,6 +1061,27 @@ MARATON FRANJA</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2020/07/tolsta-kosuta/">Tolsta Košuta</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2020/07/obir/">Obir</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2020/07/eisenhut/">Eisenhut</a></li>
+      </ul>
+    </details>
+    <details class="month-group">
+      <summary><a href="https://matejlangus.github.io/map/posts/2020/06/">junij 2020</a>&nbsp;<span class="post-count" dir="ltr">(16)</span></summary>
+      <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/begunjscica/">Begunjščica</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/kosutnikov-turn/">Košutnikov turn 🚲&amp;🥾</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/storzic/">Storžič</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/palec-vrtaca/">Palec, Vrtača</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/veliki-vrh-nad-zavrsnikom/">Veliki vrh nad Završnikom 🚲&amp;🥾</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/poldetova-klopca/">Poldetova klopca</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/tolsti-vrh/">Tolsti vrh 🚲&amp;🥾</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/kosutica-hanjzevo-sedlo/">Košutica, Hanjževo sedlo</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/kosutnikov-turn-2/">Košutnikov turn 🚲&amp;🥾</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/stol/">Stol</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/sobec/">Šobec</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/kofce-gora/">Kofce gora</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/matizovc/">Matizovc&#x27;</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/povlje/">Povlje</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/tomincev-slap/">Tominčev slap</a></li>
+        <li><a href="https://matejlangus.github.io/map/posts/2020/06/pungart/">Pungart 🚲&amp;🥾</a></li>
       </ul>
     </details>
     <details class="month-group">

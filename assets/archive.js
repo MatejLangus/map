@@ -4,10 +4,11 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("archive-placeholder").innerHTML = `<aside class="sidebar-archive">
   <h2>Arhiv</h2>
   <details open>
-    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(69)</span></summary>
+    <summary><a href="https://matejlangus.github.io/map/posts/2026/">2026</a>&nbsp;<span class="post-count" dir="ltr">(70)</span></summary>
     <details class="month-group">
-      <summary><a href="https://matejlangus.github.io/map/posts/2026/08/">avgust 2026</a>&nbsp;<span class="post-count" dir="ltr">(1)</span></summary>
+      <summary><a href="https://matejlangus.github.io/map/posts/2026/08/">avgust 2026</a>&nbsp;<span class="post-count" dir="ltr">(2)</span></summary>
       <ul>
+        <li><a href="https://matejlangus.github.io/map/posts/2026/08/cima-delle-cenge-vetta-bella/">Cima delle Cenge, Vetta Bella</a></li>
         <li><a href="https://matejlangus.github.io/map/posts/2026/08/hochobir/">Hochobir</a></li>
       </ul>
     </details>
